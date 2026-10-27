@@ -31,9 +31,18 @@ class myArray {
       this.length--
       return lastItem
    }
+
+   delete(index: number) {
+      const data = this.data[index]
+
+      for (let i = index; i < this.length - 1; i++) {
+         this.data[i] = this.data[i + 1]
+      }
+   }
 }
 
 const newArray = new myArray()
+
 newArray.push("hello")
 newArray.push("world")
 newArray.push("foo")
@@ -45,3 +54,5 @@ console.log(newArray.get(1)) // Output: "world"
 
 console.log(newArray.pop()) // Output: "bar"
 console.log(newArray.data) // Output: myArray { length: 3, data: { '0': 'hello', '1': 'world', '2': 'foo' } }
+
+console.log(newArray.delete(0))
