@@ -1,10 +1,7 @@
-// Jadikan file ini modul agar nama kelasnya tidak bentrok dengan file lain.
-export {}
-
 // Node menyimpan satu nilai dan referensi ke node berikutnya.
-class LinkedListNode<T> {
+class LinkedNode<T> {
    value: T
-   next: LinkedListNode<T> | null
+   next: LinkedNode<T> | null
 
    constructor(value: T) {
       this.value = value
@@ -16,14 +13,14 @@ class LinkedListNode<T> {
 // Singly linked list menghubungkan node dalam satu arah: head -> ... -> tail.
 class LinkedList<T> {
    // head menunjuk node pertama, sedangkan tail menunjuk node terakhir.
-   head: LinkedListNode<T> | null
-   tail: LinkedListNode<T> | null
+   head: LinkedNode<T> | null
+   tail: LinkedNode<T> | null
    // Jumlah node disimpan agar size() dapat berjalan dalam O(1).
    length: number
 
    constructor(value: T) {
       // Pada awalnya, node pertama juga merupakan node terakhir.
-      const node = new LinkedListNode(value)
+      const node = new LinkedNode(value)
       this.head = node
       this.tail = node
       this.length = 1
@@ -31,7 +28,7 @@ class LinkedList<T> {
 
    // Tambahkan node di akhir list. Referensi tail membuat operasi ini O(1).
    push(value: T): this {
-      const node = new LinkedListNode(value)
+      const node = new LinkedNode(value)
 
       if (this.tail) {
          // Hubungkan tail lama ke node baru.
@@ -43,16 +40,17 @@ class LinkedList<T> {
 
       this.tail = node
       this.length++
+
       // Kembalikan list agar pemanggilan seperti push(2).push(3) dapat dilakukan.
       return this
    }
 
    // Hapus dan kembalikan node terakhir. Operasi ini O(n) karena perlu mencari node sebelumnya.
-   pop(): LinkedListNode<T> | undefined {
+   pop(): LinkedNode<T> | undefined {
       if (!this.head) return undefined
 
       let current = this.head
-      let previous: LinkedListNode<T> | null = null
+      let previous: LinkedNode<T> | null = null
 
       // Telusuri list sambil menyimpan node sebelum node terakhir.
       while (current.next) {
@@ -61,11 +59,8 @@ class LinkedList<T> {
       }
 
       // Node sebelumnya menjadi tail baru; jika tidak ada, list hanya berisi satu node.
-      if (previous) {
-         previous.next = null
-      } else {
-         this.head = null
-      }
+      if (previous) previous.next = null
+      else this.head = null
 
       this.tail = previous
       this.length--
@@ -76,22 +71,20 @@ class LinkedList<T> {
 
    // Tambahkan node di awal list dalam waktu O(1).
    unshift(value: T): this {
-      const node = new LinkedListNode(value)
+      const node = new LinkedNode(value)
       // Node baru menunjuk ke head lama, kemudian menjadi head.
       node.next = this.head
       this.head = node
 
       // Jika list sebelumnya kosong, node baru juga menjadi tail.
-      if (!this.tail) {
-         this.tail = node
-      }
+      if (!this.tail) this.tail = node
 
       this.length++
       return this
    }
 
    // Hapus dan kembalikan node pertama dalam waktu O(1).
-   shift(): LinkedListNode<T> | undefined {
+   shift(): LinkedNode<T> | undefined {
       const removed = this.head
       if (!removed) return undefined
 
@@ -109,17 +102,17 @@ class LinkedList<T> {
    }
 
    // Kembalikan node pertama, atau null jika list kosong.
-   getFirst(): LinkedListNode<T> | null {
+   getFirst(): LinkedNode<T> | null {
       return this.head
    }
 
    // Kembalikan node terakhir dalam O(1) menggunakan referensi tail.
-   getLast(): LinkedListNode<T> | null {
+   getLast(): LinkedNode<T> | null {
       return this.tail
    }
 
    // Kembalikan node pada indeks berbasis nol; penelusuran berjalan dalam O(indeks).
-   get(index: number): LinkedListNode<T> | null {
+   get(index: number): LinkedNode<T> | null {
       // Indeks harus berupa bilangan bulat yang berada dalam rentang list.
       if (!Number.isInteger(index) || index < 0 || index >= this.length) {
          return null
@@ -164,7 +157,7 @@ class LinkedList<T> {
       const previous = this.get(index - 1)
       if (!previous) return false
 
-      const node = new LinkedListNode(value)
+      const node = new LinkedNode(value)
       node.next = previous.next
       previous.next = node
       this.length++
