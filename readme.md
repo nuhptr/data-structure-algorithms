@@ -13,25 +13,27 @@ yang dapat dibaca dan dikembangkan sebagai latihan.
 
 ## Progres Pembelajaran
 
-| Topik           | Materi dan implementasi                                                                                                                      |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Pengantar       | Gambaran masalah dan alasan mempelajari struktur data dan algoritma.                                                                         |
-| Big O           | Contoh kompleksitas waktu konstan, linear, dan kuadratik.                                                                                    |
-| Array           | Array dasar, implementasi array sederhana, serta membalik string.                                                                            |
-| Hash table      | Penyimpanan pasangan kunci-nilai, penanganan tabrakan, dan tantangan menghitung kata, mencari pasangan jumlah, serta mengelompokkan anagram. |
-| Graph           | Representasi adjacency list serta operasi simpul dan sisi pada graf tak berarah.                                                             |
-| Linked list     | Implementasi single linked list, double linked list, dan latihan terkait.                                                                    |
-| Stack dan queue | Implementasi stack dan queue beserta beberapa latihan.                                                                                       |
-| Sorting         | Bubble sort, insertion sort, merge sort, dan selection sort.                                                                                 |
-| Tree            | Binary search tree, rekursi, dan traversal.                                                                                                  |
+| Topik           | Materi dan implementasi                                                                                                                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pengantar       | Gambaran masalah dan alasan mempelajari struktur data dan algoritma.                                                                                                                                                                                                |
+| Big O           | Contoh kompleksitas waktu konstan, linear, dan kuadratik.                                                                                                                                                                                                           |
+| Array           | Array dasar, implementasi array sederhana, serta membalik string.                                                                                                                                                                                                   |
+| Hash table      | Implementasi hash table dengan linear probing ([alur](./hash-table/index-logic.md)); tantangan [word counter](./hash-table/hash-word-instance-logic.md), [two sum](./hash-table/hash-two-sum-logic.md), dan [group anagrams](./hash-table/group-anagrams-logic.md). |
+| Graph           | Representasi adjacency list serta operasi simpul dan sisi pada graf tak berarah.                                                                                                                                                                                    |
+| Linked list     | Implementasi single linked list, double linked list, dan latihan terkait.                                                                                                                                                                                           |
+| Stack dan queue | Implementasi stack dan queue beserta beberapa latihan.                                                                                                                                                                                                              |
+| Sorting         | [Bubble sort](./sorting-algo/bubble-sort-logic.md), [insertion sort](./sorting-algo/insertion-sort-logic.md), [merge sort](./sorting-algo/merge-sort-logic.md), dan [selection sort](./sorting-algo/selection-sort-logic.md).                                       |
+| Tree            | [Binary search tree](./tree/bst-logic.md), [rekursi](./tree/recursion-logic.md), dan [traversal](./tree/tree-traversal-logic.md).                                                                                                                                   |
 
 ### Progres Terbaru
 
-- Dokumentasi pada contoh array, Big O, graph, dan tantangan hash table mulai
-  disusun dalam bahasa Indonesia.
-- Implementasi custom array, graph, serta tantangan hash table dilengkapi
-  penjelasan dan contoh penggunaan.
-- Beberapa topik menyediakan diagram alur untuk membantu memahami prosesnya.
+- Dokumentasi alur berbahasa Indonesia tersedia untuk custom array, graph,
+  operasi hash table dan tantangannya, empat algoritma sorting, serta materi
+  tree (BST, rekursi, dan traversal).
+- Contoh hash table mendokumentasikan collision dan linear probing, hitung kata,
+  pencarian pasangan two sum, serta pengelompokan anagram beserta outputnya.
+- Diagram tersedia untuk sejumlah topik, termasuk array, graph, hash table,
+  linked list, dan stack/queue.
 
 Status di atas menunjukkan materi dan contoh yang tersedia di repositori; status
 tersebut bukan hasil pengujian otomatis. Repositori ini belum memiliki konfigurasi
