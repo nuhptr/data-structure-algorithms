@@ -13,17 +13,17 @@ yang dapat dibaca dan dikembangkan sebagai latihan.
 
 ## Progres Pembelajaran
 
-| Topik           | Materi dan implementasi                                                                                                                      |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Pengantar       | Gambaran masalah dan alasan mempelajari struktur data dan algoritma.                                                                         |
-| Big O           | Contoh kompleksitas waktu konstan, linear, dan kuadratik.                                                                                    |
-| Array           | Array dasar, implementasi array sederhana, serta membalik string.                                                                            |
-| Hash table      | Penyimpanan pasangan kunci-nilai, penanganan tabrakan, dan tantangan menghitung kata, mencari pasangan jumlah, serta mengelompokkan anagram. |
-| Graph           | Representasi adjacency list serta operasi simpul dan sisi pada graf tak berarah.                                                             |
-| Linked list     | Implementasi single linked list, double linked list, dan latihan terkait.                                                                    |
-| Stack dan queue | Implementasi stack dan queue beserta beberapa latihan.                                                                                       |
-| Sorting         | Bubble sort, insertion sort, merge sort, dan selection sort.                                                                                 |
-| Tree            | Binary search tree, rekursi, dan traversal.                                                                                                  |
+| Topik           | Materi dan implementasi                                                                                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pengantar       | Gambaran masalah dan alasan mempelajari struktur data dan algoritma.                                                                                                                 |
+| Big O           | Contoh kompleksitas waktu konstan, linear, dan kuadratik.                                                                                                                            |
+| Array           | Array dasar, implementasi array sederhana, serta membalik string.                                                                                                                    |
+| Hash table      | Penyimpanan pasangan kunci-nilai, penanganan tabrakan, dan tantangan menghitung kata, mencari pasangan jumlah, serta [mengelompokkan anagram](./hash-table/group-anagrams-logic.md). |
+| Graph           | Representasi adjacency list serta operasi simpul dan sisi pada graf tak berarah.                                                                                                     |
+| Linked list     | Implementasi single linked list, double linked list, dan latihan terkait.                                                                                                            |
+| Stack dan queue | Implementasi stack dan queue beserta beberapa latihan.                                                                                                                               |
+| Sorting         | Bubble sort, insertion sort, merge sort, dan selection sort.                                                                                                                         |
+| Tree            | Binary search tree, rekursi, dan traversal.                                                                                                                                          |
 
 ### Progres Terbaru
 
