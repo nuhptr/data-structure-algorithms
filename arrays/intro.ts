@@ -1,13 +1,13 @@
-/**  A list of strings, useful for text-based data. */
+/**  Daftar teks yang berguna untuk menyimpan data berbentuk string. */
 const stringArr: Array<string> = ["a", "b", "c", "d"]
 
-/**  A list of numbers, commonly used for calculations and indexing. */
+/**  Daftar angka yang umum digunakan untuk perhitungan dan indeks. */
 const numArr: Array<number> = [1, 2, 3, 4, 5]
 
-/** A list of booleans, typically used for true/false states. */
+/** Daftar nilai boolean yang biasanya digunakan untuk menyatakan kondisi benar atau salah. */
 const boolArr: Array<boolean> = [true, false]
 
-/** A mixed array demonstrates that JavaScript/TypeScript arrays can store different values. */
+/** Array campuran menunjukkan bahwa array JavaScript/TypeScript dapat menyimpan berbagai jenis nilai. */
 const mixed: Array<any> = ["a", 2, true, undefined, null, { a: "a" }, ["b"]]
 
 console.log(stringArr)

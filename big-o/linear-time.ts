@@ -1,12 +1,13 @@
 /**
- * Searches the grocery list for a specific item.
+ * Mencari barang tertentu di dalam daftar belanja.
  *
- * This example demonstrates linear time complexity: the function checks each element
- * in the array one by one, so the work grows in proportion to the list size.
+ * Contoh ini menunjukkan kompleksitas waktu linear: fungsi memeriksa setiap elemen
+ * dalam array satu per satu, sehingga jumlah pekerjaan bertambah seiring ukuran daftar.
  *
- * The loop runs twice, which is still O(n) because constants are ignored in Big O notation.
+ * Perulangan berjalan dua kali, tetapi kompleksitasnya tetap O(n) karena konstanta
+ * diabaikan dalam notasi Big O.
  *
- * @param item The item to look for in the grocery list.
+ * @param item Barang yang dicari di dalam daftar belanja.
  */
 const groceries: Array<string> = ["milk", "bread", "eggs", "flour", "cheese", "sugar"]
 
@@ -20,7 +21,7 @@ const searchForItem = (item: string) => {
     }
 
     // n + n = 2n -> O(2n)
-    // Drop the constant so it becomes O(n)
+    // Abaikan konstanta sehingga menjadi O(n)
 }
 
 searchForItem("eggs")

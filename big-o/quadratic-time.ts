@@ -1,13 +1,13 @@
 /**
- * Finds all unique pairs of numbers in an array.
+ * Menemukan semua pasangan angka unik dalam array.
  *
- * This function uses nested loops, so it checks every element against every later element.
- * That creates quadratic time complexity: O(n^2).
+ * Fungsi ini menggunakan perulangan bersarang untuk membandingkan setiap elemen
+ * dengan semua elemen setelahnya. Hal ini menghasilkan kompleksitas waktu kuadratik: O(n^2).
  *
- * A smaller O(n) loop is also included for printing separators, but since O(n^2) grows
- * much faster, the dominant term determines the overall complexity.
+ * Perulangan O(n) yang lebih kecil juga digunakan untuk mencetak pemisah. Namun, karena
+ * O(n^2) bertumbuh jauh lebih cepat, suku dominan menentukan kompleksitas keseluruhan.
  *
- * @param arr The array to analyze for pairs.
+ * @param arr Array yang akan diperiksa untuk mencari pasangan angka.
  */
 function findPairs(arr: Array<number>) {
     // O(n^2)

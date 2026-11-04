@@ -1,7 +1,7 @@
 {
-  "editor.inlineSuggest.enabled": true,
-  "editor.suggestOnTriggerCharacters": true,
-  "github.copilot.enable": {
-    "*": true
-  }
+    "editor.inlineSuggest.enabled": true,
+    "editor.suggestOnTriggerCharacters": true,
+    "github.copilot.enable": {
+        "*": true
+    }
 }

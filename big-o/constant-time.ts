@@ -1,13 +1,13 @@
-const numbers = [1, 2, 3, 4, 5]
+const numbers: Array<number> = [1, 2, 3, 4, 5]
 
 /**
- * Returns the element at a specific index in an array.
- * This operation is constant time because it directly accesses a memory location
- * without scanning the rest of the array.
+ * Mengembalikan elemen pada indeks tertentu dalam array.
+ * Operasi ini memiliki waktu konstan karena langsung mengakses lokasi memori
+ * tanpa memeriksa elemen lain dalam array.
  *
- * @param arr The array to read from.
- * @param index The zero-based index of the desired element.
- * @returns The value stored at the specified index.
+ * @param arr Array yang akan dibaca.
+ * @param index Indeks elemen yang diinginkan, dimulai dari 0.
+ * @returns Nilai yang tersimpan pada indeks tersebut.
  */
 function getElement(arr: Array<number>, index: number) {
     return arr[index]

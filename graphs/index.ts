@@ -37,6 +37,7 @@ class Graph<T> {
 
         for (const neighbor of neighbors) {
             const neighborKey = this.keyOf(neighbor)
+
             this.adjList[neighborKey] = this.adjList[neighborKey].filter(
                 (value) => this.keyOf(value) !== key,
             )
