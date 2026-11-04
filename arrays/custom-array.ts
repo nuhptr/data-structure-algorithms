@@ -61,7 +61,7 @@ class MyArray<T> {
         return this.removeAt(0)
     }
 
-    private removeAt(index: number): T | undefined {
+    removeAt(index: number): T | undefined {
         const item = this.data[index]
 
         for (let i = index; i < this.length - 1; i++) {

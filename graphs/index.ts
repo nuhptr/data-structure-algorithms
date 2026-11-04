@@ -31,6 +31,20 @@ class Graph<T> {
      */
     removeVertex(vertex: T): boolean {
         const key = this.keyOf(vertex)
+
+        if (!this.adjList[key]) return false
+
+        this.clearEdges(vertex)
+        delete this.adjList[key]
+        return true
+    }
+
+    /**
+     * Menghapus semua sisi yang terhubung dengan simpul tanpa menghapus simpulnya.
+     * Mengembalikan false jika simpul tidak ditemukan.
+     */
+    clearEdges(vertex: T): boolean {
+        const key = this.keyOf(vertex)
         const neighbors = this.adjList[key]
 
         if (!neighbors) return false
@@ -43,7 +57,7 @@ class Graph<T> {
             )
         }
 
-        delete this.adjList[key]
+        this.adjList[key] = []
         return true
     }
 
@@ -103,7 +117,7 @@ graph.addEdge("A", "D")
 graph.addEdge("B", "D")
 graph.addEdge("C", "D")
 
-// Tampilkan graf, hapus simpul D beserta sisi-sisinya, lalu tampilkan hasilnya.
+// Tampilkan graf, hapus sisi-sisi D tanpa menghapus simpulnya, lalu tampilkan hasilnya.
 console.log(graph)
-graph.removeVertex("D")
+graph.clearEdges("D")
 console.log(graph)
