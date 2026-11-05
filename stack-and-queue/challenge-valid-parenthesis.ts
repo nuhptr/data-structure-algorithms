@@ -1,41 +1,37 @@
-// Memeriksa apakah setiap tanda kurung pada string memiliki pasangan dan urutan yang benar.
+/** Periksa apakah setiap tanda kurung memiliki pasangan dengan urutan yang benar. */
 function isValidParenthesis(string: string): boolean {
-   // Stack menyimpan tanda kurung buka yang belum menemukan pasangan.
-   const stack: string[] = []
+    /** Simpan tanda kurung buka sampai pasangan penutupnya ditemukan. */
+    const stack: string[] = []
 
-   // Memetakan setiap tanda kurung buka ke tanda kurung tutup pasangannya.
-   const brackets: Record<string, string> = {
-      "{": "}",
-      "[": "]",
-      "(": ")",
-   }
+    /** Petakan setiap tanda kurung buka ke pasangan penutupnya. */
+    const brackets: Record<string, string> = {
+        "{": "}",
+        "[": "]",
+        "(": ")",
+    }
 
-   // Periksa karakter satu per satu dari kiri ke kanan.
-   for (const char of string) {
-      // Jika karakter adalah tanda kurung buka, simpan untuk dicocokkan nanti.
-      if (Object.prototype.hasOwnProperty.call(brackets, char)) {
-         stack.push(char)
-      } else {
-         // Karakter selain tanda kurung buka dianggap sebagai tanda kurung tutup.
-         // Ambil tanda buka terakhir karena pasangan harus mengikuti urutan LIFO.
-         const top = stack.pop()
+    /** Periksa setiap karakter sesuai urutannya di dalam string. */
+    for (const char of string) {
+        /** Tanda kurung buka disimpan untuk dicocokkan dengan penutup berikutnya. */
+        if (Object.prototype.hasOwnProperty.call(brackets, char)) {
+            stack.push(char)
+        } else {
+            /** Ambil tanda buka terakhir karena pasangan harus mengikuti urutan LIFO. */
+            const top = stack.pop()
+            /** Gagal jika tidak ada pembuka atau jenis pasangannya tidak cocok. */
+            if (!top || brackets[top] !== char) return false
+        }
+    }
 
-         // Tidak ada tanda buka yang cocok atau jenis pasangannya berbeda.
-         if (!top || brackets[top] !== char) {
-            return false
-         }
-      }
-   }
-
-   // Valid hanya jika tidak ada tanda kurung buka yang tersisa tanpa pasangan.
-   return stack.length === 0
+    /** Valid jika semua tanda buka sudah memiliki pasangan penutup. */
+    return stack.length === 0
 }
 
-// Contoh: semua pasangan berurutan dengan benar.
-console.log(isValidParenthesis("(){}[]")) // true
-// Contoh: urutan pasangan salah, jadi hasilnya false.
-console.log(isValidParenthesis("([)]")) // false
-// Contoh: satu pasangan lengkap.
-console.log(isValidParenthesis("()")) // true
-// Contoh: tanda kurung buka tidak memiliki pasangan penutup.
-console.log(isValidParenthesis("(")) // false
+/** Contoh valid: setiap pasangan tersusun dengan benar. */
+console.log(isValidParenthesis("(){}[]"))
+/** Contoh tidak valid: urutan pasangan saling menyilang. */
+console.log(isValidParenthesis("([)]"))
+/** Contoh valid dengan satu pasangan lengkap. */
+console.log(isValidParenthesis("()"))
+/** Contoh tidak valid: tanda kurung buka tidak memiliki penutup. */
+console.log(isValidParenthesis("("))

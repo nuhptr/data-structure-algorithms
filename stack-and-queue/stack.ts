@@ -1,72 +1,74 @@
-// Node tunggal untuk menyimpan nilai dan referensi ke node berikutnya.
-// Struktur ini digunakan untuk membangun stack dengan pendekatan linked list.
+/** Node stack menyimpan satu nilai dan tautan ke node di bawahnya. */
 class StackNode<T> {
-   // Nilai yang disimpan di dalam node.
-   value: T
-   // Referensi ke node yang berada di bawahnya dalam stack.
-   next: StackNode<T> | null
+    /** Nilai yang disimpan di dalam node. */
+    value: T
+    /** Node berikutnya di bawah node ini, atau null jika tidak ada. */
+    next: StackNode<T> | null
 
-   constructor(value: T) {
-      this.value = value
-      this.next = null
-   }
+    /** Buat node yang belum terhubung ke node lain. */
+    constructor(value: T) {
+        this.value = value
+        this.next = null
+    }
 }
 
-// Stack yang menggunakan linked list untuk operasi push/pop yang efisien.
-// `first` menunjuk ke node paling atas (top of stack).
+/** Stack berbasis linked list dengan aturan LIFO (terakhir masuk, pertama keluar). */
 class StackValue<T> {
-   // Node paling atas stack, atau null jika stack kosong.
-   first: StackNode<T> | null
-   // Jumlah elemen yang saat ini tersimpan di stack.
-   length: number
+    /** Node paling atas stack, atau null jika stack kosong. */
+    first: StackNode<T> | null
+    /** Jumlah elemen yang saat ini tersimpan di stack. */
+    length: number
 
-   constructor(value?: T) {
-      // Inisialisasi stack baru dalam kondisi kosong.
-      this.first = null
-      this.length = 0
+    /** Buat stack kosong, atau tambahkan nilai awal jika diberikan. */
+    constructor(value?: T) {
+        /** Awali stack dengan pointer kosong dan panjang nol. */
+        this.first = null
+        this.length = 0
 
-      // Jika nilai awal diberikan, langsung masukkan ke stack.
-      if (value !== undefined) this.push(value)
-   }
+        /** Masukkan nilai awal melalui push agar aturan stack tetap diterapkan. */
+        if (value !== undefined) this.push(value)
+    }
 
-   // Menambahkan elemen baru ke bagian atas stack.
-   // Operasi ini bersifat O(1) karena node baru selalu ditambahkan di depan.
-   push(value: T): this {
-      const newNode = new StackNode(value)
-      // Node baru menunjuk ke node paling atas lama.
-      newNode.next = this.first
-      // Node baru menjadi node paling atas.
-      this.first = newNode
-      this.length++
+    /** Tambahkan nilai ke puncak stack dalam O(1), lalu kembalikan stack ini. */
+    push(value: T): this {
+        const newNode = new StackNode(value)
+        /** Hubungkan node baru ke puncak lama. */
+        newNode.next = this.first
+        /** Perbarui puncak agar menunjuk ke node baru. */
+        this.first = newNode
+        this.length++
 
-      return this
-   }
+        return this
+    }
 
-   // Menghapus dan mengembalikan elemen paling atas stack.
-   // Jika stack kosong, kembalikan undefined.
-   pop(): StackNode<T> | undefined {
-      if (!this.first) return undefined
+    /** Hapus dan kembalikan node teratas dalam O(1), atau undefined jika kosong. */
+    pop(): StackNode<T> | undefined {
+        /** Stack kosong tidak memiliki node yang dapat dikeluarkan. */
+        if (!this.first) return undefined
 
-      const temp = this.first
-      // Pindahkan pointer first ke node berikutnya.
-      this.first = temp.next
-      temp.next = null
-      this.length--
+        /** Simpan puncak yang akan dikeluarkan sebelum memperbarui pointer. */
+        const temp = this.first
+        /** Jadikan node di bawahnya sebagai puncak baru. */
+        this.first = temp.next
+        /** Lepaskan node yang dikeluarkan dari sisa stack. */
+        temp.next = null
+        this.length--
 
-      return temp
-   }
+        return temp
+    }
 
-   // Mengambil elemen paling atas tanpa menghapusnya.
-   // Jika stack kosong, kembalikan undefined.
-   top(): StackNode<T> | undefined {
-      return this.first ?? undefined
-   }
+    /** Baca node teratas tanpa menghapusnya, atau undefined jika stack kosong. */
+    top(): StackNode<T> | undefined {
+        return this.first ?? undefined
+    }
 }
 
-// Contoh penggunaan stack.
-let theStack = new StackValue(0)
+/** Contoh penggunaan: isi stack dengan nilai awal dan dua nilai tambahan. */
+let theStack = new StackValue(8)
 theStack.push(1)
 theStack.push(2)
-// theStack.pop()
+/** Contoh operasi untuk mengeluarkan elemen teratas: theStack.pop() */
+theStack.pop()
 
+/** Tampilkan stack; nilai 2 berada di puncak. */
 console.log(theStack)

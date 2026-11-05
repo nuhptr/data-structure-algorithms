@@ -1,125 +1,125 @@
-// Node untuk stack yang menyimpan nilai dan referensi ke node berikutnya.
-// Setiap node memiliki `value` dan `next` yang mengarah ke node sebelumnya.
+/** Node stack menyimpan satu nilai dan tautan ke node di bawahnya. */
 class MinStackNode<T> {
-   // Nilai data yang disimpan di node.
-   value: T
-   // Referensi ke node berikutnya di bawahnya dalam stack.
-   next: MinStackNode<T> | null
+    /** Nilai data yang disimpan di node. */
+    value: T
+    /** Referensi ke node berikutnya di bawahnya dalam stack. */
+    next: MinStackNode<T> | null
 
-   constructor(value: T) {
-      this.value = value
-      this.next = null
-   }
+    /** Buat node yang belum terhubung ke node lain. */
+    constructor(value: T) {
+        this.value = value
+        this.next = null
+    }
 }
 
-// Stack dengan tambahan fitur:
-// - `top()` untuk melihat elemen paling atas
-// - `min()` untuk mengetahui nilai terkecil di stack
-// Struktur ini mengunakan linked list agar operasi push/pop tetap cepat.
+/**
+ * Stack angka dengan operasi untuk melihat elemen teratas dan nilai minimum.
+ * Linked list membuat penambahan dan penghapusan elemen teratas berjalan cepat.
+ */
 class Stack<T extends number> {
-   // Node paling atas stack (top of stack).
-   first: MinStackNode<T> | null
-   // Jumlah elemen yang ada di stack.
-   length: number
-   // Nilai minimum saat ini di stack.
-   private minValue: T | undefined
+    /** Node paling atas stack, atau null jika stack kosong. */
+    first: MinStackNode<T> | null
+    /** Jumlah elemen yang ada di stack. */
+    length: number
+    /** Nilai terkecil yang saat ini tersimpan, atau undefined jika stack kosong. */
+    private minValue: T | undefined
 
-   constructor(value?: T) {
-      // Saat dibuat, stack dalam kondisi kosong.
-      this.first = null
-      this.length = 0
-      this.minValue = undefined
+    /** Buat stack kosong, atau masukkan nilai awal jika diberikan. */
+    constructor(value?: T) {
+        /** Inisialisasi pointer, panjang, dan nilai minimum untuk stack kosong. */
+        this.first = null
+        this.length = 0
+        this.minValue = undefined
 
-      // Jika ada nilai awal, langsung dimasukkan ke stack.
-      if (value !== undefined) this.push(value)
-   }
+        /** Gunakan push untuk memasukkan nilai awal sekaligus memperbarui minimum. */
+        if (value !== undefined) this.push(value)
+    }
 
-   // Menambahkan elemen baru ke bagian atas stack.
-   // Node baru akan dipasang di depan `first`, sehingga push bersifat O(1).
-   push(value: T): this {
-      const newNode = new MinStackNode(value)
+    /** Tambahkan angka ke puncak stack dalam O(1), lalu kembalikan stack ini. */
+    push(value: T): this {
+        const newNode = new MinStackNode(value)
 
-      // Node baru menunjuk ke node paling atas lama.
-      newNode.next = this.first
-      // Node baru menjadi elemen paling atas.
-      this.first = newNode
-      this.length++
+        /** Hubungkan node baru ke puncak stack yang lama. */
+        newNode.next = this.first
+        /** Jadikan node baru sebagai puncak stack. */
+        this.first = newNode
+        this.length++
 
-      // Jika nilai baru lebih kecil dari minimum sebelumnya,
-      // maka nilai minimum harus diperbarui.
-      if (this.minValue === undefined || value < this.minValue) {
-         this.minValue = value
-      }
+        /** Perbarui minimum saat stack baru dimulai atau nilai baru lebih kecil. */
+        if (this.minValue === undefined || value < this.minValue) {
+            this.minValue = value
+        }
 
-      return this
-   }
+        return this
+    }
 
-   // Menghapus elemen paling atas stack.
-   // Jika stack kosong, kembalikan `undefined`.
-   pop(): MinStackNode<T> | undefined {
-      if (!this.first) return undefined
+    /** Hapus dan kembalikan node teratas; kembalikan undefined jika stack kosong. */
+    pop(): MinStackNode<T> | undefined {
+        /** Tidak ada node yang dapat dihapus jika stack kosong. */
+        if (!this.first) return undefined
 
-      // Simpan node paling atas sebelum dihapus.
-      const temp = this.first
-      // Geser `first` ke node di bawahnya.
-      this.first = temp.next
-      // Putus hubungan node yang dihapus dari stack.
-      temp.next = null
-      this.length--
+        /** Simpan node teratas sebelum memindahkan puncak stack. */
+        const temp = this.first
+        /** Pindahkan puncak ke node berikutnya. */
+        this.first = temp.next
+        /** Lepaskan node yang dikeluarkan dari sisa stack. */
+        temp.next = null
+        this.length--
 
-      // Jika stack habis, minimum juga harus dihapus/reset.
-      if (this.length === 0) {
-         this.minValue = undefined
-         return temp
-      }
+        /** Reset minimum jika node terakhir baru saja dikeluarkan. */
+        if (this.length === 0) {
+            this.minValue = undefined
+            return temp
+        }
 
-      // Jika node yang dihapus adalah nilai minimum saat ini,
-      // maka minimum harus dihitung ulang dari sisa stack.
-      if (temp.value === this.minValue) {
-         let current = this.first
-         let newMin = current?.value
+        /**
+         * Jika minimum dikeluarkan, telusuri node yang tersisa untuk mencari
+         * minimum baru.
+         */
+        if (temp.value === this.minValue) {
+            let current = this.first
+            let newMin = current?.value
 
-         // Lakukan perulangan untuk mencari nilai paling kecil di sisa stack.
-         while (current) {
-            if (current.value < (newMin ?? current.value)) {
-               newMin = current.value
+            /** Bandingkan nilai setiap node dengan minimum terkecil sejauh ini. */
+            while (current) {
+                if (current.value < (newMin ?? current.value)) {
+                    newMin = current.value
+                }
+                current = current.next
             }
 
-            current = current.next
-         }
+            this.minValue = newMin
+        }
 
-         this.minValue = newMin
-      }
+        return temp
+    }
 
-      return temp
-   }
+    /** Baca node teratas tanpa menghapusnya; undefined jika stack kosong. */
+    top(): MinStackNode<T> | undefined {
+        return this.first ?? undefined
+    }
 
-   // Mengembalikan elemen paling atas tanpa menghapusnya.
-   // Jika stack kosong, hasilnya `undefined`.
-   top(): MinStackNode<T> | undefined {
-      return this.first ?? undefined
-   }
-
-   // Mengembalikan nilai minimum yang saat ini ada di stack.
-   // Jika stack kosong, hasilnya `undefined`.
-   min(): T | undefined {
-      return this.minValue
-   }
+    /** Kembalikan nilai terkecil saat ini, atau undefined jika stack kosong. */
+    min(): T | undefined {
+        return this.minValue
+    }
 }
 
-// Contoh penggunaan:
+/** Buat stack angka, lalu masukkan empat nilai. */
 const myStack = new Stack<number>()
 myStack.push(5)
 myStack.push(2)
 myStack.push(7)
 myStack.push(1)
 
-// Top stack sekarang adalah 1.
-console.log(myStack.top()?.value) // 1
-// Nilai minimum di stack adalah 1.
-console.log(myStack.min()) // 1
+/** Tampilkan nilai teratas saat ini; hasilnya 1. */
+console.log(myStack.top()?.value)
 
-// Setelah pop, elemen 1 dihapus.
+/** Tampilkan nilai minimum saat ini; hasilnya 1. */
+console.log(myStack.min())
+
+/** Hapus elemen teratas, yaitu 1. */
 myStack.pop()
-// Nilai minimum yang tersisa adalah 2.
-console.log(myStack.min()) // 2
+
+/** Tampilkan minimum baru setelah nilai 1 dikeluarkan; hasilnya 2. */
+console.log(myStack.min())
