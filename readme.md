@@ -30,6 +30,9 @@ yang dapat dibaca dan dikembangkan sebagai latihan.
 - Dokumentasi alur berbahasa Indonesia tersedia untuk custom array, graph,
   operasi hash table dan tantangannya, empat algoritma sorting, serta materi
   tree (BST, rekursi, dan traversal).
+- Pembelajaran terbaru mendalami insertion sort: implementasi mengurutkan
+  elemen secara in-place, sementara dokumentasinya menelusuri pergeseran dan
+  penyisipan nilai pada setiap langkah.
 - Contoh hash table mendokumentasikan collision dan linear probing, hitung kata,
   pencarian pasangan two sum, serta pengelompokan anagram beserta outputnya.
 - Diagram tersedia untuk sejumlah topik, termasuk array, graph, hash table,
