@@ -14,6 +14,17 @@ elemen pada indeks `1`, lalu membaca elemen pada indeks `0`.
 Pada contoh ini, `T` adalah `string`, sehingga nilai yang dimasukkan harus
 berupa teks.
 
+## Algoritma Berpikir
+
+1. **Tambahkan di posisi kosong berikutnya:** gunakan `length` sebagai indeks,
+   simpan nilai di sana, lalu naikkan `length`.
+2. **Periksa indeks sebelum menghapus:** indeks harus integer, tidak negatif,
+   dan lebih kecil dari `length`.
+3. **Jaga urutan setelah penghapusan:** simpan nilai yang dihapus, geser elemen
+   di kanannya satu posisi ke kiri, kemudian hapus slot terakhir dan kurangi
+   `length`.
+4. **Baca tanpa mengubah:** `get(index)` hanya mengambil nilai dari `data`.
+
 ## 1. Membuat array
 
 ```ts
@@ -245,3 +256,5 @@ contoh sehingga keduanya tidak berjalan dalam alur di atas.
 - `delete(index)` menghapus elemen pada indeks tertentu. Jika indeks bukan
   bilangan bulat atau berada di luar rentang, method mengembalikan
   `undefined` tanpa mengubah array.
+
+---
