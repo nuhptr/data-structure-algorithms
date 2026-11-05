@@ -3,6 +3,34 @@
 Dokumen ini menjelaskan implementasi pada `hash-two-sum.ts` dan mengikuti
 contoh pada diagram: mencari dua angka yang jumlahnya sama dengan target.
 
+## Algoritma Berpikir
+
+1. Untuk setiap angka, hitung angka yang dibutuhkan agar jumlahnya mencapai
+   target: `target - angka`.
+2. **Cari pelengkap sebelum menyimpan angka saat ini.** Jika pelengkap sudah ada
+   di peta, pasangan dengan indeks berbeda ditemukan dan fungsi bisa langsung
+   mengembalikan hasil.
+3. Jika belum ada, simpan angka saat ini beserta indeksnya agar angka berikutnya
+   dapat menemukannya sebagai pelengkap.
+4. Berhenti pada pasangan pertama. Jika seluruh angka sudah diperiksa, berarti
+   tidak ada pasangan dan hasilnya `[]`.
+
+### Contoh
+
+Dengan `nums = [2, 7, 11, 13]` dan `target = 9`:
+
+```text
+i = 0: angka 2, pelengkap 9 - 2 = 7
+      7 belum ada di peta, simpan 2: 0
+      peta = { 2: 0 }
+
+i = 1: angka 7, pelengkap 9 - 7 = 2
+      2 ada di peta pada indeks 0
+      hasil = [0, 1] karena nums[0] + nums[1] = 2 + 7 = 9
+```
+
+Pencarian langsung berhenti setelah menemukan pasangan tersebut.
+
 ## Input dan hasil
 
 Fungsi menerima objek dengan dua properti:

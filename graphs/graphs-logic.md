@@ -5,6 +5,19 @@ graf kosong, menambahkan simpul A sampai D, menghubungkan beberapa simpul,
 menampilkan graf, lalu menghapus semua sisi yang terhubung dengan D tanpa
 menghapus simpul D.
 
+## Algoritma Berpikir
+
+1. **Daftarkan simpul lebih dulu.** Setiap simpul harus punya kunci di
+   `adjList` sebelum bisa dihubungkan.
+2. **Simpan sisi di dua arah.** Untuk sisi A-B, catat B pada tetangga A dan A
+   pada tetangga B agar graf tidak berarah tetap konsisten.
+3. **Saat menghapus hubungan, bersihkan kedua catatan.** `clearEdges("D")`
+   menghapus D dari setiap tetangganya, lalu mengosongkan daftar D tanpa
+   menghapus simpulnya.
+4. **Bedakan operasi berdasarkan tujuan.** Gunakan `removeEdge` untuk satu sisi,
+   `clearEdges` untuk semua sisi suatu simpul, atau `removeVertex` untuk
+   menghapus simpul sekaligus sisinya.
+
 ## Struktur penyimpanan
 
 `Graph<T>` menyimpan daftar tetangga pada properti `adjList`.
