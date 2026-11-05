@@ -5,6 +5,20 @@ Dokumen ini menjelaskan implementasi `HashTable` dan contoh phone book pada
 dengan ukuran tetap, menggunakan hash untuk menentukan slot awal, dan linear
 probing untuk mencari slot lain jika terjadi collision.
 
+## Algoritma Berpikir
+
+1. **Ubah key menjadi slot awal** dengan fungsi hash agar pencarian tidak perlu
+   memeriksa seluruh tabel dari awal.
+2. **Tangani collision dengan linear probing:** periksa slot berikutnya secara
+   melingkar sampai menemukan slot kosong atau key yang sama.
+3. **Saat set, bedakan dua kondisi:** slot kosong berarti simpan pasangan; key
+   yang sama berarti perbarui nilainya.
+4. **Saat get, ikuti urutan probe yang sama.** Key cocok berarti kembalikan
+   nilainya; slot kosong atau seluruh slot telah diperiksa berarti key tidak
+   ditemukan.
+5. Untuk mengambil semua key atau value, telusuri slot dari indeks terkecil ke
+   terbesar dan lewati slot kosong.
+
 ## 1. Membuat tabel
 
 Kode membuat tabel tanpa memberikan ukuran:

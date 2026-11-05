@@ -4,6 +4,38 @@ Dokumen ini menjelaskan implementasi terkini pada `group-anagrams.ts`.
 Fungsi mengelompokkan string berdasarkan karakter yang sudah diurutkan dan
 mengembalikan objek map, bukan array kelompok.
 
+## Algoritma Berpikir
+
+Tujuannya adalah memberi kunci yang sama pada kata-kata dengan huruf yang sama.
+Urutan huruf asli boleh berbeda.
+
+1. Urutkan huruf setiap kata untuk membuat kuncinya:
+
+   ```text
+   "eat" -> "aet"
+   "tea" -> "aet"
+   "tan" -> "ant"
+   ```
+
+2. Gunakan kunci itu untuk mencari kelompok di `anagramMap`.
+3. Jika kunci belum ada, buat kelompok baru dan masukkan kata asli:
+
+   ```text
+   "eat" -> anagramMap["aet"] = ["eat"]
+   ```
+
+4. Jika kunci sudah ada, tambahkan kata asli ke kelompok itu:
+
+   ```text
+   "tea" -> anagramMap["aet"] = ["eat", "tea"]
+   ```
+
+5. Ulangi sampai semua input diproses, lalu kembalikan map.
+
+Untuk contoh kode, `Object.values(strs)` memberikan kata-kata yang akan
+dikelompokkan. Sebaliknya, `Object.keys(strs)` memberikan indeks array
+(`"0"`, `"1"`, dan seterusnya), bukan kata-katanya.
+
 ## Logika fungsi
 
 Fungsi menerima array string dan menyiapkan objek untuk menyimpan kelompok:
