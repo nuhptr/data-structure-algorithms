@@ -103,10 +103,7 @@ class BinarySearchTree<T = number> {
     }
 
     /** Kunjungi simpul, anak kiri, lalu anak kanan (pre-order). */
-    dfsPreOrder(
-        currentNode: TreeNode<T> | null = this.root,
-        visitedValues: T[] = [],
-    ): T[] {
+    dfsPreOrder(currentNode: TreeNode<T> | null = this.root, visitedValues: T[] = []): T[] {
         /** Simpul kosong menjadi kondisi berhenti untuk rekursi. */
         if (currentNode === null) return visitedValues
         /** Catatan debug yang dipertahankan dari implementasi sebelumnya. */
@@ -120,10 +117,7 @@ class BinarySearchTree<T = number> {
     }
 
     /** Kunjungi anak kiri, anak kanan, lalu simpul saat ini (post-order). */
-    dfsPostOrder(
-        currentNode: TreeNode<T> | null = this.root,
-        visitedValues: T[] = [],
-    ): T[] {
+    dfsPostOrder(currentNode: TreeNode<T> | null = this.root, visitedValues: T[] = []): T[] {
         /** Simpul kosong tidak memiliki nilai atau anak untuk dikunjungi. */
         if (currentNode === null) return visitedValues
 
@@ -135,10 +129,7 @@ class BinarySearchTree<T = number> {
     }
 
     /** Kunjungi anak kiri, simpul saat ini, lalu anak kanan (in-order). */
-    dfsInOrder(
-        currentNode: TreeNode<T> | null = this.root,
-        visitedValues: T[] = [],
-    ): T[] {
+    dfsInOrder(currentNode: TreeNode<T> | null = this.root, visitedValues: T[] = []): T[] {
         /** Simpul kosong menjadi kondisi berhenti untuk rekursi. */
         if (currentNode === null) return visitedValues
 
@@ -163,9 +154,9 @@ tree.insert(9)
 
 /** Cetak urutan kunjungan breadth-first dan tiga urutan depth-first. */
 console.log(tree.breadthFirstSearch())
-console.log(tree.dfsPreOrder())
-console.log(tree.dfsPostOrder())
-console.log(tree.dfsInOrder())
+console.log(tree.dfsPreOrder()) // [ 5, 3, 1, 8, 7, 9 ]
+console.log(tree.dfsPostOrder()) // [ 1, 3, 7, 9, 8, 5 ]
+console.log(tree.dfsInOrder()) // [ 1, 3, 5, 7, 8, 9 ]
 
 /**
  * Comparator harus mengembalikan nilai negatif untuk urutan sebelum,
