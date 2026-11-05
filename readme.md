@@ -13,17 +13,17 @@ yang dapat dibaca dan dikembangkan sebagai latihan.
 
 ## Progres Pembelajaran
 
-| Topik           | Materi dan implementasi                                                                                                                                                                                                                                             |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Pengantar       | Gambaran masalah dan alasan mempelajari struktur data dan algoritma.                                                                                                                                                                                                |
-| Big O           | Contoh kompleksitas waktu konstan, linear, dan kuadratik.                                                                                                                                                                                                           |
-| Array           | Array dasar, implementasi array sederhana, serta membalik string.                                                                                                                                                                                                   |
-| Hash table      | Implementasi hash table dengan linear probing ([alur](./hash-table/index-logic.md)); tantangan [word counter](./hash-table/hash-word-instance-logic.md), [two sum](./hash-table/hash-two-sum-logic.md), dan [group anagrams](./hash-table/group-anagrams-logic.md). |
-| Graph           | Representasi adjacency list serta operasi simpul dan sisi pada graf tak berarah.                                                                                                                                                                                    |
-| Linked list     | Implementasi single linked list, double linked list, dan latihan terkait.                                                                                                                                                                                           |
-| Stack dan queue | Implementasi stack dan queue beserta beberapa latihan.                                                                                                                                                                                                              |
-| Sorting         | [Bubble sort](./sorting-algo/bubble-sort-logic.md), [insertion sort](./sorting-algo/insertion-sort-logic.md), [merge sort](./sorting-algo/merge-sort-logic.md), dan [selection sort](./sorting-algo/selection-sort-logic.md).                                       |
-| Tree            | [Binary search tree](./tree/bst-logic.md), [rekursi](./tree/recursion-logic.md), dan [traversal](./tree/tree-traversal-logic.md).                                                                                                                                   |
+| Topik           | Materi dan implementasi                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pengantar       | Gambaran masalah dan alasan mempelajari struktur data dan algoritma.                                                                                                                                                                                                                                                                                                                       |
+| Big O           | Contoh kompleksitas waktu konstan, linear, dan kuadratik.                                                                                                                                                                                                                                                                                                                                  |
+| Array           | Array dasar, implementasi array sederhana, serta membalik string.                                                                                                                                                                                                                                                                                                                          |
+| Hash table      | Implementasi hash table dengan linear probing ([alur](./hash-table/index-logic.md)); tantangan [word counter](./hash-table/hash-word-instance-logic.md), [two sum](./hash-table/hash-two-sum-logic.md), dan [group anagrams](./hash-table/group-anagrams-logic.md).                                                                                                                        |
+| Graph           | Representasi adjacency list serta operasi simpul dan sisi pada graf tak berarah.                                                                                                                                                                                                                                                                                                           |
+| Linked list     | Implementasi single linked list, double linked list, dan latihan terkait.                                                                                                                                                                                                                                                                                                                  |
+| Stack dan queue | [Stack](./stack-and-queue/stack-logic.md) dengan operasi `push`, `pop`, dan `top`; [queue](./stack-and-queue/queue-logic.md) dengan `enqueue` dan `dequeue`; serta latihan [min stack](./stack-and-queue/challenge-min-stack.ts), [membalik string](./stack-and-queue/challenge-reverse-string-using-stack.ts), dan [valid parenthesis](./stack-and-queue/challenge-valid-parenthesis.ts). |
+| Sorting         | [Bubble sort](./sorting-algo/bubble-sort-logic.md), [insertion sort](./sorting-algo/insertion-sort-logic.md), [merge sort](./sorting-algo/merge-sort-logic.md), dan [selection sort](./sorting-algo/selection-sort-logic.md).                                                                                                                                                              |
+| Tree            | [Binary search tree](./tree/bst-logic.md), [rekursi](./tree/recursion-logic.md), dan [traversal](./tree/tree-traversal-logic.md).                                                                                                                                                                                                                                                          |
 
 ### Progres Terbaru
 
@@ -33,6 +33,14 @@ yang dapat dibaca dan dikembangkan sebagai latihan.
 - Pembelajaran terbaru mendalami insertion sort: implementasi mengurutkan
   elemen secara in-place, sementara dokumentasinya menelusuri pergeseran dan
   penyisipan nilai pada setiap langkah.
+- Stack dan queue dipelajari menggunakan linked list, termasuk urutan LIFO/FIFO,
+  operasi dasarnya, dan kompleksitasnya. Latihan stack mencakup min stack,
+  membalik string, serta validasi pasangan tanda kurung.
+- Materi tree mencakup penyisipan dan pencarian pada binary search tree, serta
+  rekursi melalui contoh hitung mundur dan faktorial; dokumentasi langkah demi
+  langkah tersedia untuk keduanya. Traversal pohon mencakup BFS dan DFS
+  pre-order, post-order, serta in-order, berikut urutan kunjungan dan
+  penggunaan comparator.
 - Contoh hash table mendokumentasikan collision dan linear probing, hitung kata,
   pencarian pasangan two sum, serta pengelompokan anagram beserta outputnya.
 - Diagram tersedia untuk sejumlah topik, termasuk array, graph, hash table,
