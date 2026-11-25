@@ -10,7 +10,8 @@ bergantung pada abstraksi (interface), dan terbuka untuk ekstensi tanpa modifika
 Jalankan demo interaktif untuk semua topik:
 
 ```bash
-npx tsx main.ts
+npm install
+npm run demo        # atau: npx tsx main.ts
 ```
 
 Menu akan menampilkan daftar topik yang tersedia; pilih nomor atau nama topik untuk
@@ -239,8 +240,8 @@ Traversal pohon 5 dengan anak kiri 3 dan kanan 8:
 
 ## Cara Menggunakan
 
-1. Jalankan `npx tsx main.ts` untuk memilih topik secara interaktif, atau
-   pilih topik dari folder yang sesuai.
+1. Jalankan `npm run demo` (atau `npx tsx main.ts`) untuk memilih topik secara
+   interaktif, atau pilih topik dari folder yang sesuai.
 2. Baca komentar dan dokumentasi pada file TypeScript.
 3. Telusuri contoh gambaran algoritma di README dan dokumentasi topik untuk
    memahami alurnya.
