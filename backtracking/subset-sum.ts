@@ -1,4 +1,4 @@
-import { ISubsetSumSolver } from "./interfaces";
+import { ISubsetSumSolver } from "./interfaces"
 
 /**
  * Subset Sum — menemukan semua subset dari array yang jumlahnya sama dengan target.
@@ -16,38 +16,38 @@ import { ISubsetSumSolver } from "./interfaces";
  * // => [[1,1,6],[1,2,5],[1,7],[2,6]]
  */
 export class SubsetSumSolver implements ISubsetSumSolver {
-  findAll(nums: number[], target: number): number[][] {
-    const results: number[][] = [];
-    const sortedNums = [...nums].sort((a, b) => a - b);
+    findAll(nums: number[], target: number): number[][] {
+        const results: number[][] = []
+        const sortedNums = [...nums].sort((a, b) => a - b)
 
-    const buildSubsets = (
-      startIndex: number,
-      remaining: number,
-      currentSubset: number[]
-    ): void => {
-      if (remaining === 0) {
-        results.push([...currentSubset]);
-        return;
-      }
+        const buildSubsets = (
+            startIndex: number,
+            remaining: number,
+            currentSubset: number[],
+        ): void => {
+            if (remaining === 0) {
+                results.push([...currentSubset])
+                return
+            }
 
-      for (let index = startIndex; index < sortedNums.length; index++) {
-        const currentNumber = sortedNums[index];
+            for (let index = startIndex; index < sortedNums.length; index++) {
+                const currentNumber = sortedNums[index]
 
-        // Prune: angka sudah melebihi sisa target
-        if (currentNumber > remaining) break;
+                // Prune: angka sudah melebihi sisa target
+                if (currentNumber > remaining) break
 
-        // Lewati duplikat pada level rekursi yang sama
-        if (index > startIndex && sortedNums[index] === sortedNums[index - 1]) {
-          continue;
+                // Lewati duplikat pada level rekursi yang sama
+                if (index > startIndex && sortedNums[index] === sortedNums[index - 1]) {
+                    continue
+                }
+
+                currentSubset.push(currentNumber)
+                buildSubsets(index + 1, remaining - currentNumber, currentSubset)
+                currentSubset.pop() // backtrack
+            }
         }
 
-        currentSubset.push(currentNumber);
-        buildSubsets(index + 1, remaining - currentNumber, currentSubset);
-        currentSubset.pop(); // backtrack
-      }
-    };
-
-    buildSubsets(0, target, []);
-    return results;
-  }
+        buildSubsets(0, target, [])
+        return results
+    }
 }

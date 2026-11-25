@@ -1,4 +1,4 @@
-import { ITaskScheduler } from "./interfaces";
+import { ITaskScheduler } from "./interfaces"
 
 /**
  * Task Scheduler — menghitung interval minimum untuk menyelesaikan semua task
@@ -16,26 +16,26 @@ import { ITaskScheduler } from "./interfaces";
  * scheduler.leastIntervals(["A","A","A","B","B","B"], 0); // => 6
  */
 export class TaskScheduler implements ITaskScheduler {
-  leastIntervals(tasks: string[], cooldown: number): number {
-    if (cooldown === 0) return tasks.length;
+    leastIntervals(tasks: string[], cooldown: number): number {
+        if (cooldown === 0) return tasks.length
 
-    // Hitung frekuensi setiap task
-    const freq = new Array(26).fill(0);
-    for (const task of tasks) {
-      freq[task.charCodeAt(0) - 65]++;
+        // Hitung frekuensi setiap task
+        const freq = new Array(26).fill(0)
+        for (const task of tasks) {
+            freq[task.charCodeAt(0) - 65]++
+        }
+
+        freq.sort((a, b) => b - a)
+
+        const maxFreq = freq[0]
+        // Jumlah task yang memiliki frekuensi maksimum
+        const maxFreqCount = freq.filter((f) => f === maxFreq).length
+
+        // Formula matematika:
+        // Jumlah "idle slots" = (maxFreq - 1) × cooldown − (jumlah task dengan frekuensi = maxFreq - 1)
+        const minimumSlots = (maxFreq - 1) * (cooldown + 1) + maxFreqCount
+
+        // Hasil adalah maksimum antara formula dan jumlah total task
+        return Math.max(minimumSlots, tasks.length)
     }
-
-    freq.sort((a, b) => b - a);
-
-    const maxFreq = freq[0];
-    // Jumlah task yang memiliki frekuensi maksimum
-    const maxFreqCount = freq.filter((f) => f === maxFreq).length;
-
-    // Formula matematika:
-    // Jumlah "idle slots" = (maxFreq - 1) × cooldown − (jumlah task dengan frekuensi = maxFreq - 1)
-    const minimumSlots = (maxFreq - 1) * (cooldown + 1) + maxFreqCount;
-
-    // Hasil adalah maksimum antara formula dan jumlah total task
-    return Math.max(minimumSlots, tasks.length);
-  }
 }

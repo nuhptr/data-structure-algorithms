@@ -1,4 +1,4 @@
-import { WeightedEdge, IBellmanFord } from "./interfaces";
+import { WeightedEdge, IBellmanFord } from "./interfaces"
 
 /**
  * Bellman-Ford Algorithm — mencari jarak terpendek dari satu sumber
@@ -14,37 +14,32 @@ import { WeightedEdge, IBellmanFord } from "./interfaces";
  * bf.findShortestPaths(edges, 4, 0); // => [0, -2, 8, 5]
  */
 export class BellmanFord implements IBellmanFord {
-  findShortestPaths(
-    edges: WeightedEdge[],
-    vertexCount: number,
-    sourceVertex: number
-  ): number[] {
-    const distanceTo: number[] = Array(vertexCount).fill(Infinity);
-    distanceTo[sourceVertex] = 0;
+    findShortestPaths(edges: WeightedEdge[], vertexCount: number, sourceVertex: number): number[] {
+        const distanceTo: number[] = Array(vertexCount).fill(Infinity)
+        distanceTo[sourceVertex] = 0
 
-    // Relax semua edge sebanyak (vertexCount - 1) kali
-    for (let iteration = 0; iteration < vertexCount - 1; iteration++) {
-      for (const [from, to, weight] of edges) {
-        const canRelax = distanceTo[from] !== Infinity;
-        const foundShorter = distanceTo[from] + weight < distanceTo[to];
+        // Relax semua edge sebanyak (vertexCount - 1) kali
+        for (let iteration = 0; iteration < vertexCount - 1; iteration++) {
+            for (const [from, to, weight] of edges) {
+                const canRelax = distanceTo[from] !== Infinity
+                const foundShorter = distanceTo[from] + weight < distanceTo[to]
 
-        if (canRelax && foundShorter) {
-          distanceTo[to] = distanceTo[from] + weight;
+                if (canRelax && foundShorter) {
+                    distanceTo[to] = distanceTo[from] + weight
+                }
+            }
         }
-      }
+
+        // Deteksi negative cycle — jika masih bisa direlax, ada siklus negatif
+        for (const [from, to, weight] of edges) {
+            const stillRelaxable =
+                distanceTo[from] !== Infinity && distanceTo[from] + weight < distanceTo[to]
+
+            if (stillRelaxable) {
+                throw new Error("Negative cycle ditemukan dalam graf")
+            }
+        }
+
+        return distanceTo
     }
-
-    // Deteksi negative cycle — jika masih bisa direlax, ada siklus negatif
-    for (const [from, to, weight] of edges) {
-      const stillRelaxable =
-        distanceTo[from] !== Infinity &&
-        distanceTo[from] + weight < distanceTo[to];
-
-      if (stillRelaxable) {
-        throw new Error("Negative cycle ditemukan dalam graf");
-      }
-    }
-
-    return distanceTo;
-  }
 }

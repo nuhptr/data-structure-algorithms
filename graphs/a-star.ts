@@ -1,4 +1,4 @@
-import { WeightedAdjacencyList, HeuristicFn, IAStarSearch } from "./interfaces";
+import { WeightedAdjacencyList, HeuristicFn, IAStarSearch } from "./interfaces"
 
 /**
  * A* Search — algoritma jalur terpendek yang menggabungkan g(n) (biaya aktual)
@@ -23,40 +23,40 @@ import { WeightedAdjacencyList, HeuristicFn, IAStarSearch } from "./interfaces";
  * aStar.findShortestPath(graph, "A", "D", heuristic); // => 4
  */
 export class AStarSearch implements IAStarSearch {
-  findShortestPath(
-    graph: WeightedAdjacencyList,
-    start: string,
-    end: string,
-    heuristic: HeuristicFn
-  ): number {
-    // [f(n), g(n), node]
-    const openSet: [number, number, string][] = [[heuristic(start, end), 0, start]];
-    const gScore: Record<string, number> = { [start]: 0 };
-    const visitedNodes = new Set<string>();
+    findShortestPath(
+        graph: WeightedAdjacencyList,
+        start: string,
+        end: string,
+        heuristic: HeuristicFn,
+    ): number {
+        // [f(n), g(n), node]
+        const openSet: [number, number, string][] = [[heuristic(start, end), 0, start]]
+        const gScore: Record<string, number> = { [start]: 0 }
+        const visitedNodes = new Set<string>()
 
-    while (openSet.length > 0) {
-      openSet.sort((a, b) => a[0] - b[0]);
-      const [, currentG, currentNode] = openSet.shift()!;
+        while (openSet.length > 0) {
+            openSet.sort((a, b) => a[0] - b[0])
+            const [, currentG, currentNode] = openSet.shift()!
 
-      if (visitedNodes.has(currentNode)) continue;
-      visitedNodes.add(currentNode);
+            if (visitedNodes.has(currentNode)) continue
+            visitedNodes.add(currentNode)
 
-      if (currentNode === end) return currentG;
+            if (currentNode === end) return currentG
 
-      for (const [neighbor, edgeCost] of graph[currentNode] ?? []) {
-        if (visitedNodes.has(neighbor)) continue;
+            for (const [neighbor, edgeCost] of graph[currentNode] ?? []) {
+                if (visitedNodes.has(neighbor)) continue
 
-        const tentativeG = currentG + edgeCost;
-        const knownG = gScore[neighbor] ?? Infinity;
+                const tentativeG = currentG + edgeCost
+                const knownG = gScore[neighbor] ?? Infinity
 
-        if (tentativeG < knownG) {
-          gScore[neighbor] = tentativeG;
-          const fScore = tentativeG + heuristic(neighbor, end);
-          openSet.push([fScore, tentativeG, neighbor]);
+                if (tentativeG < knownG) {
+                    gScore[neighbor] = tentativeG
+                    const fScore = tentativeG + heuristic(neighbor, end)
+                    openSet.push([fScore, tentativeG, neighbor])
+                }
+            }
         }
-      }
-    }
 
-    return -1; // end tidak dapat dijangkau
-  }
+        return -1 // end tidak dapat dijangkau
+    }
 }

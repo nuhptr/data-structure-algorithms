@@ -1,8 +1,10 @@
-/** Node queue menyimpan nilai dan referensi ke node berikutnya seperti linked list. */
-class QueueNode<T> {
+import { IQueue, IQueueNode } from "./interfaces"
+
+/** Node queue — menyimpan nilai dan referensi ke node berikutnya. */
+export class QueueNode<T> implements IQueueNode<T> {
     /** Nilai yang disimpan di dalam node. */
     value: T
-    /** Node berikutnya dalam antrian, atau null jika node ini yang terakhir. */
+    /** Node berikutnya dalam antrian, atau null jika node ini terakhir. */
     next: QueueNode<T> | null
 
     /** Buat node berisi value yang belum terhubung ke node lain. */
@@ -13,45 +15,47 @@ class QueueNode<T> {
 }
 
 /**
- * Queue berbasis linked list dengan urutan FIFO:
- * nilai pertama yang masuk akan menjadi nilai pertama yang keluar.
+ * Queue — struktur data FIFO (pertama masuk, pertama keluar)
+ * berbasis linked list dengan penunjuk first dan last.
+ *
+ * Kompleksitas Waktu : O(1) untuk enqueue dan dequeue
+ * Kompleksitas Ruang : O(n)
+ *
+ * @example
+ * const queue = new Queue<number>(0);
+ * queue.enqueue(1).enqueue(2);
+ * queue.dequeue()?.value; // => 0
  */
-class Queue<T> {
+export class Queue<T> implements IQueue<T> {
     /** Elemen paling depan yang akan dikeluarkan berikutnya. */
     first: QueueNode<T> | null
     /** Elemen paling belakang tempat nilai baru ditambahkan. */
     last: QueueNode<T> | null
-    /** Jumlah node yang saat ini tersimpan dalam queue. */
+    /** Jumlah node yang tersimpan dalam queue. */
     length: number
 
     /** Buat queue kosong, atau isi dengan value jika diberikan. */
     constructor(value?: T) {
-        /** Awali queue dalam keadaan kosong. */
         this.first = null
         this.last = null
         this.length = 0
-
-        /** Gunakan enqueue agar nilai awal mengikuti aturan penambahan biasa. */
         if (value !== undefined) this.enqueue(value)
     }
 
     /**
-     * Tambahkan nilai di belakang queue dalam O(1).
+     * Tambahkan nilai di belakang queue; O(1).
      * Kembalikan instance ini agar operasi dapat dirangkai.
      */
     enqueue(value: T): this {
         const newNode = new QueueNode(value)
 
-        /** Pada queue kosong, node baru menjadi elemen pertama dan terakhir. */
         if (!this.first) {
             this.first = newNode
             this.last = newNode
             this.length = 1
-
             return this
         }
 
-        /** Sambungkan node terakhir ke node baru, lalu perbarui penunjuk last. */
         this.last!.next = newNode
         this.last = newNode
         this.length++
@@ -60,39 +64,24 @@ class Queue<T> {
     }
 
     /**
-     * Hapus dan kembalikan node paling depan dalam O(1).
+     * Hapus dan kembalikan node paling depan; O(1).
      * Kembalikan undefined jika queue kosong.
      */
     dequeue(): QueueNode<T> | undefined {
-        /** Tidak ada node yang dapat dikeluarkan dari queue kosong. */
         if (!this.first) return undefined
 
-        /** Simpan node yang dikeluarkan agar dapat dikembalikan setelah pembaruan. */
         const removedNode = this.first
 
-        /** Jika hanya tersisa satu node, kosongkan kedua ujung queue. */
         if (this.length === 1) {
             this.first = null
             this.last = null
         } else {
-            /** Majukan first ke node berikutnya dalam antrian. */
             this.first = this.first.next
         }
 
-        /** Lepaskan node yang dikeluarkan dari sisa linked list. */
         removedNode.next = null
         this.length--
 
         return removedNode
     }
 }
-
-/** Contoh penggunaan: tambahkan beberapa nilai, lalu keluarkan nilai paling awal. */
-let myQueue = new Queue(0)
-myQueue.enqueue(1)
-myQueue.enqueue(2)
-myQueue.enqueue(5)
-myQueue.dequeue()
-
-/** Tampilkan queue setelah operasi penambahan dan pengeluaran. */
-console.log(myQueue)

@@ -1,27 +1,32 @@
+import { ILinearTimeExample } from "./interfaces"
+
 /**
- * Mencari barang tertentu di dalam daftar belanja.
+ * Linear Time O(n) — mencari item dalam daftar dengan memeriksa
+ * setiap elemen satu per satu.
  *
- * Contoh ini menunjukkan kompleksitas waktu linear: fungsi memeriksa setiap elemen
- * dalam array satu per satu, sehingga jumlah pekerjaan bertambah seiring ukuran daftar.
+ * Fungsi memindai daftar dua kali; dua konstanta diabaikan sehingga
+ * kompleksitasnya tetap O(n) — jumlah pekerjaan bertambah seiring
+ * ukuran daftar.
  *
- * Perulangan berjalan dua kali, tetapi kompleksitasnya tetap O(n) karena konstanta
- * diabaikan dalam notasi Big O.
+ * Kompleksitas Waktu : O(n)
+ * Kompleksitas Ruang : O(1)
  *
- * @param item Barang yang dicari di dalam daftar belanja.
+ * @example
+ * const example = new LinearTimeExample();
+ * example.findItems(["milk", "bread", "eggs"], "eggs"); // => ["eggs", "eggs"]
  */
-const groceries: Array<string> = ["milk", "bread", "eggs", "flour", "cheese", "sugar"]
+export class LinearTimeExample implements ILinearTimeExample {
+    findItems(list: string[], item: string): string[] {
+        const matches: string[] = []
 
-const searchForItem = (item: string) => {
-    for (let i = 0; i < groceries.length; i++) {
-        if (groceries[i] === item) console.log(`Found ${item}`)
+        for (let i = 0; i < list.length; i++) {
+            if (list[i] === item) matches.push(list[i])
+        }
+
+        for (let j = 0; j < list.length; j++) {
+            if (list[j] === item) matches.push(list[j])
+        }
+
+        return matches
     }
-
-    for (let j = 0; j < groceries.length; j++) {
-        if (groceries[j] === item) console.log(`Found ${item} 2`)
-    }
-
-    // n + n = 2n -> O(2n)
-    // Abaikan konstanta sehingga menjadi O(n)
 }
-
-searchForItem("eggs")

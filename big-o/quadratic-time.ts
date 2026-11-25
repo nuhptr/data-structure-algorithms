@@ -1,26 +1,29 @@
+import { IQuadraticTimeExample } from "./interfaces"
+
 /**
- * Menemukan semua pasangan angka unik dalam array.
+ * Quadratic Time O(n²) — menemukan semua pasangan unik dalam array.
  *
- * Fungsi ini menggunakan perulangan bersarang untuk membandingkan setiap elemen
- * dengan semua elemen setelahnya. Hal ini menghasilkan kompleksitas waktu kuadratik: O(n^2).
+ * Perulangan bersarang membandingkan setiap elemen dengan semua
+ * elemen setelahnya, menghasilkan n(n-1)/2 pasangan. Karena suku
+ * O(n²) bertumbuh jauh lebih cepat, ia menjadi suku dominan.
  *
- * Perulangan O(n) yang lebih kecil juga digunakan untuk mencetak pemisah. Namun, karena
- * O(n^2) bertumbuh jauh lebih cepat, suku dominan menentukan kompleksitas keseluruhan.
+ * Kompleksitas Waktu : O(n²)
+ * Kompleksitas Ruang : O(n²) — untuk menampung semua pasangan
  *
- * @param arr Array yang akan diperiksa untuk mencari pasangan angka.
+ * @example
+ * const example = new QuadraticTimeExample();
+ * example.findPairs([1, 2, 3]); // => [[1, 2], [1, 3], [2, 3]]
  */
-function findPairs(arr: Array<number>) {
-    // O(n^2)
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-            console.log(`Pair: ${arr[i]}, ${arr[j]}`)
+export class QuadraticTimeExample implements IQuadraticTimeExample {
+    findPairs(array: number[]): Array<[number, number]> {
+        const pairs: Array<[number, number]> = []
+
+        for (let i = 0; i < array.length; i++) {
+            for (let j = i + 1; j < array.length; j++) {
+                pairs.push([array[i], array[j]])
+            }
         }
+
+        return pairs
     }
-
-    // O(n)
-    for (let q = 0; q < 5; q++) console.log("-------------", q)
 }
-
-const arrayNumber = [1, 2, 3, 4, 5]
-findPairs(arrayNumber)
-// ------------------------------------

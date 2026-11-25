@@ -1,4 +1,4 @@
-import { Activity, IActivitySelector } from "./interfaces";
+import { Activity, IActivitySelector } from "./interfaces"
 
 /**
  * Activity Selection — memilih jumlah maksimum aktivitas yang tidak
@@ -14,25 +14,23 @@ import { Activity, IActivitySelector } from "./interfaces";
  * // => [(1,3),(6,8)]
  */
 export class ActivitySelector implements IActivitySelector {
-  select(activities: Activity[]): Activity[] {
-    if (!activities || activities.length === 0) return [];
+    select(activities: Activity[]): Activity[] {
+        if (!activities || activities.length === 0) return []
 
-    const sortedByEndTime = [...activities].sort(
-      ([, endA], [, endB]) => endA - endB
-    );
+        const sortedByEndTime = [...activities].sort(([, endA], [, endB]) => endA - endB)
 
-    const selectedActivities: Activity[] = [sortedByEndTime[0]];
+        const selectedActivities: Activity[] = [sortedByEndTime[0]]
 
-    for (let index = 1; index < sortedByEndTime.length; index++) {
-      const currentActivity = sortedByEndTime[index];
-      const lastSelectedActivity = selectedActivities[selectedActivities.length - 1];
-      const doesNotOverlap = currentActivity[0] >= lastSelectedActivity[1];
+        for (let index = 1; index < sortedByEndTime.length; index++) {
+            const currentActivity = sortedByEndTime[index]
+            const lastSelectedActivity = selectedActivities[selectedActivities.length - 1]
+            const doesNotOverlap = currentActivity[0] >= lastSelectedActivity[1]
 
-      if (doesNotOverlap) {
-        selectedActivities.push(currentActivity);
-      }
+            if (doesNotOverlap) {
+                selectedActivities.push(currentActivity)
+            }
+        }
+
+        return selectedActivities
     }
-
-    return selectedActivities;
-  }
 }

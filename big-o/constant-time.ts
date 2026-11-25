@@ -1,16 +1,20 @@
-const numbers: Array<number> = [1, 2, 3, 4, 5]
+import { IConstantTimeExample } from "./interfaces"
 
 /**
- * Mengembalikan elemen pada indeks tertentu dalam array.
- * Operasi ini memiliki waktu konstan karena langsung mengakses lokasi memori
- * tanpa memeriksa elemen lain dalam array.
+ * Constant Time O(1) — mengakses elemen array berdasarkan indeks.
  *
- * @param arr Array yang akan dibaca.
- * @param index Indeks elemen yang diinginkan, dimulai dari 0.
- * @returns Nilai yang tersimpan pada indeks tersebut.
+ * Array menyediakan akses langsung ke memori berdasarkan indeks, jadi
+ * waktu akses tidak bergantung pada ukuran array.
+ *
+ * Kompleksitas Waktu : O(1)
+ * Kompleksitas Ruang : O(1)
+ *
+ * @example
+ * const example = new ConstantTimeExample();
+ * example.getElement([1, 2, 3, 4, 5], 0); // => 1
  */
-function getElement(arr: Array<number>, index: number) {
-    return arr[index]
+export class ConstantTimeExample implements IConstantTimeExample {
+    getElement<T>(array: T[], index: number): T {
+        return array[index]
+    }
 }
-
-console.log(getElement(numbers, 0))

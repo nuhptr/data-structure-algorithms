@@ -44,6 +44,7 @@ Query "sepatu lari":
 ```
 
 **Kompleksitas:**
+
 - Build: O(n × L) — n produk, L rata-rata panjang deskripsi
 - Search: O(k) per query — k kata dalam query, bukan n produk
 
@@ -133,6 +134,7 @@ Produk sebagai vektor fitur:
 ```
 
 **Formula:**
+
 ```
 similarity = (A · B) / (|A| × |B|)
            = (jumlah hasil kali elemen) / (panjang A × panjang B)
@@ -235,12 +237,12 @@ Tanpa sorting (First Fit biasa) bisa butuh 4 kotak.
 
 ## Ringkasan
 
-| Algoritma | Masalah yang Diselesaikan | Kompleksitas |
-|---|---|---|
-| **Inverted Index** | Cari produk dari jutaan item dalam milidetik | O(k) per query |
-| **TF-IDF** | Ranking relevansi hasil search | O(k × n) |
-| **Levenshtein** | Koreksi typo di search bar | O(m × n) per pasang kata |
-| **Cosine Similarity** | Ukur kemiripan produk / user | O(d) per pasang vektor |
-| **Collaborative Filtering** | Rekomendasi personal "user lain juga beli" | O(U × I) |
-| **Bloom Filter** | Fraud check cepat tanpa hit database | O(k) — hampir konstan |
-| **Bin Packing** | Optimasi jumlah kotak pengiriman | O(n²) |
+| Algoritma                   | Masalah yang Diselesaikan                    | Kompleksitas             |
+| --------------------------- | -------------------------------------------- | ------------------------ |
+| **Inverted Index**          | Cari produk dari jutaan item dalam milidetik | O(k) per query           |
+| **TF-IDF**                  | Ranking relevansi hasil search               | O(k × n)                 |
+| **Levenshtein**             | Koreksi typo di search bar                   | O(m × n) per pasang kata |
+| **Cosine Similarity**       | Ukur kemiripan produk / user                 | O(d) per pasang vektor   |
+| **Collaborative Filtering** | Rekomendasi personal "user lain juga beli"   | O(U × I)                 |
+| **Bloom Filter**            | Fraud check cepat tanpa hit database         | O(k) — hampir konstan    |
+| **Bin Packing**             | Optimasi jumlah kotak pengiriman             | O(n²)                    |

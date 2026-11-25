@@ -1,2 +1,2 @@
-export * from "./interfaces";
-export * from "./disjoint-set";
+export * from "./interfaces"
+export * from "./disjoint-set"

@@ -1,4 +1,4 @@
-import { IParenthesesGenerator } from "./interfaces";
+import { IParenthesesGenerator } from "./interfaces"
 
 /**
  * Generate Parentheses — menghasilkan semua kombinasi tanda kurung
@@ -13,34 +13,30 @@ import { IParenthesesGenerator } from "./interfaces";
  * // => ["((()))", "(()())", "(())()", "()(())", "()()()"]
  */
 export class ParenthesesGenerator implements IParenthesesGenerator {
-  generate(pairCount: number): string[] {
-    const results: string[] = [];
+    generate(pairCount: number): string[] {
+        const results: string[] = []
 
-    const buildParentheses = (
-      current: string,
-      openCount: number,
-      closeCount: number
-    ): void => {
-      const isComplete = openCount === pairCount && closeCount === pairCount;
+        const buildParentheses = (current: string, openCount: number, closeCount: number): void => {
+            const isComplete = openCount === pairCount && closeCount === pairCount
 
-      if (isComplete) {
-        results.push(current);
-        return;
-      }
+            if (isComplete) {
+                results.push(current)
+                return
+            }
 
-      const canAddOpen = openCount < pairCount;
-      const canAddClose = closeCount < openCount;
+            const canAddOpen = openCount < pairCount
+            const canAddClose = closeCount < openCount
 
-      if (canAddOpen) {
-        buildParentheses(current + "(", openCount + 1, closeCount);
-      }
+            if (canAddOpen) {
+                buildParentheses(current + "(", openCount + 1, closeCount)
+            }
 
-      if (canAddClose) {
-        buildParentheses(current + ")", openCount, closeCount + 1);
-      }
-    };
+            if (canAddClose) {
+                buildParentheses(current + ")", openCount, closeCount + 1)
+            }
+        }
 
-    buildParentheses("", 0, 0);
-    return results;
-  }
+        buildParentheses("", 0, 0)
+        return results
+    }
 }

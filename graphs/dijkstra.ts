@@ -1,4 +1,4 @@
-import { WeightedAdjacencyList, IShortestPath } from "./interfaces";
+import { WeightedAdjacencyList, IShortestPath } from "./interfaces"
 
 /**
  * Dijkstra's Algorithm — mencari jalur terpendek dari satu sumber
@@ -19,38 +19,34 @@ import { WeightedAdjacencyList, IShortestPath } from "./interfaces";
  * dijkstra.findShortestPath(graph, "A", "D"); // => 5
  */
 export class Dijkstra implements IShortestPath {
-  findShortestPath(
-    graph: WeightedAdjacencyList,
-    start: string,
-    end: string
-  ): number {
-    // [cost, node] — min-heap sederhana via sort
-    const minHeap: [number, string][] = [[0, start]];
-    const visitedNodes = new Set<string>();
-    const lowestCostTo: Record<string, number> = { [start]: 0 };
+    findShortestPath(graph: WeightedAdjacencyList, start: string, end: string): number {
+        // [cost, node] — min-heap sederhana via sort
+        const minHeap: [number, string][] = [[0, start]]
+        const visitedNodes = new Set<string>()
+        const lowestCostTo: Record<string, number> = { [start]: 0 }
 
-    while (minHeap.length > 0) {
-      minHeap.sort((a, b) => a[0] - b[0]);
-      const [currentCost, currentNode] = minHeap.shift()!;
+        while (minHeap.length > 0) {
+            minHeap.sort((a, b) => a[0] - b[0])
+            const [currentCost, currentNode] = minHeap.shift()!
 
-      if (visitedNodes.has(currentNode)) continue;
-      visitedNodes.add(currentNode);
+            if (visitedNodes.has(currentNode)) continue
+            visitedNodes.add(currentNode)
 
-      if (currentNode === end) return currentCost;
+            if (currentNode === end) return currentCost
 
-      for (const [neighbor, edgeCost] of graph[currentNode] ?? []) {
-        if (visitedNodes.has(neighbor)) continue;
+            for (const [neighbor, edgeCost] of graph[currentNode] ?? []) {
+                if (visitedNodes.has(neighbor)) continue
 
-        const totalCost = currentCost + edgeCost;
-        const knownCost = lowestCostTo[neighbor] ?? Infinity;
+                const totalCost = currentCost + edgeCost
+                const knownCost = lowestCostTo[neighbor] ?? Infinity
 
-        if (totalCost < knownCost) {
-          lowestCostTo[neighbor] = totalCost;
-          minHeap.push([totalCost, neighbor]);
+                if (totalCost < knownCost) {
+                    lowestCostTo[neighbor] = totalCost
+                    minHeap.push([totalCost, neighbor])
+                }
+            }
         }
-      }
-    }
 
-    return -1; // end tidak dapat dijangkau
-  }
+        return -1 // end tidak dapat dijangkau
+    }
 }

@@ -11,24 +11,24 @@ Urutan huruf asli boleh berbeda.
 
 1. Urutkan huruf setiap kata untuk membuat kuncinya:
 
-   ```text
-   "eat" -> "aet"
-   "tea" -> "aet"
-   "tan" -> "ant"
-   ```
+    ```text
+    "eat" -> "aet"
+    "tea" -> "aet"
+    "tan" -> "ant"
+    ```
 
 2. Gunakan kunci itu untuk mencari kelompok di `anagramMap`.
 3. Jika kunci belum ada, buat kelompok baru dan masukkan kata asli:
 
-   ```text
-   "eat" -> anagramMap["aet"] = ["eat"]
-   ```
+    ```text
+    "eat" -> anagramMap["aet"] = ["eat"]
+    ```
 
 4. Jika kunci sudah ada, tambahkan kata asli ke kelompok itu:
 
-   ```text
-   "tea" -> anagramMap["aet"] = ["eat", "tea"]
-   ```
+    ```text
+    "tea" -> anagramMap["aet"] = ["eat", "tea"]
+    ```
 
 5. Ulangi sampai semua input diproses, lalu kembalikan map.
 

@@ -1,27 +1,43 @@
-// Data structure: a list of student names to search.
-const studentDatabases = ["John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Charlie Davis"]
+import { IStudentSearcher } from "./interfaces"
+
+/** Daftar nama siswa bawaan untuk demonstrasi. */
+export const DEFAULT_STUDENTS: string[] = [
+    "John Doe",
+    "Jane Smith",
+    "Alice Johnson",
+    "Bob Brown",
+    "Charlie Davis",
+]
 
 /**
- * Searches the student list for a name or partial name.
- * The comparison ignores letter case and trims whitespace from the search input.
+ * Student Searcher — mencari nama atau nama parsial dalam daftar siswa.
  *
- * @param studentName The full name or part of the name to find.
- * @returns A message indicating whether the student was found and, if so, the index.
+ * Perbandingan mengabaikan huruf besar/kecil dan spasi di sekitar
+ * masukan. Kompleksitas waktu O(n) karena setiap elemen diperiksa
+ * satu per satu.
+ *
+ * @example
+ * const searcher = new StudentSearcher();
+ * searcher.search("Alice"); // => "Student Alice found at index 2."
+ * searcher.search("Zoe");   // => "Student Zoe not found."
  */
-function searchStudent(studentName: string) {
-    // Check each student name in order until a match is found.
-    for (let i = 0; i < studentDatabases.length; i++) {
-        // Normalize the strings before checking whether the name contains the query.
-        if (studentDatabases[i].toLowerCase().includes(studentName.toLowerCase().trim())) {
-            return `Student ${studentName} found at index ${i}.`
-        }
+export class StudentSearcher implements IStudentSearcher {
+    /** Daftar siswa yang diperiksa; dapat disuntikkan lewat konstruktor. */
+    private readonly students: string[]
+
+    constructor(students: string[] = DEFAULT_STUDENTS) {
+        this.students = students
     }
 
-    // No match was found after checking the entire list.
-    return `Student ${studentName} not found.`
-}
+    search(studentName: string): string {
+        const query = studentName.toLowerCase().trim()
 
-// Example calls: partial names can match a full name, while unknown names return not found.
-console.log(searchStudent("Alice")) // Student Alice Johnson found at index 2.
-console.log(searchStudent("John")) // Student John Doe found at index 0.
-console.log(searchStudent("Zoe")) // Student Zoe not found.
+        for (let i = 0; i < this.students.length; i++) {
+            if (this.students[i].toLowerCase().includes(query)) {
+                return `Student ${studentName} found at index ${i}.`
+            }
+        }
+
+        return `Student ${studentName} not found.`
+    }
+}

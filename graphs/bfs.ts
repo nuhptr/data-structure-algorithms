@@ -1,4 +1,4 @@
-import { AdjacencyList, IGraphTraversal } from "./interfaces";
+import { AdjacencyList, IGraphTraversal } from "./interfaces"
 
 /**
  * Breadth-First Search (BFS) — menelusuri graf level per level
@@ -14,24 +14,24 @@ import { AdjacencyList, IGraphTraversal } from "./interfaces";
  * bfs.traverse(graph, "A"); // => Set { "A", "B", "C", "D" }
  */
 export class BFS implements IGraphTraversal {
-  traverse(graph: AdjacencyList, startNode: string): Set<string> {
-    const visitedNodes = new Set<string>();
-    const queue: string[] = [startNode];
+    traverse(graph: AdjacencyList, startNode: string): Set<string> {
+        const visitedNodes = new Set<string>()
+        const queue: string[] = [startNode]
 
-    visitedNodes.add(startNode);
+        visitedNodes.add(startNode)
 
-    while (queue.length > 0) {
-      const currentNode = queue.shift()!;
-      const neighbors = (graph[currentNode] ?? []) as string[];
+        while (queue.length > 0) {
+            const currentNode = queue.shift()!
+            const neighbors = (graph[currentNode] ?? []) as string[]
 
-      for (const neighbor of neighbors) {
-        if (!visitedNodes.has(neighbor)) {
-          visitedNodes.add(neighbor);
-          queue.push(neighbor);
+            for (const neighbor of neighbors) {
+                if (!visitedNodes.has(neighbor)) {
+                    visitedNodes.add(neighbor)
+                    queue.push(neighbor)
+                }
+            }
         }
-      }
-    }
 
-    return visitedNodes;
-  }
+        return visitedNodes
+    }
 }

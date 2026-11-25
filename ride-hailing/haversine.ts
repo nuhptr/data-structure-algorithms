@@ -1,4 +1,4 @@
-import { GeoCoordinate, IHaversine } from "./interfaces";
+import { GeoCoordinate, IHaversine } from "./interfaces"
 
 /**
  * Haversine Formula — menghitung jarak sebenarnya antara dua titik koordinat
@@ -20,52 +20,52 @@ import { GeoCoordinate, IHaversine } from "./interfaces";
  * ); // => ~120 km
  */
 export class Haversine implements IHaversine {
-  private readonly EARTH_RADIUS_KM = 6371;
+    private readonly EARTH_RADIUS_KM = 6371
 
-  distanceKm(pointA: GeoCoordinate, pointB: GeoCoordinate): number {
-    return this.calculate(pointA, pointB);
-  }
-
-  distanceM(pointA: GeoCoordinate, pointB: GeoCoordinate): number {
-    return this.calculate(pointA, pointB) * 1000;
-  }
-
-  /**
-   * Mencari titik terdekat dari sekumpulan koordinat ke titik asal.
-   */
-  nearestPoint(origin: GeoCoordinate, points: GeoCoordinate[]): GeoCoordinate | null {
-    if (points.length === 0) return null;
-
-    let nearestCoordinate = points[0];
-    let shortestDistance = this.distanceKm(origin, points[0]);
-
-    for (let index = 1; index < points.length; index++) {
-      const currentDistance = this.distanceKm(origin, points[index]);
-      if (currentDistance < shortestDistance) {
-        shortestDistance = currentDistance;
-        nearestCoordinate = points[index];
-      }
+    distanceKm(pointA: GeoCoordinate, pointB: GeoCoordinate): number {
+        return this.calculate(pointA, pointB)
     }
 
-    return nearestCoordinate;
-  }
+    distanceM(pointA: GeoCoordinate, pointB: GeoCoordinate): number {
+        return this.calculate(pointA, pointB) * 1000
+    }
 
-  private calculate(pointA: GeoCoordinate, pointB: GeoCoordinate): number {
-    const latA = this.toRadians(pointA.latitude);
-    const latB = this.toRadians(pointB.latitude);
-    const deltaLat = this.toRadians(pointB.latitude - pointA.latitude);
-    const deltaLon = this.toRadians(pointB.longitude - pointA.longitude);
+    /**
+     * Mencari titik terdekat dari sekumpulan koordinat ke titik asal.
+     */
+    nearestPoint(origin: GeoCoordinate, points: GeoCoordinate[]): GeoCoordinate | null {
+        if (points.length === 0) return null
 
-    const a =
-      Math.sin(deltaLat / 2) ** 2 +
-      Math.cos(latA) * Math.cos(latB) * Math.sin(deltaLon / 2) ** 2;
+        let nearestCoordinate = points[0]
+        let shortestDistance = this.distanceKm(origin, points[0])
 
-    const centralAngle = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        for (let index = 1; index < points.length; index++) {
+            const currentDistance = this.distanceKm(origin, points[index])
+            if (currentDistance < shortestDistance) {
+                shortestDistance = currentDistance
+                nearestCoordinate = points[index]
+            }
+        }
 
-    return this.EARTH_RADIUS_KM * centralAngle;
-  }
+        return nearestCoordinate
+    }
 
-  private toRadians(degrees: number): number {
-    return degrees * (Math.PI / 180);
-  }
+    private calculate(pointA: GeoCoordinate, pointB: GeoCoordinate): number {
+        const latA = this.toRadians(pointA.latitude)
+        const latB = this.toRadians(pointB.latitude)
+        const deltaLat = this.toRadians(pointB.latitude - pointA.latitude)
+        const deltaLon = this.toRadians(pointB.longitude - pointA.longitude)
+
+        const a =
+            Math.sin(deltaLat / 2) ** 2 +
+            Math.cos(latA) * Math.cos(latB) * Math.sin(deltaLon / 2) ** 2
+
+        const centralAngle = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+        return this.EARTH_RADIUS_KM * centralAngle
+    }
+
+    private toRadians(degrees: number): number {
+        return degrees * (Math.PI / 180)
+    }
 }
