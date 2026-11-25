@@ -1,4 +1,4 @@
-import { AdjacencyList, IGraphTraversal } from "./interfaces";
+import { AdjacencyList, IGraphTraversal } from "./interfaces"
 
 /**
  * Depth-First Search (DFS) iteratif — menelusuri graf sedalam mungkin
@@ -13,23 +13,23 @@ import { AdjacencyList, IGraphTraversal } from "./interfaces";
  * dfs.traverse(graph, "A"); // => Set { "A", "B", "C", "D", "E", "F" }
  */
 export class DFS implements IGraphTraversal {
-  traverse(graph: AdjacencyList, startNode: string): Set<string> {
-    const visitedNodes = new Set<string>([startNode]);
-    const stack: string[] = [startNode];
+    traverse(graph: AdjacencyList, startNode: string): Set<string> {
+        const visitedNodes = new Set<string>([startNode])
+        const stack: string[] = [startNode]
 
-    while (stack.length > 0) {
-      const currentNode = stack.pop()!;
-      visitedNodes.add(currentNode);
+        while (stack.length > 0) {
+            const currentNode = stack.pop()!
+            visitedNodes.add(currentNode)
 
-      const neighbors = ([...(graph[currentNode] ?? [])] as string[]).reverse();
+            const neighbors = ([...(graph[currentNode] ?? [])] as string[]).reverse()
 
-      for (const neighbor of neighbors) {
-        if (!visitedNodes.has(neighbor)) {
-          stack.push(neighbor);
+            for (const neighbor of neighbors) {
+                if (!visitedNodes.has(neighbor)) {
+                    stack.push(neighbor)
+                }
+            }
         }
-      }
-    }
 
-    return visitedNodes;
-  }
+        return visitedNodes
+    }
 }

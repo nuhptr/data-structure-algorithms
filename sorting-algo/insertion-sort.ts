@@ -1,43 +1,32 @@
-/**
- * Mengurutkan elemen array secara menaik menggunakan insertion sort.
- *
- * Array diubah langsung (in-place), lalu referensi array yang sama dikembalikan.
- *
- * @param arr Array yang akan diurutkan.
- * @returns Array yang sama setelah elemen-elemennya diurutkan secara menaik.
- */
-const insertionSort = <T>(arr: T[]) => {
-    /** Mulai dari elemen kedua; bagian sebelum currentIndex sudah terurut. */
-    for (let currentIndex = 1; currentIndex < arr.length; currentIndex++) {
-        /** Simpan elemen yang sedang disisipkan agar tidak tertimpa saat menggeser. */
-        let currentValue = arr[currentIndex] // 2, 4, 6, 1, 3
-        /** Mulai membandingkan dari elemen tepat di sebelah kiri currentValue. */
-        let previousIndex = currentIndex - 1 // 5
+import { ISortAlgorithm } from "./interfaces"
 
-        /**
-         * Selama belum melewati awal array dan elemen sebelumnya lebih besar,
-         * geser elemen itu ke kanan untuk membuka tempat bagi currentValue.
-         */
-        while (previousIndex >= 0 && arr[previousIndex] > currentValue) {
-            /** Geser elemen yang lebih besar satu posisi ke kanan. */
-            arr[previousIndex + 1] = arr[previousIndex]
-            /** Periksa elemen berikutnya ke arah kiri. */
-            previousIndex--
+/**
+ * Insertion Sort — menyisipkan setiap elemen ke posisi yang tepat
+ * pada bagian array yang sudah terurut.
+ *
+ * Kompleksitas Waktu : O(n²)
+ * Kompleksitas Ruang : O(1) — in-place pada salinan array
+ *
+ * @example
+ * const sorter = new InsertionSort();
+ * sorter.sort([5, 2, 4, 6, 1, 3]); // => [1, 2, 3, 4, 5, 6]
+ */
+export class InsertionSort implements ISortAlgorithm {
+    sort(array: number[]): number[] {
+        const sorted = [...array]
+
+        for (let currentIndex = 1; currentIndex < sorted.length; currentIndex++) {
+            const currentValue = sorted[currentIndex]
+            let previousIndex = currentIndex - 1
+
+            while (previousIndex >= 0 && sorted[previousIndex] > currentValue) {
+                sorted[previousIndex + 1] = sorted[previousIndex]
+                previousIndex--
+            }
+
+            sorted[previousIndex + 1] = currentValue
         }
 
-        /** Sisipkan currentValue pada posisi kosong yang sudah ditemukan. */
-        arr[previousIndex + 1] = currentValue
+        return sorted
     }
-
-    /** Kembalikan array yang sama setelah seluruh elemen selesai disisipkan. */
-    return arr
 }
-
-/** Contoh array masukan sebelum diurutkan. */
-const unsortedArray = [5, 2, 4, 6, 1, 3]
-
-/** Hasil pengurutan; `unsortedArray` juga berubah karena diurutkan in-place. */
-const sortedArray = insertionSort(unsortedArray)
-
-/** Tampilkan array yang sudah terurut. */
-console.log(sortedArray)

@@ -1,1 +1,1 @@
-export * from "./deque";
+export * from "./deque"

@@ -1,29 +1,35 @@
-/** Cetak hitung mundur dengan memanggil fungsi kembali untuk angka berikutnya. */
-const countDown = (number: number) => {
-    /** Kondisi dasar menghentikan rekursi saat hitungan mencapai nol. */
+/**
+ * Hitung mundur dengan rekursi — menampilkan setiap angka dari
+ * nilai awal hingga kondisi dasar 0.
+ *
+ * Logger dapat disuntikkan untuk keperluan pengujian.
+ *
+ * @param number Angka awal hitung mundur.
+ * @param onLog  Fungsi penerima setiap pesan yang dicetak.
+ */
+export function countDown(
+    number: number,
+    onLog: (message: string | number) => void = console.log,
+): void {
     if (number === 0) {
-        /** Tampilkan pesan terakhir sebelum fungsi berhenti. */
-        console.log("And finally the stopping point! 🥂")
+        onLog("And finally the stopping point!")
         return
     }
 
-    /** Tampilkan angka saat ini sebelum melanjutkan hitung mundur. */
-    console.log(number)
-    /** Panggil fungsi dengan angka satu lebih kecil agar mendekati kondisi dasar. */
-    countDown(number - 1)
+    onLog(number)
+    countDown(number - 1, onLog)
 }
 
-/** Mulai hitung mundur dari angka 5. */
-countDown(5)
-
-/** Hitung faktorial dengan mengalikan angka saat ini dengan faktorial sebelumnya. */
-const factorial = (number: number): number => {
-    /** Faktorial 0 adalah 1 dan menjadi kondisi dasar rekursi. */
+/**
+ * Hitung faktorial dengan rekursi.
+ *
+ * Kompleksitas Waktu : O(n)
+ * Kompleksitas Ruang : O(n) — call stack
+ *
+ * @param number Bilangan non-negatif yang dihitung faktorialnya.
+ * @returns Hasil n! — factorial(5) = 120.
+ */
+export function factorial(number: number): number {
     if (number === 0) return 1
-
-    /** Kurangi angka setiap pemanggilan hingga mencapai kondisi dasar. */
     return number * factorial(number - 1)
 }
-
-/** Tampilkan hasil faktorial 5, yaitu 120. */
-console.log(factorial(5))

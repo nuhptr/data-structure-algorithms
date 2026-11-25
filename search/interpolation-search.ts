@@ -1,4 +1,4 @@
-import { IInterpolationSearch } from "./interfaces";
+import { IInterpolationSearch } from "./interfaces"
 
 /**
  * Interpolation Search — seperti binary search tetapi menghitung posisi probe
@@ -15,29 +15,25 @@ import { IInterpolationSearch } from "./interfaces";
  * searcher.search([10, 12, 13, 16, 18, 19, 20, 21, 22, 23, 24, 33], 25); // => -1
  */
 export class InterpolationSearch implements IInterpolationSearch {
-  search(array: number[], target: number): number {
-    let low = 0;
-    let high = array.length - 1;
+    search(array: number[], target: number): number {
+        let low = 0
+        let high = array.length - 1
 
-    while (
-      low <= high &&
-      target >= array[low] &&
-      target <= array[high]
-    ) {
-      if (low === high) {
-        return array[low] === target ? low : -1;
-      }
+        while (low <= high && target >= array[low] && target <= array[high]) {
+            if (low === high) {
+                return array[low] === target ? low : -1
+            }
 
-      // Formula interpolasi: estimasi posisi berdasarkan nilai
-      const range = array[high] - array[low];
-      const positionRatio = (target - array[low]) / range;
-      const probeIndex = low + Math.floor(positionRatio * (high - low));
+            // Formula interpolasi: estimasi posisi berdasarkan nilai
+            const range = array[high] - array[low]
+            const positionRatio = (target - array[low]) / range
+            const probeIndex = low + Math.floor(positionRatio * (high - low))
 
-      if (array[probeIndex] === target) return probeIndex;
-      if (array[probeIndex] < target) low = probeIndex + 1;
-      else high = probeIndex - 1;
+            if (array[probeIndex] === target) return probeIndex
+            if (array[probeIndex] < target) low = probeIndex + 1
+            else high = probeIndex - 1
+        }
+
+        return -1
     }
-
-    return -1;
-  }
 }

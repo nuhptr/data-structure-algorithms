@@ -1,14 +1,14 @@
-import { IDeque } from "../interfaces";
+import { IDeque } from "../interfaces"
 
 /**
  * Node untuk doubly linked list internal Deque.
  */
 class DequeNode<T> {
-  constructor(
-    public value: T,
-    public prev: DequeNode<T> | null = null,
-    public next: DequeNode<T> | null = null
-  ) {}
+    constructor(
+        public value: T,
+        public prev: DequeNode<T> | null = null,
+        public next: DequeNode<T> | null = null,
+    ) {}
 }
 
 /**
@@ -30,87 +30,87 @@ class DequeNode<T> {
  * deque.popBack();  // => 2
  */
 export class Deque<T> implements IDeque<T> {
-  private head: DequeNode<T> | null = null;
-  private tail: DequeNode<T> | null = null;
-  private count = 0;
+    private head: DequeNode<T> | null = null
+    private tail: DequeNode<T> | null = null
+    private count = 0
 
-  pushFront(value: T): void {
-    const newNode = new DequeNode(value);
+    pushFront(value: T): void {
+        const newNode = new DequeNode(value)
 
-    if (this.head === null) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      newNode.next = this.head;
-      this.head.prev = newNode;
-      this.head = newNode;
+        if (this.head === null) {
+            this.head = newNode
+            this.tail = newNode
+        } else {
+            newNode.next = this.head
+            this.head.prev = newNode
+            this.head = newNode
+        }
+
+        this.count++
     }
 
-    this.count++;
-  }
+    pushBack(value: T): void {
+        const newNode = new DequeNode(value)
 
-  pushBack(value: T): void {
-    const newNode = new DequeNode(value);
+        if (this.tail === null) {
+            this.head = newNode
+            this.tail = newNode
+        } else {
+            newNode.prev = this.tail
+            this.tail.next = newNode
+            this.tail = newNode
+        }
 
-    if (this.tail === null) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      newNode.prev = this.tail;
-      this.tail.next = newNode;
-      this.tail = newNode;
+        this.count++
     }
 
-    this.count++;
-  }
+    popFront(): T {
+        if (this.head === null) throw new Error("Deque kosong")
 
-  popFront(): T {
-    if (this.head === null) throw new Error("Deque kosong");
+        const value = this.head.value
+        this.head = this.head.next
 
-    const value = this.head.value;
-    this.head = this.head.next;
+        if (this.head === null) {
+            this.tail = null
+        } else {
+            this.head.prev = null
+        }
 
-    if (this.head === null) {
-      this.tail = null;
-    } else {
-      this.head.prev = null;
+        this.count--
+        return value
     }
 
-    this.count--;
-    return value;
-  }
+    popBack(): T {
+        if (this.tail === null) throw new Error("Deque kosong")
 
-  popBack(): T {
-    if (this.tail === null) throw new Error("Deque kosong");
+        const value = this.tail.value
+        this.tail = this.tail.prev
 
-    const value = this.tail.value;
-    this.tail = this.tail.prev;
+        if (this.tail === null) {
+            this.head = null
+        } else {
+            this.tail.next = null
+        }
 
-    if (this.tail === null) {
-      this.head = null;
-    } else {
-      this.tail.next = null;
+        this.count--
+        return value
     }
 
-    this.count--;
-    return value;
-  }
+    peekFront(): T {
+        if (this.head === null) throw new Error("Deque kosong")
+        return this.head.value
+    }
 
-  peekFront(): T {
-    if (this.head === null) throw new Error("Deque kosong");
-    return this.head.value;
-  }
+    peekBack(): T {
+        if (this.tail === null) throw new Error("Deque kosong")
+        return this.tail.value
+    }
 
-  peekBack(): T {
-    if (this.tail === null) throw new Error("Deque kosong");
-    return this.tail.value;
-  }
+    size(): number {
+        return this.count
+    }
 
-  size(): number {
-    return this.count;
-  }
-
-  isEmpty(): boolean {
-    return this.count === 0;
-  }
+    isEmpty(): boolean {
+        return this.count === 0
+    }
 }

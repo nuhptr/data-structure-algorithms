@@ -1,2 +1,2 @@
-export * from "./interfaces";
-export * from "./heap";
+export * from "./interfaces"
+export * from "./heap"

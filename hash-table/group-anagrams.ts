@@ -1,43 +1,32 @@
+import { IAnagramGrouper } from "./interfaces"
+
 /**
- * Mengelompokkan string berdasarkan karakter yang sudah diurutkan.
- * Mengembalikan objek dengan kunci karakter terurut dan nilai berupa kelompok
- * string yang memiliki kunci tersebut.
+ * Group Anagrams — mengelompokkan string berdasarkan karakter yang
+ * sama tanpa memperhatikan urutan hurufnya.
  *
- * Contohnya, "eat", "tea", dan "ate" memiliki kunci "aet", sehingga berada
- * dalam satu kelompok. Urutan kunci mengikuti kemunculan pertamanya, sedangkan
- * urutan string di dalam kelompok mengikuti urutan input.
+ * Setiap string diurutkan ulang menjadi kunci; string dengan kunci
+ * yang sama berada dalam satu kelompok.
  *
- * @typeParam T Jenis string yang digunakan pada daftar input.
- * @param arrStrings Daftar string yang akan dikelompokkan; array kosong menghasilkan objek kosong.
- * @returns Map dengan kunci karakter terurut dan kelompok string sebagai nilainya.
+ * Kompleksitas Waktu : O(n × k log k) — n string, k panjang string
+ * Kompleksitas Ruang : O(n × k)
+ *
+ * @example
+ * const grouper = new GroupAnagrams();
+ * grouper.group(["eat", "tea", "tan", "ate", "nat", "bat"]);
+ * // => { aet: ["eat", "tea", "ate"], ant: ["tan", "nat"], abt: ["bat"] }
  */
-const groupAnagrams = <T extends string>(arrStrings: T[]) => {
-    const anagramMap: Record<string, T[]> = {}
+export class GroupAnagrams implements IAnagramGrouper {
+    group(strings: string[]): Record<string, string[]> {
+        const anagramMap: Record<string, string[]> = {}
 
-    for (const str of arrStrings) {
-        // Urutkan huruf agar anagram yang berbeda urutan memiliki kunci yang sama.
-        const sortedStr = str.split("").sort().join("")
-        console.log(sortedStr)
+        for (const str of strings) {
+            // Urutkan huruf agar anagram yang berbeda urutan memiliki kunci yang sama.
+            const sortedKey = str.split("").sort().join("")
 
-        // Tambahkan kata ke kelompok yang sudah ada atau buat kelompok baru.
-        if (sortedStr in anagramMap) anagramMap[sortedStr].push(str)
-        else anagramMap[sortedStr] = [str]
+            if (sortedKey in anagramMap) anagramMap[sortedKey].push(str)
+            else anagramMap[sortedKey] = [str]
+        }
+
+        return anagramMap
     }
-
-    return anagramMap
 }
-
-const strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
-// Mengelompokkan kata-kata dari array.
-const groupsValues = groupAnagrams(Object.values(strs))
-// Object.keys pada array menghasilkan indeks string, bukan isi kata.
-const groupsKey = groupAnagrams(Object.keys(strs))
-
-// Hasil console.log(groupsValues):
-// { aet: ["eat", "tea", "ate"], ant: ["tan", "nat"], abt: ["bat"] }
-console.log(groupsValues)
-// Separator antara hasil pengelompokan kata dan hasil pengelompokan indeks.
-console.log("==========")
-// Hasil console.log(groupsKey):
-// { "0": ["0"], "1": ["1"], "2": ["2"], "3": ["3"], "4": ["4"], "5": ["5"] }
-console.log(groupsKey)

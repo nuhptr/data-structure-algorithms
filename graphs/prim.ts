@@ -1,4 +1,4 @@
-import { WeightedAdjacencyList, IMinimumSpanningTree, WeightedEdge } from "./interfaces";
+import { WeightedAdjacencyList, IMinimumSpanningTree, WeightedEdge } from "./interfaces"
 
 /**
  * Prim's Algorithm — membangun Minimum Spanning Tree (MST)
@@ -21,43 +21,43 @@ import { WeightedAdjacencyList, IMinimumSpanningTree, WeightedEdge } from "./int
  * prim.build(6, []); // edges diabaikan, gunakan fromGraph()
  */
 export class Prim {
-  /**
-   * Membangun MST dari weighted adjacency list.
-   * @param graph  - Graf berbobot sebagai adjacency list
-   * @param start  - Node awal (default "0")
-   * @returns Daftar edge [dari, ke] yang membentuk MST
-   */
-  fromGraph(
-    graph: WeightedAdjacencyList,
-    start: string = Object.keys(graph)[0]
-  ): [string, string][] {
-    const inMST = new Set<string>();
-    const mstEdges: [string, string][] = [];
+    /**
+     * Membangun MST dari weighted adjacency list.
+     * @param graph  - Graf berbobot sebagai adjacency list
+     * @param start  - Node awal (default "0")
+     * @returns Daftar edge [dari, ke] yang membentuk MST
+     */
+    fromGraph(
+        graph: WeightedAdjacencyList,
+        start: string = Object.keys(graph)[0],
+    ): [string, string][] {
+        const inMST = new Set<string>()
+        const mstEdges: [string, string][] = []
 
-    // [bobot, dari, ke] — min-heap sederhana
-    const edgeHeap: [number, string, string][] = [];
+        // [bobot, dari, ke] — min-heap sederhana
+        const edgeHeap: [number, string, string][] = []
 
-    const addEdgesFrom = (node: string): void => {
-      inMST.add(node);
-      for (const [neighbor, weight] of graph[node] ?? []) {
-        if (!inMST.has(neighbor)) {
-          edgeHeap.push([weight, node, neighbor]);
+        const addEdgesFrom = (node: string): void => {
+            inMST.add(node)
+            for (const [neighbor, weight] of graph[node] ?? []) {
+                if (!inMST.has(neighbor)) {
+                    edgeHeap.push([weight, node, neighbor])
+                }
+            }
+            edgeHeap.sort((a, b) => a[0] - b[0])
         }
-      }
-      edgeHeap.sort((a, b) => a[0] - b[0]);
-    };
 
-    addEdgesFrom(start);
+        addEdgesFrom(start)
 
-    while (edgeHeap.length > 0) {
-      const [, fromNode, toNode] = edgeHeap.shift()!;
+        while (edgeHeap.length > 0) {
+            const [, fromNode, toNode] = edgeHeap.shift()!
 
-      if (inMST.has(toNode)) continue;
+            if (inMST.has(toNode)) continue
 
-      mstEdges.push([fromNode, toNode]);
-      addEdgesFrom(toNode);
+            mstEdges.push([fromNode, toNode])
+            addEdgesFrom(toNode)
+        }
+
+        return mstEdges
     }
-
-    return mstEdges;
-  }
 }

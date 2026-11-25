@@ -1,4 +1,4 @@
-import { Document, SearchResult, IInvertedIndex } from "./interfaces";
+import { Document, SearchResult, IInvertedIndex } from "./interfaces"
 
 /**
  * Inverted Index — pondasi dari setiap search engine.
@@ -19,45 +19,45 @@ import { Document, SearchResult, IInvertedIndex } from "./interfaces";
  * // => [{ documentId: "P1", score: 2 }, { documentId: "P2", score: 1 }]
  */
 export class InvertedIndex implements IInvertedIndex {
-  // kata → Set document ID yang mengandung kata tersebut
-  private postingList: Map<string, Set<string>> = new Map();
-  private documentStore: Map<string, Document> = new Map();
+    // kata → Set document ID yang mengandung kata tersebut
+    private postingList: Map<string, Set<string>> = new Map()
+    private documentStore: Map<string, Document> = new Map()
 
-  addDocument(doc: Document): void {
-    this.documentStore.set(doc.id, doc);
-    const tokens = this.tokenize(doc.content);
+    addDocument(doc: Document): void {
+        this.documentStore.set(doc.id, doc)
+        const tokens = this.tokenize(doc.content)
 
-    for (const token of tokens) {
-      if (!this.postingList.has(token)) {
-        this.postingList.set(token, new Set());
-      }
-      this.postingList.get(token)!.add(doc.id);
-    }
-  }
-
-  search(query: string): SearchResult[] {
-    const queryTokens = this.tokenize(query);
-    const scoreMap = new Map<string, number>();
-
-    for (const token of queryTokens) {
-      const matchingDocIds = this.postingList.get(token);
-      if (!matchingDocIds) continue;
-
-      for (const docId of matchingDocIds) {
-        scoreMap.set(docId, (scoreMap.get(docId) ?? 0) + 1);
-      }
+        for (const token of tokens) {
+            if (!this.postingList.has(token)) {
+                this.postingList.set(token, new Set())
+            }
+            this.postingList.get(token)!.add(doc.id)
+        }
     }
 
-    return [...scoreMap.entries()]
-      .map(([documentId, score]) => ({ documentId, score }))
-      .sort((a, b) => b.score - a.score);
-  }
+    search(query: string): SearchResult[] {
+        const queryTokens = this.tokenize(query)
+        const scoreMap = new Map<string, number>()
 
-  private tokenize(text: string): string[] {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "")
-      .split(/\s+/)
-      .filter((token) => token.length > 0);
-  }
+        for (const token of queryTokens) {
+            const matchingDocIds = this.postingList.get(token)
+            if (!matchingDocIds) continue
+
+            for (const docId of matchingDocIds) {
+                scoreMap.set(docId, (scoreMap.get(docId) ?? 0) + 1)
+            }
+        }
+
+        return [...scoreMap.entries()]
+            .map(([documentId, score]) => ({ documentId, score }))
+            .sort((a, b) => b.score - a.score)
+    }
+
+    private tokenize(text: string): string[] {
+        return text
+            .toLowerCase()
+            .replace(/[^a-z0-9\s]/g, "")
+            .split(/\s+/)
+            .filter((token) => token.length > 0)
+    }
 }

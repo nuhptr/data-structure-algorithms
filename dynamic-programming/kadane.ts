@@ -1,4 +1,4 @@
-import { IMaxSubarraySolver } from "./interfaces";
+import { IMaxSubarraySolver } from "./interfaces"
 
 /**
  * Kadane's Algorithm — mencari jumlah subarray kontinu terbesar
@@ -14,17 +14,17 @@ import { IMaxSubarraySolver } from "./interfaces";
  * solver.solve([-2, -3, -1, -4], true);           // => 0  (izinkan subarray kosong)
  */
 export class KadaneSolver implements IMaxSubarraySolver {
-  solve(array: number[], allowEmpty: boolean = false): number {
-    if (array.length === 0) return 0;
+    solve(array: number[], allowEmpty: boolean = false): number {
+        if (array.length === 0) return 0
 
-    let maxSum = allowEmpty ? 0 : -Infinity;
-    let currentSum = 0;
+        let maxSum = allowEmpty ? 0 : -Infinity
+        let currentSum = 0
 
-    for (const value of array) {
-      currentSum = Math.max(allowEmpty ? 0 : value, currentSum + value);
-      maxSum = Math.max(maxSum, currentSum);
+        for (const value of array) {
+            currentSum = Math.max(allowEmpty ? 0 : value, currentSum + value)
+            maxSum = Math.max(maxSum, currentSum)
+        }
+
+        return maxSum
     }
-
-    return maxSum;
-  }
 }

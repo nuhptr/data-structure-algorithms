@@ -1,4 +1,4 @@
-import { ITopologicalSort } from "./interfaces";
+import { ITopologicalSort } from "./interfaces"
 
 /**
  * Topological Sort (Kahn's Algorithm / BFS-based) — mengurutkan vertex
@@ -14,40 +14,40 @@ import { ITopologicalSort } from "./interfaces";
  * sorter.sort(graph); // => [0, 1, 2, 3, 4, 5]
  */
 export class TopologicalSort implements ITopologicalSort {
-  sort(graph: Record<number, number[]>): number[] | null {
-    const inDegree: Record<number, number> = {};
+    sort(graph: Record<number, number[]>): number[] | null {
+        const inDegree: Record<number, number> = {}
 
-    // Inisialisasi semua node dengan indegree 0
-    for (const node of Object.keys(graph).map(Number)) {
-      if (inDegree[node] === undefined) inDegree[node] = 0;
+        // Inisialisasi semua node dengan indegree 0
+        for (const node of Object.keys(graph).map(Number)) {
+            if (inDegree[node] === undefined) inDegree[node] = 0
 
-      for (const neighbor of graph[node]) {
-        inDegree[neighbor] = (inDegree[neighbor] ?? 0) + 1;
-      }
-    }
-
-    // Mulai dengan semua node yang tidak memiliki ketergantungan masuk
-    const queue: number[] = Object.keys(inDegree)
-      .map(Number)
-      .filter((node) => inDegree[node] === 0);
-
-    const sortedOrder: number[] = [];
-
-    while (queue.length > 0) {
-      const currentNode = queue.shift()!;
-      sortedOrder.push(currentNode);
-
-      for (const neighbor of graph[currentNode] ?? []) {
-        inDegree[neighbor]--;
-        if (inDegree[neighbor] === 0) {
-          queue.push(neighbor);
+            for (const neighbor of graph[node]) {
+                inDegree[neighbor] = (inDegree[neighbor] ?? 0) + 1
+            }
         }
-      }
+
+        // Mulai dengan semua node yang tidak memiliki ketergantungan masuk
+        const queue: number[] = Object.keys(inDegree)
+            .map(Number)
+            .filter((node) => inDegree[node] === 0)
+
+        const sortedOrder: number[] = []
+
+        while (queue.length > 0) {
+            const currentNode = queue.shift()!
+            sortedOrder.push(currentNode)
+
+            for (const neighbor of graph[currentNode] ?? []) {
+                inDegree[neighbor]--
+                if (inDegree[neighbor] === 0) {
+                    queue.push(neighbor)
+                }
+            }
+        }
+
+        const totalNodes = Object.keys(graph).length
+        const hasCycle = sortedOrder.length !== totalNodes
+
+        return hasCycle ? null : sortedOrder
     }
-
-    const totalNodes = Object.keys(graph).length;
-    const hasCycle = sortedOrder.length !== totalNodes;
-
-    return hasCycle ? null : sortedOrder;
-  }
 }

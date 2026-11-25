@@ -1,2 +1,2 @@
-export * from "./interfaces";
-export * from "./fenwick-tree";
+export * from "./interfaces"
+export * from "./fenwick-tree"

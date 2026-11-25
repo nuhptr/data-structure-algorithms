@@ -1,2 +1,2 @@
-export * from "./interfaces";
-export * from "./segment-tree";
+export * from "./interfaces"
+export * from "./segment-tree"

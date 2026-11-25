@@ -1,1 +1,1 @@
-export * from "./monotonic";
+export * from "./monotonic"

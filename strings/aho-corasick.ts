@@ -1,12 +1,12 @@
-import { IAhoCorasick } from "./interfaces";
+import { IAhoCorasick } from "./interfaces"
 
 /**
  * Node dalam Trie Aho-Corasick.
  */
 class AhoCorasickNode {
-  children: Map<string, AhoCorasickNode> = new Map();
-  failureLink: AhoCorasickNode | null = null;
-  outputPatterns: string[] = [];
+    children: Map<string, AhoCorasickNode> = new Map()
+    failureLink: AhoCorasickNode | null = null
+    outputPatterns: string[] = []
 }
 
 /**
@@ -25,92 +25,92 @@ class AhoCorasickNode {
  * // Map { "she" => [1], "he" => [2], "hers" => [2] }
  */
 export class AhoCorasick implements IAhoCorasick {
-  private root: AhoCorasickNode = new AhoCorasickNode();
-  private isBuilt = false;
+    private root: AhoCorasickNode = new AhoCorasickNode()
+    private isBuilt = false
 
-  addPattern(pattern: string): this {
-    if (this.isBuilt) {
-      throw new Error("Tidak bisa menambah pattern setelah build() dipanggil");
-    }
-
-    let currentNode = this.root;
-
-    for (const char of pattern) {
-      if (!currentNode.children.has(char)) {
-        currentNode.children.set(char, new AhoCorasickNode());
-      }
-      currentNode = currentNode.children.get(char)!;
-    }
-
-    currentNode.outputPatterns.push(pattern);
-    return this;
-  }
-
-  build(): this {
-    // BFS untuk membangun failure links
-    const queue: AhoCorasickNode[] = [];
-
-    // Level 1: failure link semua anak root → root
-    for (const child of this.root.children.values()) {
-      child.failureLink = this.root;
-      queue.push(child);
-    }
-
-    while (queue.length > 0) {
-      const currentNode = queue.shift()!;
-
-      for (const [char, childNode] of currentNode.children) {
-        // Cari failure link untuk anak ini
-        let failureNode = currentNode.failureLink;
-
-        while (failureNode !== null && !failureNode.children.has(char)) {
-          failureNode = failureNode.failureLink;
+    addPattern(pattern: string): this {
+        if (this.isBuilt) {
+            throw new Error("Tidak bisa menambah pattern setelah build() dipanggil")
         }
 
-        childNode.failureLink = failureNode?.children.get(char) ?? this.root;
+        let currentNode = this.root
 
-        // Gabungkan output dari failure link (suffix patterns)
-        childNode.outputPatterns = [
-          ...childNode.outputPatterns,
-          ...(childNode.failureLink?.outputPatterns ?? []),
-        ];
+        for (const char of pattern) {
+            if (!currentNode.children.has(char)) {
+                currentNode.children.set(char, new AhoCorasickNode())
+            }
+            currentNode = currentNode.children.get(char)!
+        }
 
-        queue.push(childNode);
-      }
+        currentNode.outputPatterns.push(pattern)
+        return this
     }
 
-    this.isBuilt = true;
-    return this;
-  }
+    build(): this {
+        // BFS untuk membangun failure links
+        const queue: AhoCorasickNode[] = []
 
-  search(text: string): Map<string, number[]> {
-    if (!this.isBuilt) {
-      throw new Error("Panggil build() sebelum search()");
+        // Level 1: failure link semua anak root → root
+        for (const child of this.root.children.values()) {
+            child.failureLink = this.root
+            queue.push(child)
+        }
+
+        while (queue.length > 0) {
+            const currentNode = queue.shift()!
+
+            for (const [char, childNode] of currentNode.children) {
+                // Cari failure link untuk anak ini
+                let failureNode = currentNode.failureLink
+
+                while (failureNode !== null && !failureNode.children.has(char)) {
+                    failureNode = failureNode.failureLink
+                }
+
+                childNode.failureLink = failureNode?.children.get(char) ?? this.root
+
+                // Gabungkan output dari failure link (suffix patterns)
+                childNode.outputPatterns = [
+                    ...childNode.outputPatterns,
+                    ...(childNode.failureLink?.outputPatterns ?? []),
+                ]
+
+                queue.push(childNode)
+            }
+        }
+
+        this.isBuilt = true
+        return this
     }
 
-    const results = new Map<string, number[]>();
-    let currentNode = this.root;
+    search(text: string): Map<string, number[]> {
+        if (!this.isBuilt) {
+            throw new Error("Panggil build() sebelum search()")
+        }
 
-    for (let index = 0; index < text.length; index++) {
-      const char = text[index];
+        const results = new Map<string, number[]>()
+        let currentNode = this.root
 
-      // Ikuti failure links sampai menemukan transisi atau kembali ke root
-      while (currentNode !== this.root && !currentNode.children.has(char)) {
-        currentNode = currentNode.failureLink!;
-      }
+        for (let index = 0; index < text.length; index++) {
+            const char = text[index]
 
-      if (currentNode.children.has(char)) {
-        currentNode = currentNode.children.get(char)!;
-      }
+            // Ikuti failure links sampai menemukan transisi atau kembali ke root
+            while (currentNode !== this.root && !currentNode.children.has(char)) {
+                currentNode = currentNode.failureLink!
+            }
 
-      // Kumpulkan semua pattern yang cocok di posisi ini
-      for (const pattern of currentNode.outputPatterns) {
-        const startIndex = index - pattern.length + 1;
-        if (!results.has(pattern)) results.set(pattern, []);
-        results.get(pattern)!.push(startIndex);
-      }
+            if (currentNode.children.has(char)) {
+                currentNode = currentNode.children.get(char)!
+            }
+
+            // Kumpulkan semua pattern yang cocok di posisi ini
+            for (const pattern of currentNode.outputPatterns) {
+                const startIndex = index - pattern.length + 1
+                if (!results.has(pattern)) results.set(pattern, [])
+                results.get(pattern)!.push(startIndex)
+            }
+        }
+
+        return results
     }
-
-    return results;
-  }
 }

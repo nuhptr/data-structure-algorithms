@@ -1,4 +1,4 @@
-import { ITrie } from "./interfaces";
+import { ITrie } from "./interfaces"
 
 /**
  * Satu node di dalam Trie.
@@ -6,8 +6,8 @@ import { ITrie } from "./interfaces";
  * penanda apakah node ini merupakan akhir dari sebuah kata.
  */
 class TrieNode {
-  children: Record<string, TrieNode> = {};
-  isEndOfWord: boolean = false;
+    children: Record<string, TrieNode> = {}
+    isEndOfWord: boolean = false
 }
 
 /**
@@ -27,40 +27,40 @@ class TrieNode {
  * trie.find("banana");       // => false
  */
 export class Trie implements ITrie {
-  private root: TrieNode = new TrieNode();
+    private root: TrieNode = new TrieNode()
 
-  /**
-   * Menambahkan kata ke dalam Trie.
-   * Mengembalikan instance ini untuk memungkinkan method chaining.
-   */
-  add(word: string): this {
-    let currentNode = this.root;
+    /**
+     * Menambahkan kata ke dalam Trie.
+     * Mengembalikan instance ini untuk memungkinkan method chaining.
+     */
+    add(word: string): this {
+        let currentNode = this.root
 
-    for (const char of word) {
-      if (!currentNode.children[char]) {
-        currentNode.children[char] = new TrieNode();
-      }
-      currentNode = currentNode.children[char];
+        for (const char of word) {
+            if (!currentNode.children[char]) {
+                currentNode.children[char] = new TrieNode()
+            }
+            currentNode = currentNode.children[char]
+        }
+
+        currentNode.isEndOfWord = true
+        return this
     }
 
-    currentNode.isEndOfWord = true;
-    return this;
-  }
+    /**
+     * Mencari kata di dalam Trie.
+     *
+     * @param word        - Kata yang dicari
+     * @param prefixOnly  - Jika true, cukup mencocokkan prefix; default false (exact match)
+     */
+    find(word: string, prefixOnly: boolean = false): boolean {
+        let currentNode = this.root
 
-  /**
-   * Mencari kata di dalam Trie.
-   *
-   * @param word        - Kata yang dicari
-   * @param prefixOnly  - Jika true, cukup mencocokkan prefix; default false (exact match)
-   */
-  find(word: string, prefixOnly: boolean = false): boolean {
-    let currentNode = this.root;
+        for (const char of word) {
+            if (!currentNode.children[char]) return false
+            currentNode = currentNode.children[char]
+        }
 
-    for (const char of word) {
-      if (!currentNode.children[char]) return false;
-      currentNode = currentNode.children[char];
+        return prefixOnly || currentNode.isEndOfWord
     }
-
-    return prefixOnly || currentNode.isEndOfWord;
-  }
 }
