@@ -7,6 +7,15 @@ yang dapat dibaca dan dikembangkan sebagai latihan.
 Implementasi mengikuti prinsip **SOLID**: setiap kelas punya satu tanggung jawab,
 bergantung pada abstraksi (interface), dan terbuka untuk ekstensi tanpa modifikasi.
 
+Jalankan demo interaktif untuk semua topik:
+
+```bash
+npx tsx main.ts
+```
+
+Menu akan menampilkan daftar topik yang tersedia; pilih nomor atau nama topik untuk
+menjalankan contohnya, atau `q` untuk keluar.
+
 ## Tujuan Pembelajaran
 
 - Memahami cara kerja struktur data dan algoritma umum.
@@ -185,22 +194,32 @@ Traversal pohon 5 dengan anak kiri 3 dan kanan 8:
 - Semua implementasi baru mengikuti pola yang sama: interface (kontrak) →
   kelas implementasi → JSDoc + contoh + kompleksitas.
 - Barrel exports (`index.ts`) diperbarui di setiap folder.
+- **Refactor SOLID & demo runner**: seluruh kode bergaya skrip (fungsi +
+  `console.log` inline) diubah menjadi kelas yang `implements` interface
+  per-topik; ditambah `main.ts` sebagai entry point interaktif, `demo.ts`
+  per topik, dan formatting Prettier (`.prettierrc.json`).
 
 ## Struktur Proyek
 
 ```text
 .
-├── arrays/              # Array dasar, custom array, dan manipulasi string
+├── main.ts               # Entry point demo interaktif (npx tsx main.ts)
+├── demo-utils.ts         # Helper output demo (section/show)
+├── node-shims.d.ts       # Deklarasi minimal Node API untuk tsc --strict
+├── .prettierrc.json      # Konfigurasi Prettier
+├── arrays/               # Array dasar, custom array, dan manipulasi string
 ├── big-o/               # Contoh analisis kompleksitas
 ├── backtracking/        # Combinations, Parentheses, N-Queens, Permutations, Sudoku, Subset Sum, Word Search
 ├── bit-manipulation/    # Bit ops, XOR algorithms, Bitmask DP
 ├── data-structures/     # Heap, Trie, AVL, Disjoint Set, Fenwick/Segment Tree, LRU Cache, Deque, Monotonic
 ├── dynamic-programming/ # Fibonacci, Coin Change, LCS, Knapsack, Edit Distance, LIS, Kadane, Word Break, ...
+├── ecommerce/           # Kasus ecommerce: TF-IDF, cosine similarity, collaborative filtering, dst.
 ├── graphs/              # BFS, DFS, Dijkstra, Bellman-Ford, Floyd-Warshall, Kruskal, Prim, A*, Bidirectional BFS
 ├── greedy/              # Activity Selection, Fractional Knapsack, Huffman, Task Scheduler, Jump Game
 ├── hash-table/          # Hash table dan tantangan terkait
 ├── introduction/        # Materi pengantar
 ├── linked-list/         # Single dan double linked list
+├── ride-hailing/        # Kasus ride-hailing: Haversine, Quadtree, A*, Hungarian, dst.
 ├── search/              # Linear, Binary, Jump, Exponential, Interpolation, Ternary
 ├── sorting-algo/        # Bubble, Insertion, Selection, Merge, Quick, Heap, Counting, Radix, Shell, Tim
 ├── stack-and-queue/     # Stack, queue, dan tantangan
@@ -220,12 +239,17 @@ Traversal pohon 5 dengan anak kiri 3 dan kanan 8:
 
 ## Cara Menggunakan
 
-1. Pilih topik dari folder yang sesuai.
+1. Jalankan `npx tsx main.ts` untuk memilih topik secara interaktif, atau
+   pilih topik dari folder yang sesuai.
 2. Baca komentar dan dokumentasi pada file TypeScript.
 3. Telusuri contoh gambaran algoritma di README dan dokumentasi topik untuk
    memahami alurnya.
 4. Ubah input atau implementasi, lalu amati perbedaan hasilnya.
 5. Gunakan diagram yang tersedia di folder topik terkait sebagai pendamping.
+
+Setiap folder topik memiliki `index.ts` (barrel export), `interfaces.ts`
+(kontrak), file implementasi, dan `demo.ts` berisi `runDemo()` yang bisa
+dijalankan lewat entry point `main.ts`.
 
 Contoh kode bersifat edukatif dan dapat disesuaikan untuk latihan. Belum semua
 implementasi dilengkapi pengujian otomatis.
