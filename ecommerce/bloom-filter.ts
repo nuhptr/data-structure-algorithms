@@ -21,14 +21,20 @@ import { IBloomFilter } from "./interfaces"
  * bloom.mightContain("clean@email.com"); // => false (pasti tidak ada)
  */
 export class BloomFilter implements IBloomFilter {
+    /** Penyimpanan bit terkompresi dalam bentuk array byte. */
     private bitArray: Uint8Array
+    /** Total jumlah bit (`m`) yang dialokasikan pada filter. */
     private bitArraySize: number
+    /** Jumlah fungsi hash independen (`k`) yang digunakan per elemen. */
     private hashFunctionCount: number
+    /** Jumlah item yang telah dimasukkan (`n`) untuk menghitung estimasi FPR. */
     private insertedCount: number = 0
 
     /**
-     * @param expectedItems    - Perkiraan jumlah item yang akan dimasukkan
-     * @param falsePositiveRate - Target false positive rate (0.01 = 1%)
+     * Membuat instance Bloom Filter dengan ukuran bit array dan jumlah fungsi hash optimal.
+     *
+     * @param expectedItems - Perkiraan jumlah item yang akan dimasukkan.
+     * @param falsePositiveRate - Target false positive rate (misalnya `0.01` untuk 1%).
      */
     constructor(expectedItems: number = 1000, falsePositiveRate: number = 0.01) {
         this.bitArraySize = this.calculateOptimalSize(expectedItems, falsePositiveRate)
@@ -36,6 +42,11 @@ export class BloomFilter implements IBloomFilter {
         this.bitArray = new Uint8Array(Math.ceil(this.bitArraySize / 8))
     }
 
+    /**
+     * Menambahkan item ke dalam Bloom Filter dengan menyalakan `k` posisi bit hasil hashing.
+     *
+     * @param item - String item yang akan dimasukkan.
+     */
     add(item: string): void {
         for (let seed = 0; seed < this.hashFunctionCount; seed++) {
             const bitPosition = this.hash(item, seed) % this.bitArraySize
@@ -44,9 +55,16 @@ export class BloomFilter implements IBloomFilter {
         this.insertedCount++
     }
 
+    /**
+     * Memeriksa apakah item kemungkinan merupakan anggota Bloom Filter.
+     *
+     * @param item - String item yang diperiksa.
+     * @returns `false` jika pasti belum pernah dimasukkan, `true` jika kemungkinan ada.
+     */
     mightContain(item: string): boolean {
         for (let seed = 0; seed < this.hashFunctionCount; seed++) {
             const bitPosition = this.hash(item, seed) % this.bitArraySize
+            // Satu bit bernilai 0 saja sudah menjamin item pasti tidak ada
             if (!this.getBit(bitPosition)) return false
         }
         return true
@@ -54,7 +72,9 @@ export class BloomFilter implements IBloomFilter {
 
     /**
      * Estimasi false positive rate berdasarkan jumlah item yang sudah dimasukkan.
-     * FPR = (1 - e^(-k×n/m))^k
+     * Rumus: `FPR = (1 - e^(-k×n/m))^k`.
+     *
+     * @returns Nilai estimasi false positive rate dalam rentang `[0, 1]`.
      */
     getFalsePositiveRate(): number {
         const exponent = -(this.hashFunctionCount * this.insertedCount) / this.bitArraySize
@@ -64,8 +84,12 @@ export class BloomFilter implements IBloomFilter {
     // ─── Private helpers ──────────────────────────────────────────────────────
 
     /**
-     * Fungsi hash non-kriptografis (djb2 dengan seed berbeda per slot).
-     * Seed yang berbeda menghasilkan distribusi bit yang berbeda.
+     * Fungsi hash non-kriptografis (variasi djb2 dengan seed berbeda per slot).
+     * Seed yang berbeda menghasilkan distribusi indeks bit yang berbeda.
+     *
+     * @param item - String yang di-hash.
+     * @param seed - Nilai seed untuk mensimulasikan fungsi hash ke-`seed`.
+     * @returns Nilai hash integer 32-bit tak bertanda.
      */
     private hash(item: string, seed: number): number {
         let hashValue = 5381 + seed * 31
@@ -78,12 +102,23 @@ export class BloomFilter implements IBloomFilter {
         return hashValue
     }
 
+    /**
+     * Menyalakan bit pada posisi indeks tertentu di dalam `bitArray`.
+     *
+     * @param position - Indeks bit target.
+     */
     private setBit(position: number): void {
         const byteIndex = Math.floor(position / 8)
         const bitIndex = position % 8
         this.bitArray[byteIndex] |= 1 << bitIndex
     }
 
+    /**
+     * Membaca status bit pada posisi indeks tertentu di dalam `bitArray`.
+     *
+     * @param position - Indeks bit yang diperiksa.
+     * @returns `true` jika bit bernilai 1, `false` jika 0.
+     */
     private getBit(position: number): boolean {
         const byteIndex = Math.floor(position / 8)
         const bitIndex = position % 8
@@ -91,14 +126,22 @@ export class BloomFilter implements IBloomFilter {
     }
 
     /**
-     * Ukuran bit array optimal: m = -(n × ln(p)) / (ln(2))²
+     * Menghitung ukuran bit array optimal: `m = -(n × ln(p)) / (ln(2))²`.
+     *
+     * @param expectedItems - Perkiraan jumlah item (`n`).
+     * @param falsePositiveRate - Target false positive rate (`p`).
+     * @returns Jumlah bit optimal (`m`).
      */
     private calculateOptimalSize(expectedItems: number, falsePositiveRate: number): number {
         return Math.ceil(-(expectedItems * Math.log(falsePositiveRate)) / Math.log(2) ** 2)
     }
 
     /**
-     * Jumlah hash function optimal: k = (m/n) × ln(2)
+     * Menghitung jumlah fungsi hash optimal: `k = (m/n) × ln(2)`.
+     *
+     * @param bitArraySize - Ukuran bit array (`m`).
+     * @param expectedItems - Perkiraan jumlah item (`n`).
+     * @returns Jumlah fungsi hash optimal minimal 1 (`k`).
      */
     private calculateOptimalHashCount(bitArraySize: number, expectedItems: number): number {
         return Math.max(1, Math.round((bitArraySize / expectedItems) * Math.log(2)))

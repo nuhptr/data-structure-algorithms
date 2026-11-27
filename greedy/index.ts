@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk modul algoritma greedy (Activity Selection, Fractional Knapsack,
+ * Optimal Merge, Huffman Coding, Task Scheduler, dan Jump Game).
+ */
 export * from "./interfaces"
 export * from "./activity-selection"
 export * from "./fractional-knapsack"

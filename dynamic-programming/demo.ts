@@ -15,6 +15,11 @@ import {
 } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma Dynamic Programming yang tersedia
+ * (Fibonacci, Coin Change, Knapsack, LCS, Edit Distance, LIS, Kadane, Matrix Chain,
+ * Unique Paths, Word Break, Palindrome Partitioning, Burst Balloons, dan Regex Matching).
+ */
 export function runDemo(): void {
     section("dp — FibonacciSolver")
     show("fibonacci(10)", new FibonacciSolver().solve(10))

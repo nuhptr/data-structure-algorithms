@@ -1,28 +1,34 @@
 import { IBitmaskDP } from "./interfaces"
 
 /**
- * Bitmask DP — teknik Dynamic Programming menggunakan bitmask sebagai state.
- * Efisien untuk masalah dengan subset kecil (n ≤ 20).
+ * Bitmask DP — teknik Dynamic Programming menggunakan bitmask sebagai representasi state subset.
+ * Efisien untuk masalah dengan ukuran subset kecil (`n <= 20`).
  *
- * Digunakan oleh unicorn companies untuk optimasi routing, assignment,
- * scheduling, dan masalah NP-hard dalam skala kecil.
+ * Digunakan untuk optimasi routing, assignment, scheduling, dan masalah NP-hard skala kecil.
+ *
+ * Kompleksitas Waktu : O(2^n * n²) untuk `tsp`; O(2^n * n) untuk `minimumXORSum`
+ * Kompleksitas Ruang : O(2^n * n) untuk `tsp`; O(2^n) untuk `minimumXORSum`
+ *
+ * @example
+ * const dp = new BitmaskDP()
+ * dp.minimumXORSum([1, 2], [2, 3]) // => 2
  */
 export class BitmaskDP implements IBitmaskDP {
     /**
-     * Traveling Salesman Problem (TSP) — jalur terpendek mengunjungi semua kota.
+     * Traveling Salesman Problem (TSP) — mencari biaya jalur terpendek untuk mengunjungi
+     * semua kota tepat sekali dan kembali ke kota awal (`0`).
      *
-     * dp[mask][i] = biaya minimum untuk mengunjungi semua kota dalam mask,
-     * berakhir di kota i.
+     * State: `dp[mask][i]` = biaya minimum mengunjungi semua kota dalam `mask`, berakhir di kota `i`.
      *
      * Kompleksitas Waktu : O(2^n × n²)
      * Kompleksitas Ruang : O(2^n × n)
      *
-     * @param distMatrix - Matriks jarak simetris n×n, distMatrix[i][j] = jarak i→j
-     * @returns Biaya jalur minimum
+     * @param distMatrix - Matriks jarak berukuran `n x n`, di mana `distMatrix[i][j]` adalah jarak `i -> j`.
+     * @returns Biaya jalur minimum untuk menyelesaikan tur.
      *
      * @example
-     * const dp = new BitmaskDP();
-     * dp.tsp([[0,10,15,20],[10,0,35,25],[15,35,0,30],[20,25,30,0]]); // => 80
+     * const dp = new BitmaskDP()
+     * dp.tsp([[0, 10, 15, 20], [10, 0, 35, 25], [15, 35, 0, 30], [20, 25, 30, 0]]) // => 80
      */
     tsp(distMatrix: number[][]): number {
         const n = distMatrix.length
@@ -35,6 +41,7 @@ export class BitmaskDP implements IBitmaskDP {
 
         dp[1][0] = 0 // Mulai dari kota 0, hanya kota 0 dikunjungi
 
+        // Transisi dari setiap state valid menuju kota berikutnya yang belum dikunjungi
         for (let mask = 1; mask < totalMasks; mask++) {
             for (let lastCity = 0; lastCity < n; lastCity++) {
                 if (dp[mask][lastCity] === Infinity) continue
@@ -66,15 +73,19 @@ export class BitmaskDP implements IBitmaskDP {
     }
 
     /**
-     * Minimum XOR Sum — assign setiap elemen nums1[i] ke nums2[j] (bijection)
-     * untuk meminimalkan total nums1[i] XOR nums2[assigned[i]].
+     * Minimum XOR Sum — memasangkan setiap elemen `nums1[i]` ke elemen unik `nums2[j]`
+     * secara bijektif untuk meminimalkan total `nums1[i] XOR nums2[assigned[i]]`.
      *
      * Kompleksitas Waktu : O(2^n × n)
      * Kompleksitas Ruang : O(2^n)
      *
+     * @param nums1 - Array angka pertama.
+     * @param nums2 - Array angka kedua dengan panjang sama dengan `nums1`.
+     * @returns Total XOR minimum dari seluruh pasangan yang terbentuk.
+     *
      * @example
-     * const dp = new BitmaskDP();
-     * dp.minimumXORSum([1, 2], [2, 3]); // => 2  (1^2 + 2^3 = 3+1 = 4 vs 1^3 + 2^2 = 2+0 = 2)
+     * const dp = new BitmaskDP()
+     * dp.minimumXORSum([1, 2], [2, 3]) // => 2  (1^2 + 2^3 = 4 vs 1^3 + 2^2 = 2)
      */
     minimumXORSum(nums1: number[], nums2: number[]): number {
         const n = nums1.length
@@ -104,9 +115,16 @@ export class BitmaskDP implements IBitmaskDP {
         return dp[totalMasks - 1]
     }
 
+    /**
+     * Menghitung jumlah bit bernilai `1` pada `n` menggunakan Brian Kernighan's Algorithm.
+     *
+     * @param n - Bilangan bitmask non-negatif.
+     * @returns Jumlah bit `1` yang aktif pada `n`.
+     */
     private countBits(n: number): number {
         let count = 0
         let value = n
+        // Hapus bit 1 paling kanan pada setiap iterasi hingga habis
         while (value !== 0) {
             value &= value - 1
             count++

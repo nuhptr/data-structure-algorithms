@@ -18,14 +18,15 @@ import { WeightedAdjacencyList, IMinimumSpanningTree, WeightedEdge } from "./int
  *   "4": [["1", 1], ["2", 5], ["3", 1], ["5", 4]],
  *   "5": [["2", 2], ["4", 4]],
  * };
- * prim.build(6, []); // edges diabaikan, gunakan fromGraph()
+ * prim.fromGraph(graph, "0");
  */
 export class Prim {
     /**
-     * Membangun MST dari weighted adjacency list.
-     * @param graph  - Graf berbobot sebagai adjacency list
-     * @param start  - Node awal (default "0")
-     * @returns Daftar edge [dari, ke] yang membentuk MST
+     * Membangun MST dari weighted adjacency list menggunakan algoritma Prim.
+     *
+     * @param graph - Graf berbobot sebagai adjacency list
+     * @param start - Node awal ekspansi tree (default node pertama pada `graph`)
+     * @returns Daftar edge `[dari, ke]` yang membentuk MST
      */
     fromGraph(
         graph: WeightedAdjacencyList,
@@ -37,6 +38,7 @@ export class Prim {
         // [bobot, dari, ke] — min-heap sederhana
         const edgeHeap: [number, string, string][] = []
 
+        // Tandai node masuk ke MST lalu tambahkan semua edge keluar ke kandidat heap
         const addEdgesFrom = (node: string): void => {
             inMST.add(node)
             for (const [neighbor, weight] of graph[node] ?? []) {
@@ -49,9 +51,11 @@ export class Prim {
 
         addEdgesFrom(start)
 
+        // Ambil edge berbobot terkecil menuju node yang belum masuk MST hingga heap kosong
         while (edgeHeap.length > 0) {
             const [, fromNode, toNode] = edgeHeap.shift()!
 
+            // Lewati jika node tujuan sudah terhubung ke MST oleh edge yang lebih murah
             if (inMST.has(toNode)) continue
 
             mstEdges.push([fromNode, toNode])

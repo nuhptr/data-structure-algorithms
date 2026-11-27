@@ -1,3 +1,6 @@
+/**
+ * Barrel export utama untuk seluruh modul struktur data dan kontrak antarmukanya.
+ */
 export * from "./interfaces"
 export * from "./heap"
 export * from "./trie"

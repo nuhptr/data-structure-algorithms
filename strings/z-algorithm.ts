@@ -15,6 +15,13 @@ import { IZAlgorithm } from "./interfaces"
  * zAlgo.buildZArray("aabxaa"); // => [6, 1, 0, 0, 2, 1]
  */
 export class ZAlgorithm implements IZAlgorithm {
+    /**
+     * Membangun Z-array dalam waktu linear dengan mempertahankan rentang Z-box
+     * `[leftBound, rightBound)` yang paling kanan sejauh ini.
+     *
+     * @param s - String masukan.
+     * @returns Array nilai Z untuk setiap indeks string.
+     */
     buildZArray(s: string): number[] {
         const length = s.length
         const zValues = Array(length).fill(0)
@@ -29,7 +36,7 @@ export class ZAlgorithm implements IZAlgorithm {
                 zValues[index] = Math.min(rightBound - index, zValues[index - leftBound])
             }
 
-            // Perluas window Z dari posisi saat ini
+            // Perluas window Z dari posisi saat ini selama karakter masih cocok
             while (
                 index + zValues[index] < length &&
                 s[zValues[index]] === s[index + zValues[index]]
@@ -37,7 +44,7 @@ export class ZAlgorithm implements IZAlgorithm {
                 zValues[index]++
             }
 
-            // Perbarui Z-box jika window saat ini lebih jauh ke kanan
+            // Perbarui Z-box jika window saat ini menjangkau lebih jauh ke kanan
             if (index + zValues[index] > rightBound) {
                 leftBound = index
                 rightBound = index + zValues[index]
@@ -47,14 +54,23 @@ export class ZAlgorithm implements IZAlgorithm {
         return zValues
     }
 
+    /**
+     * Menemukan semua indeks kemunculan pola di dalam teks dengan menggabungkan
+     * `pattern + "$" + text` lalu mengecek posisi yang memiliki nilai Z sama dengan panjang pola.
+     *
+     * @param text - Teks utama yang dicari.
+     * @param pattern - Pola yang dicari.
+     * @returns Daftar indeks awal kemunculan pola dalam teks.
+     */
     findAll(text: string, pattern: string): number[] {
-        const separator = "$" // karakter yang tidak muncul di pattern/text
+        const separator = "$" // karakter pembatas yang tidak muncul di pattern/text
         const combined = pattern + separator + text
         const zArray = this.buildZArray(combined)
         const patternLength = pattern.length
         const separatorOffset = patternLength + 1
         const matchIndices: number[] = []
 
+        // Setiap posisi di bagian teks dengan Z[i] === patternLength menandakan kecocokan penuh
         for (let index = separatorOffset; index < combined.length; index++) {
             if (zArray[index] === patternLength) {
                 matchIndices.push(index - separatorOffset)

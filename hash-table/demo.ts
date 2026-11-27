@@ -1,6 +1,10 @@
 import { GroupAnagrams, HashTable, TwoSumSolver, WordCounter } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demo interaktif untuk seluruh implementasi di modul `hash-table`,
+ * meliputi `HashTable`, `GroupAnagrams`, `TwoSumSolver`, dan `WordCounter`.
+ */
 export function runDemo(): void {
     section("hash-table — HashTable")
     const table = new HashTable<string>(10)

@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk seluruh modul algoritma graf (traversal, jalur terpendek,
+ * minimum spanning tree, dan topological sort) beserta tipe antarmukanya.
+ */
 export * from "./interfaces"
 export * from "./bfs"
 export * from "./dfs"

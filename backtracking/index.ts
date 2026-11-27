@@ -1,3 +1,6 @@
+/**
+ * Barrel export untuk seluruh kontrak dan implementasi algoritma Backtracking.
+ */
 export * from "./interfaces"
 export * from "./combinations"
 export * from "./generate-parentheses"

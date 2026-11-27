@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk modul `search` — berisi kontrak antarmuka
+ * dan seluruh implementasi algoritma pencarian.
+ */
 export * from "./interfaces"
 export * from "./linear-search"
 export * from "./binary-search"

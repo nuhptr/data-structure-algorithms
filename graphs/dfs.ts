@@ -13,6 +13,13 @@ import { AdjacencyList, IGraphTraversal } from "./interfaces"
  * dfs.traverse(graph, "A"); // => Set { "A", "B", "C", "D", "E", "F" }
  */
 export class DFS implements IGraphTraversal {
+    /**
+     * Menelusuri graf secara mendalam menggunakan stack eksplisit mulai dari `startNode`.
+     *
+     * @param graph - Adjacency list graf tak berbobot
+     * @param startNode - Node awal penelusuran
+     * @returns Himpunan node yang dikunjungi sesuai urutan kunjungan DFS
+     */
     traverse(graph: AdjacencyList, startNode: string): Set<string> {
         const visitedNodes = new Set<string>([startNode])
         const stack: string[] = [startNode]
@@ -21,6 +28,7 @@ export class DFS implements IGraphTraversal {
             const currentNode = stack.pop()!
             visitedNodes.add(currentNode)
 
+            // Balik urutan tetangga agar tetangga pertama di adjacency list diproses lebih dulu (LIFO)
             const neighbors = ([...(graph[currentNode] ?? [])] as string[]).reverse()
 
             for (const neighbor of neighbors) {

@@ -14,10 +14,16 @@ import { ITopologicalSort } from "./interfaces"
  * sorter.sort(graph); // => [0, 1, 2, 3, 4, 5]
  */
 export class TopologicalSort implements ITopologicalSort {
+    /**
+     * Mengurutkan node pada Directed Acyclic Graph (DAG) menggunakan algoritma Kahn.
+     *
+     * @param graph - Adjacency list graf berarah dengan kunci dan tetangga bertipe angka
+     * @returns Array urutan topologi node, atau `null` jika graf mengandung siklus
+     */
     sort(graph: Record<number, number[]>): number[] | null {
         const inDegree: Record<number, number> = {}
 
-        // Inisialisasi semua node dengan indegree 0
+        // Inisialisasi semua node dengan indegree 0 lalu hitung jumlah edge masuk tiap node
         for (const node of Object.keys(graph).map(Number)) {
             if (inDegree[node] === undefined) inDegree[node] = 0
 
@@ -33,6 +39,7 @@ export class TopologicalSort implements ITopologicalSort {
 
         const sortedOrder: number[] = []
 
+        // Proses node bebas ketergantungan lalu kurangi in-degree setiap tetangganya
         while (queue.length > 0) {
             const currentNode = queue.shift()!
             sortedOrder.push(currentNode)
@@ -45,6 +52,7 @@ export class TopologicalSort implements ITopologicalSort {
             }
         }
 
+        // Jika jumlah node terurut lebih sedikit dari total node, berarti terdapat cycle
         const totalNodes = Object.keys(graph).length
         const hasCycle = sortedOrder.length !== totalNodes
 

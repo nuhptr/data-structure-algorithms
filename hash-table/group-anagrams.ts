@@ -11,11 +11,17 @@ import { IAnagramGrouper } from "./interfaces"
  * Kompleksitas Ruang : O(n × k)
  *
  * @example
- * const grouper = new GroupAnagrams();
- * grouper.group(["eat", "tea", "tan", "ate", "nat", "bat"]);
+ * const grouper = new GroupAnagrams()
+ * grouper.group(["eat", "tea", "tan", "ate", "nat", "bat"])
  * // => { aet: ["eat", "tea", "ate"], ant: ["tan", "nat"], abt: ["bat"] }
  */
 export class GroupAnagrams implements IAnagramGrouper {
+    /**
+     * Mengelompokkan daftar string ke dalam grup anagram yang sesuai.
+     *
+     * @param strings Daftar string yang ingin dikelompokkan.
+     * @returns Objek peta dari kunci huruf terurut ke daftar string anagramnya.
+     */
     group(strings: string[]): Record<string, string[]> {
         const anagramMap: Record<string, string[]> = {}
 
@@ -23,6 +29,7 @@ export class GroupAnagrams implements IAnagramGrouper {
             // Urutkan huruf agar anagram yang berbeda urutan memiliki kunci yang sama.
             const sortedKey = str.split("").sort().join("")
 
+            // Tambahkan string ke kelompok yang sudah ada atau buat kelompok baru.
             if (sortedKey in anagramMap) anagramMap[sortedKey].push(str)
             else anagramMap[sortedKey] = [str]
         }

@@ -9,6 +9,9 @@ import { show, section } from "../demo-utils"
 const text = "abracadabra"
 const pattern = "abra"
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma pencocokan string pada modul strings.
+ */
 export function runDemo(): void {
     section("strings — KMP")
     show("findAll", new KMP().findAll(text, pattern))

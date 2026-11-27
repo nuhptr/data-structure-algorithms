@@ -1,6 +1,12 @@
 import { StudentSearcher } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi pencarian siswa menggunakan `StudentSearcher`
+ * dengan data bawaan maupun data yang disuntikkan.
+ *
+ * @returns Tidak mengembalikan nilai.
+ */
 export function runDemo(): void {
     section("introduction — StudentSearcher")
     const searcher = new StudentSearcher()

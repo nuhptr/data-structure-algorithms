@@ -28,9 +28,18 @@ import { Item, Bin, IBinPacking } from "./interfaces"
  * // => 2 bins: Bin1[B(7),C(3)], Bin2[D(6),A(4)]  — F,E ke Bin1 atau Bin2
  */
 export class BinPacking implements IBinPacking {
+    /**
+     * Mengemas daftar item ke dalam bin menggunakan strategi First Fit Decreasing (FFD).
+     * Melempar error jika ada item yang ukurannya melebihi kapasitas bin.
+     *
+     * @param items - Daftar item yang akan dikemas.
+     * @param binCapacity - Kapasitas maksimum setiap bin.
+     * @returns Daftar bin yang terisi item.
+     */
     pack(items: Item[], binCapacity: number): Bin[] {
         if (items.length === 0) return []
 
+        // Validasi awal: pastikan tidak ada item yang melebihi kapasitas satu bin
         const oversizedItems = items.filter((item) => item.size > binCapacity)
         if (oversizedItems.length > 0) {
             throw new Error(
@@ -38,7 +47,7 @@ export class BinPacking implements IBinPacking {
             )
         }
 
-        // Langkah 1: Urutkan item dari yang terbesar (Decreasing)
+        // Langkah 1: Urutkan item dari yang terbesar (Decreasing) agar celah kecil diisi belakangan
         const sortedItems = [...items].sort((a, b) => b.size - a.size)
 
         const bins: Bin[] = []

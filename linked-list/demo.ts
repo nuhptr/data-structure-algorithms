@@ -3,6 +3,11 @@ import { LinkedList } from "./single"
 import { ReverseLinkedList, ReverseNode } from "./challenge"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi `LinkedList` (singly), `DoublyLinkedList`, dan `ReverseLinkedList`.
+ *
+ * @returns Tidak mengembalikan nilai.
+ */
 export function runDemo(): void {
     section("linked-list — LinkedList (singly)")
     const list = new LinkedList<number>(1)

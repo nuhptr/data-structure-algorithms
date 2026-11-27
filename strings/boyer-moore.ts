@@ -14,6 +14,14 @@ import { IStringMatcher } from "./interfaces"
  * bm.findAll("ABABAB", "ABA"); // => [0, 2]
  */
 export class BoyerMoore implements IStringMatcher {
+    /**
+     * Menemukan semua indeks kemunculan pola di dalam teks menggunakan heuristik
+     * Bad Character Boyer-Moore.
+     *
+     * @param text - Teks utama yang akan dicari.
+     * @param pattern - Pola yang dicari.
+     * @returns Daftar indeks awal setiap kemunculan pola.
+     */
     findAll(text: string, pattern: string): number[] {
         const matchPositions: number[] = []
         const textLength = text.length
@@ -27,15 +35,16 @@ export class BoyerMoore implements IStringMatcher {
             const mismatchIndex = this.findMismatchFromRight(text, pattern, startIndex)
 
             if (mismatchIndex === -1) {
-                // Seluruh pattern cocok
+                // Seluruh pattern cocok pada posisi `startIndex`
                 matchPositions.push(startIndex)
                 startIndex++
             } else {
+                // Terapkan bad character rule untuk menyejajarkan karakter mismatch
                 const lastOccurrence = this.findLastOccurrenceInPattern(
                     pattern,
                     text[mismatchIndex],
                 )
-                // Geser sejauh mungkin ke kanan, minimal 1
+                // Geser sejauh mungkin ke kanan, minimal 1 langkah agar tidak mundur
                 startIndex = Math.max(startIndex + 1, mismatchIndex - lastOccurrence)
             }
         }
@@ -44,8 +53,12 @@ export class BoyerMoore implements IStringMatcher {
     }
 
     /**
-     * Membandingkan pattern dengan teks mulai dari kanan.
-     * @returns Index mismatch di teks, atau -1 jika seluruh pattern cocok.
+     * Membandingkan pattern dengan potongan teks mulai dari karakter paling kanan.
+     *
+     * @param text - Teks utama.
+     * @param pattern - Pola yang dibandingkan.
+     * @param offset - Indeks awal kesejajaran pola terhadap teks.
+     * @returns Indeks posisi mismatch di dalam teks, atau `-1` jika seluruh pola cocok.
      */
     private findMismatchFromRight(text: string, pattern: string, offset: number): number {
         for (let pos = pattern.length - 1; pos >= 0; pos--) {
@@ -57,8 +70,11 @@ export class BoyerMoore implements IStringMatcher {
     }
 
     /**
-     * Mencari kemunculan terakhir sebuah karakter di dalam pattern (dari kanan).
-     * @returns Index kemunculan terakhir, atau -1 jika tidak ada.
+     * Mencari kemunculan paling kanan dari sebuah karakter di dalam pola.
+     *
+     * @param pattern - Pola yang diperiksa.
+     * @param char - Karakter mismatch dari teks.
+     * @returns Indeks kemunculan terakhir dalam pola, atau `-1` jika tidak ada.
      */
     private findLastOccurrenceInPattern(pattern: string, char: string): number {
         for (let pos = pattern.length - 1; pos >= 0; pos--) {

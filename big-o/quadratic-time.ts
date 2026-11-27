@@ -15,9 +15,16 @@ import { IQuadraticTimeExample } from "./interfaces"
  * example.findPairs([1, 2, 3]); // => [[1, 2], [1, 3], [2, 3]]
  */
 export class QuadraticTimeExample implements IQuadraticTimeExample {
+    /**
+     * Menghasilkan seluruh pasangan unik `(array[i], array[j])` dengan `i < j`.
+     *
+     * @param array - Array angka masukan.
+     * @returns Daftar semua pasangan unik dari elemen array.
+     */
     findPairs(array: number[]): Array<[number, number]> {
         const pairs: Array<[number, number]> = []
 
+        // Loop bersarang membentuk semua kombinasi pasangan unik (i < j)
         for (let i = 0; i < array.length; i++) {
             for (let j = i + 1; j < array.length; j++) {
                 pairs.push([array[i], array[j]])

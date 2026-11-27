@@ -5,6 +5,10 @@ import { Queue } from "./queue"
 import { Stack } from "./stack"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demo untuk struktur data dan studi kasus di modul `stack-and-queue`,
+ * meliputi `Stack`, `Queue`, `MinStack`, `ParenthesisValidator`, dan `StackStringReverser`.
+ */
 export function runDemo(): void {
     section("stack-and-queue — Stack (LIFO)")
     const stack = new Stack<number>(8)

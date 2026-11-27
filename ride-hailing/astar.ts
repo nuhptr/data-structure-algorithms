@@ -24,6 +24,16 @@ import { RoadNode, AStarResult, IAStarSearch } from "./interfaces"
  * // => { path: ["A", "B", "C", "D"], totalCost: 4 }
  */
 export class AStarSearch implements IAStarSearch {
+    /**
+     * Menemukan jalur terpendek dari `startId` ke `endId` pada graf jalan berbobot
+     * menggunakan fungsi heuristik untuk memprioritaskan eksplorasi node.
+     *
+     * @param graph - Peta ID node ke objek `RoadNode` beserta tetangganya.
+     * @param startId - ID node asal.
+     * @param endId - ID node tujuan.
+     * @param heuristic - Fungsi estimasi biaya sisa dari suatu node ke `endId`.
+     * @returns Objek `AStarResult` jika jalur ditemukan, atau `null` jika tidak terjangkau.
+     */
     findPath(
         graph: Map<string, RoadNode>,
         startId: string,
@@ -32,18 +42,19 @@ export class AStarSearch implements IAStarSearch {
     ): AStarResult | null {
         // gCost[node] = biaya aktual terpendek dari start ke node
         const gCost = new Map<string, number>()
-        // fCost[node] = gCost + heuristic — prioritas di open set
+        // fCost[node] = gCost + heuristic — prioritas evaluasi di open set
         const fCost = new Map<string, number>()
-        // Untuk rekonstruksi jalur
+        // Menyimpan pendahulu terbaik setiap node untuk rekonstruksi jalur
         const cameFrom = new Map<string, string>()
 
-        // Open set — node yang belum dievaluasi (min-heap sederhana)
+        // Open set — kandidat node yang siap dievaluasi berikutnya
         const openSet = new Set<string>([startId])
 
         gCost.set(startId, 0)
         fCost.set(startId, heuristic(startId, endId))
 
         while (openSet.size > 0) {
+            // Pilih node dengan estimasi total biaya f(n) terendah
             const currentNode = this.getLowestFCost(openSet, fCost)
 
             if (currentNode === endId) {
@@ -55,6 +66,7 @@ export class AStarSearch implements IAStarSearch {
             const roadNode = graph.get(currentNode)
             if (!roadNode) continue
 
+            // Relaksasi semua edge menuju node tetangga
             for (const { nodeId: neighborId, cost: edgeCost } of roadNode.neighbors) {
                 const tentativeGCost = gCost.get(currentNode)! + edgeCost
                 const knownGCost = gCost.get(neighborId) ?? Infinity
@@ -68,9 +80,16 @@ export class AStarSearch implements IAStarSearch {
             }
         }
 
-        return null // tidak ada jalur
+        return null // tidak ada jalur menuju tujuan
     }
 
+    /**
+     * Memilih ID node dengan nilai `fCost` paling kecil dari himpunan `openSet`.
+     *
+     * @param openSet - Himpunan node kandidat yang belum selesai dievaluasi.
+     * @param fCost - Peta skor `f(n) = g(n) + h(n)` tiap node.
+     * @returns ID node dengan nilai `fCost` terendah.
+     */
     private getLowestFCost(openSet: Set<string>, fCost: Map<string, number>): string {
         let lowestNode = ""
         let lowestCost = Infinity
@@ -86,6 +105,15 @@ export class AStarSearch implements IAStarSearch {
         return lowestNode
     }
 
+    /**
+     * Merekonstruksi urutan jalur dari titik awal ke `endNode` dengan menelusuri
+     * balik peta `cameFrom`.
+     *
+     * @param cameFrom - Peta setiap node ke node pendahulunya di jalur terpendek.
+     * @param endNode - ID node tujuan akhir.
+     * @param totalCost - Total biaya aktual jalur yang ditemukan.
+     * @returns Objek `AStarResult` berisi array `path` dan `totalCost`.
+     */
     private reconstructPath(
         cameFrom: Map<string, string>,
         endNode: string,

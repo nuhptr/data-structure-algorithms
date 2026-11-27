@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk seluruh modul algoritma pengurutan (sorting algorithms)
+ * beserta kontrak antarmukanya.
+ */
 export * from "./interfaces"
 export * from "./bubble-sort"
 export * from "./insertion-sort"

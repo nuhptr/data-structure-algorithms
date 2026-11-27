@@ -19,8 +19,11 @@ import { IJumpGame } from "./interfaces"
  */
 export class JumpGame implements IJumpGame {
     /**
-     * Greedy: lacak jangkauan maksimum yang bisa dicapai.
-     * Jika posisi saat ini melebihi jangkauan → tidak bisa sampai.
+     * Memeriksa apakah ujung array dapat dicapai menggunakan pendekatan greedy
+     * dengan melacak jangkauan maksimum (`maxReach`) sejauh ini.
+     *
+     * @param nums - Array panjang lompatan maksimum pada setiap indeks.
+     * @returns `true` jika indeks terakhir dapat dicapai, `false` jika terjebak.
      */
     canJump(nums: number[]): boolean {
         let maxReach = 0
@@ -28,8 +31,10 @@ export class JumpGame implements IJumpGame {
         for (let index = 0; index < nums.length; index++) {
             if (index > maxReach) return false // posisi tidak terjangkau
 
+            // Perbarui indeks terjauh yang bisa dicapai dari posisi saat ini
             maxReach = Math.max(maxReach, index + nums[index])
 
+            // Berhenti lebih awal jika ujung array sudah masuk jangkauan
             if (maxReach >= nums.length - 1) return true
         }
 
@@ -37,8 +42,12 @@ export class JumpGame implements IJumpGame {
     }
 
     /**
-     * Greedy dengan sliding window: track currentEnd (batas window saat ini)
-     * dan farthest (jangkauan terjauh dalam window).
+     * Menghitung jumlah lompatan minimum untuk mencapai indeks terakhir menggunakan
+     * greedy sliding window yang melacak batas jangkauan lompatan saat ini (`currentEnd`)
+     * dan jangkauan terjauh berikutnya (`farthest`).
+     *
+     * @param nums - Array panjang lompatan maksimum pada setiap indeks.
+     * @returns Jumlah lompatan minimum menuju indeks terakhir.
      */
     minJumps(nums: number[]): number {
         if (nums.length <= 1) return 0
@@ -50,6 +59,7 @@ export class JumpGame implements IJumpGame {
         for (let index = 0; index < nums.length - 1; index++) {
             farthest = Math.max(farthest, index + nums[index])
 
+            // Saat mencapai batas lompatan saat ini, lakukan lompatan baru ke jangkauan terjauh
             if (index === currentEnd) {
                 jumps++
                 currentEnd = farthest

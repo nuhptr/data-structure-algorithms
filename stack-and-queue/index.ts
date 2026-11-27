@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk modul `stack-and-queue` — berisi kontrak antarmuka,
+ * implementasi `Stack` & `Queue`, serta tantangan berbasis stack.
+ */
 export * from "./interfaces"
 export * from "./stack"
 export * from "./queue"

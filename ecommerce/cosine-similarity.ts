@@ -20,6 +20,13 @@ import { ICosineSimilarity } from "./interfaces"
  * cs.mostSimilar([1, 2, 3], [[1,2,2],[4,5,6],[0,0,1]]); // => 0 (index kandidat terdekat)
  */
 export class CosineSimilarity implements ICosineSimilarity {
+    /**
+     * Menghitung nilai cosine similarity antara dua vektor numerik berdimensi sama.
+     *
+     * @param vectorA - Vektor pertama.
+     * @param vectorB - Vektor kedua.
+     * @returns Nilai kemiripan dalam rentang `[-1, 1]`, atau `0` jika salah satu vektor bernilai nol.
+     */
     similarity(vectorA: number[], vectorB: number[]): number {
         if (vectorA.length !== vectorB.length) {
             throw new Error("Kedua vektor harus memiliki dimensi yang sama")
@@ -29,14 +36,18 @@ export class CosineSimilarity implements ICosineSimilarity {
         const magnitudeA = this.magnitude(vectorA)
         const magnitudeB = this.magnitude(vectorB)
 
+        // Hindari pembagian dengan nol jika salah satu vektor merupakan zero vector
         if (magnitudeA === 0 || magnitudeB === 0) return 0
 
         return dotProduct / (magnitudeA * magnitudeB)
     }
 
     /**
-     * Mencari index kandidat yang paling mirip dengan target.
-     * @returns Index dari kandidat dengan cosine similarity tertinggi
+     * Mencari indeks kandidat yang paling mirip dengan vektor target.
+     *
+     * @param target - Vektor acuan.
+     * @param candidates - Daftar vektor kandidat.
+     * @returns Indeks kandidat dengan cosine similarity tertinggi.
      */
     mostSimilar(target: number[], candidates: number[][]): number {
         let highestSimilarity = -Infinity
@@ -54,7 +65,11 @@ export class CosineSimilarity implements ICosineSimilarity {
     }
 
     /**
-     * Mengembalikan semua kandidat diurutkan dari paling mirip.
+     * Mengurutkan seluruh kandidat dari skor cosine similarity tertinggi ke terendah.
+     *
+     * @param target - Vektor acuan.
+     * @param candidates - Daftar vektor kandidat.
+     * @returns Daftar pasangan `{ index, score }` terurut menurun berdasarkan skor.
      */
     rankBySimilarity(target: number[], candidates: number[][]): { index: number; score: number }[] {
         return candidates
@@ -65,10 +80,23 @@ export class CosineSimilarity implements ICosineSimilarity {
             .sort((a, b) => b.score - a.score)
     }
 
+    /**
+     * Menghitung dot product (hasil kali titik) dari dua vektor.
+     *
+     * @param vectorA - Vektor pertama.
+     * @param vectorB - Vektor kedua.
+     * @returns Jumlah hasil kali elemen yang bersesuaian.
+     */
     private dotProduct(vectorA: number[], vectorB: number[]): number {
         return vectorA.reduce((sum, value, index) => sum + value * vectorB[index], 0)
     }
 
+    /**
+     * Menghitung magnitudo (norma Euclidean / L2) dari sebuah vektor.
+     *
+     * @param vector - Vektor masukan.
+     * @returns Panjang Euclidean vektor.
+     */
     private magnitude(vector: number[]): number {
         return Math.sqrt(vector.reduce((sum, value) => sum + value ** 2, 0))
     }

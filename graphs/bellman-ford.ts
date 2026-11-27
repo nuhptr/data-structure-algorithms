@@ -14,7 +14,17 @@ import { WeightedEdge, IBellmanFord } from "./interfaces"
  * bf.findShortestPaths(edges, 4, 0); // => [0, -2, 8, 5]
  */
 export class BellmanFord implements IBellmanFord {
+    /**
+     * Menghitung jarak terpendek dari `sourceVertex` ke seluruh vertex menggunakan Bellman-Ford.
+     *
+     * @param edges - Daftar edge berbobot dalam format `[dari, ke, bobot]`
+     * @param vertexCount - Jumlah total vertex dalam graf
+     * @param sourceVertex - Indeks vertex sumber
+     * @returns Array jarak terpendek dari `sourceVertex` ke setiap vertex (`Infinity` jika tak terjangkau)
+     * @throws Error jika terdeteksi siklus berbobot negatif (negative cycle)
+     */
     findShortestPaths(edges: WeightedEdge[], vertexCount: number, sourceVertex: number): number[] {
+        // Inisialisasi semua jarak ke tak hingga kecuali vertex sumber bernilai 0
         const distanceTo: number[] = Array(vertexCount).fill(Infinity)
         distanceTo[sourceVertex] = 0
 

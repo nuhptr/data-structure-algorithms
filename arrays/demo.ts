@@ -1,6 +1,11 @@
 import { CustomArray, StringReverser, numArr, stringArr } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi contoh array dasar, `CustomArray`, dan `StringReverser`.
+ *
+ * @returns Tidak mengembalikan nilai.
+ */
 export function runDemo(): void {
     section("arrays — intro")
     show("stringArr", stringArr)

@@ -1,34 +1,60 @@
 /**
- * Kontrak untuk Binary Search Tree yang mendukung sisipan
+ * Kontrak untuk Binary Search Tree yang mendukung penyisipan
  * dan pengecekan keberadaan nilai.
- * T = tipe nilai yang disimpan.
+ *
+ * @template T Tipe nilai yang disimpan pada setiap simpul pohon.
  */
 export interface IBinarySearchTree<T> {
     /**
-     * Sisipkan nilai ke posisi yang sesuai aturan BST.
-     * Duplikat tidak disisipkan; kembalikan pohon jika berhasil.
+     * Menyisipkan nilai ke posisi yang sesuai aturan BST.
+     * Nilai duplikat tidak disisipkan.
+     *
+     * @param value Nilai yang akan disisipkan ke dalam pohon.
+     * @returns Instans pohon saat ini jika berhasil, atau `undefined` jika nilai duplikat.
      */
     insert(value: T): this | undefined
 
-    /** Periksa apakah nilai ada di dalam pohon. */
+    /**
+     * Memeriksa apakah suatu nilai ada di dalam pohon.
+     *
+     * @param value Nilai yang dicari di dalam pohon.
+     * @returns `true` jika nilai ditemukan, selain itu `false`.
+     */
     includes(value: T): boolean
 }
 
 /**
  * Kontrak untuk tree traversal — mengunjungi simpul dalam
- * berbagai urutan.
- * T = tipe nilai yang disimpan.
+ * berbagai urutan penelusuran.
+ *
+ * @template T Tipe nilai yang disimpan pada setiap simpul pohon.
  */
 export interface ITreeTraversable<T> {
-    /** Kunjungi simpul per level dari kiri ke kanan (BFS). */
+    /**
+     * Mengunjungi simpul per level dari kiri ke kanan (Breadth-First Search).
+     *
+     * @returns Array nilai simpul sesuai urutan kunjungan per level.
+     */
     breadthFirstSearch(): T[]
 
-    /** Kunjungi simpul, anak kiri, lalu anak kanan (pre-order). */
+    /**
+     * Mengunjungi simpul saat ini, anak kiri, lalu anak kanan (DFS pre-order).
+     *
+     * @returns Array nilai simpul sesuai urutan pre-order.
+     */
     dfsPreOrder(): T[]
 
-    /** Kunjungi anak kiri, anak kanan, lalu simpul (post-order). */
+    /**
+     * Mengunjungi anak kiri, anak kanan, lalu simpul saat ini (DFS post-order).
+     *
+     * @returns Array nilai simpul sesuai urutan post-order.
+     */
     dfsPostOrder(): T[]
 
-    /** Kunjungi anak kiri, simpul, lalu anak kanan (in-order). */
+    /**
+     * Mengunjungi anak kiri, simpul saat ini, lalu anak kanan (DFS in-order).
+     *
+     * @returns Array nilai simpul sesuai urutan in-order.
+     */
     dfsInOrder(): T[]
 }

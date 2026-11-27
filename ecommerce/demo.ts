@@ -15,6 +15,9 @@ const docs = [
     { id: "d3", content: "algoritma dan struktur data penting" },
 ]
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma pada modul e-commerce.
+ */
 export function runDemo(): void {
     section("ecommerce — InvertedIndex")
     const index = new InvertedIndex()

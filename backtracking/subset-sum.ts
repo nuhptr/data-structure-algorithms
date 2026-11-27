@@ -10,14 +10,22 @@ import { ISubsetSumSolver } from "./interfaces"
  * @example
  * const solver = new SubsetSumSolver();
  * solver.findAll([2, 3, 6, 7], 7);
- * // => [[7], [2, 2, 3]] — tidak ada duplikat di input ini
+ * => [[7], [2, 2, 3]] — tidak ada duplikat di input ini
  *
  * solver.findAll([10, 1, 2, 7, 6, 1, 5], 8);
- * // => [[1,1,6],[1,2,5],[1,7],[2,6]]
+ * => [[1,1,6],[1,2,5],[1,7],[2,6]]
  */
 export class SubsetSumSolver implements ISubsetSumSolver {
+    /**
+     * Menemukan semua subset unik dari `nums` yang jumlah elemennya sama dengan `target`.
+     *
+     * @param nums - Array bilangan kandidat (boleh mengandung duplikat).
+     * @param target - Nilai jumlah target yang dicari.
+     * @returns Daftar semua subset unik yang jumlah elemennya sama dengan `target`.
+     */
     findAll(nums: number[], target: number): number[][] {
         const results: number[][] = []
+        // Urutkan menaik untuk memungkinkan pruning dini dan pendeteksian duplikat
         const sortedNums = [...nums].sort((a, b) => a - b)
 
         const buildSubsets = (
@@ -25,6 +33,7 @@ export class SubsetSumSolver implements ISubsetSumSolver {
             remaining: number,
             currentSubset: number[],
         ): void => {
+            // Basis rekursi: sisa target tepat 0 berarti subset valid ditemukan
             if (remaining === 0) {
                 results.push([...currentSubset])
                 return
@@ -41,6 +50,7 @@ export class SubsetSumSolver implements ISubsetSumSolver {
                     continue
                 }
 
+                // Pilih angka, lanjutkan pencarian dari indeks berikutnya, lalu cabut
                 currentSubset.push(currentNumber)
                 buildSubsets(index + 1, remaining - currentNumber, currentSubset)
                 currentSubset.pop() // backtrack

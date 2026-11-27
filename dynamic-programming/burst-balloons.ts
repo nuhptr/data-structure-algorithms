@@ -17,6 +17,13 @@ import { IBurstBalloonsSolver } from "./interfaces"
  * // Urutan optimal: 1→5→3→8 → 3×1×5 + 3×5×8 + 1×3×8 + 1×8×1 = 15+120+24+8 = 167
  */
 export class BurstBalloonsSolver implements IBurstBalloonsSolver {
+    /**
+     * Menghitung jumlah koin maksimum yang diperoleh dengan memecahkan semua balon
+     * menggunakan Interval DP.
+     *
+     * @param nums - Array nilai angka pada setiap balon.
+     * @returns Jumlah koin maksimum yang dapat dikumpulkan.
+     */
     maxCoins(nums: number[]): number {
         // Tambahkan balon sentinel bernilai 1 di kedua ujung
         const balloons = [1, ...nums, 1]

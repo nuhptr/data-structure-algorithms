@@ -1,6 +1,11 @@
 import { ConstantTimeExample, LinearTimeExample, QuadraticTimeExample } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi contoh kompleksitas waktu O(1), O(n), dan O(n²).
+ *
+ * @returns Tidak mengembalikan nilai.
+ */
 export function runDemo(): void {
     section("big-o — ConstantTimeExample O(1)")
     show("getElement([10,20,30], 1)", new ConstantTimeExample().getElement([10, 20, 30], 1))

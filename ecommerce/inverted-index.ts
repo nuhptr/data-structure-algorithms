@@ -19,14 +19,21 @@ import { Document, SearchResult, IInvertedIndex } from "./interfaces"
  * // => [{ documentId: "P1", score: 2 }, { documentId: "P2", score: 1 }]
  */
 export class InvertedIndex implements IInvertedIndex {
-    // kata → Set document ID yang mengandung kata tersebut
+    /** Posting list: memetakan setiap token ke himpunan ID dokumen yang mengandungnya. */
     private postingList: Map<string, Set<string>> = new Map()
+    /** Penyimpanan dokumen asli berdasarkan ID dokumen. */
     private documentStore: Map<string, Document> = new Map()
 
+    /**
+     * Menambahkan dokumen ke penyimpanan dan memperbarui posting list untuk setiap tokennya.
+     *
+     * @param doc - Dokumen yang akan diindeks.
+     */
     addDocument(doc: Document): void {
         this.documentStore.set(doc.id, doc)
         const tokens = this.tokenize(doc.content)
 
+        // Daftarkan ID dokumen pada posting list untuk setiap token hasil tokenisasi
         for (const token of tokens) {
             if (!this.postingList.has(token)) {
                 this.postingList.set(token, new Set())
@@ -35,10 +42,18 @@ export class InvertedIndex implements IInvertedIndex {
         }
     }
 
+    /**
+     * Mencari dokumen yang mengandung kata kunci pada query dan memberi skor
+     * berdasarkan jumlah token query yang cocok.
+     *
+     * @param query - String kata kunci pencarian.
+     * @returns Daftar hasil pencarian terurut menurun berdasarkan jumlah kecocokan token.
+     */
     search(query: string): SearchResult[] {
         const queryTokens = this.tokenize(query)
         const scoreMap = new Map<string, number>()
 
+        // Akumulasi skor setiap dokumen yang muncul di posting list token query
         for (const token of queryTokens) {
             const matchingDocIds = this.postingList.get(token)
             if (!matchingDocIds) continue
@@ -53,6 +68,12 @@ export class InvertedIndex implements IInvertedIndex {
             .sort((a, b) => b.score - a.score)
     }
 
+    /**
+     * Menormalisasi teks menjadi huruf kecil, menghapus tanda baca, lalu memecahnya menjadi token.
+     *
+     * @param text - Teks mentah yang akan ditokenisasi.
+     * @returns Array token alfanumerik non-kosong.
+     */
     private tokenize(text: string): string[] {
         return text
             .toLowerCase()

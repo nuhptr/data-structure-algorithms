@@ -12,26 +12,40 @@ export const DEFAULT_STUDENTS: string[] = [
 /**
  * Student Searcher — mencari nama atau nama parsial dalam daftar siswa.
  *
- * Perbandingan mengabaikan huruf besar/kecil dan spasi di sekitar
- * masukan. Kompleksitas waktu O(n) karena setiap elemen diperiksa
- * satu per satu.
+ * Perbandingan mengabaikan huruf besar/kecil dan spasi di sekitar masukan.
+ *
+ * Kompleksitas Waktu : O(n) karena setiap elemen diperiksa satu per satu
+ * Kompleksitas Ruang : O(1) ruang tambahan di luar daftar siswa
  *
  * @example
- * const searcher = new StudentSearcher();
- * searcher.search("Alice"); // => "Student Alice found at index 2."
- * searcher.search("Zoe");   // => "Student Zoe not found."
+ * const searcher = new StudentSearcher()
+ * searcher.search("Alice") // => "Student Alice found at index 2."
+ * searcher.search("Zoe")   // => "Student Zoe not found."
  */
 export class StudentSearcher implements IStudentSearcher {
     /** Daftar siswa yang diperiksa; dapat disuntikkan lewat konstruktor. */
     private readonly students: string[]
 
+    /**
+     * Membuat instance `StudentSearcher` dengan daftar siswa tertentu.
+     *
+     * @param students - Daftar nama siswa yang akan dicari (default: `DEFAULT_STUDENTS`).
+     */
     constructor(students: string[] = DEFAULT_STUDENTS) {
         this.students = students
     }
 
+    /**
+     * Mencari siswa pertama yang namanya mengandung kata kunci secara case-insensitive.
+     *
+     * @param studentName - Nama atau potongan nama siswa yang dicari.
+     * @returns Pesan lokasi indeks jika ditemukan, atau pesan bahwa siswa tidak ditemukan.
+     */
     search(studentName: string): string {
+        // Normalisasi kata kunci agar pencarian tidak peka huruf besar/kecil dan spasi tepi
         const query = studentName.toLowerCase().trim()
 
+        // Telusuri daftar siswa secara linear hingga kecocokan pertama ditemukan
         for (let i = 0; i < this.students.length; i++) {
             if (this.students[i].toLowerCase().includes(query)) {
                 return `Student ${studentName} found at index ${i}.`

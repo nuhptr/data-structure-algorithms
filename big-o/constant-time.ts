@@ -14,7 +14,15 @@ import { IConstantTimeExample } from "./interfaces"
  * example.getElement([1, 2, 3, 4, 5], 0); // => 1
  */
 export class ConstantTimeExample implements IConstantTimeExample {
+    /**
+     * Mengambil elemen array pada indeks tertentu secara langsung dalam waktu konstan.
+     *
+     * @param array - Array sumber yang diakses.
+     * @param index - Posisi indeks elemen yang diambil.
+     * @returns Elemen yang berada pada `array[index]`.
+     */
     getElement<T>(array: T[], index: number): T {
+        // Akses langsung ke indeks array membutuhkan waktu O(1)
         return array[index]
     }
 }

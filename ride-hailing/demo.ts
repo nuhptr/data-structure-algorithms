@@ -8,6 +8,9 @@ import {
 } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma pada modul ride-hailing.
+ */
 export function runDemo(): void {
     section("ride-hailing — Haversine")
     const jakarta = { latitude: -6.2088, longitude: 106.8456 }

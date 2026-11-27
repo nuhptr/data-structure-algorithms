@@ -22,15 +22,26 @@ import { AdjacencyList, IBidirectionalBFS } from "./interfaces"
  * biBFS.findShortestPath(graph, "1", "5"); // => 3
  */
 export class BidirectionalBFS implements IBidirectionalBFS {
+    /**
+     * Mencari jarak hop terpendek antara `start` dan `end` dengan mengekspansi
+     * frontier secara bergantian dari kedua ujung.
+     *
+     * @param graph - Adjacency list graf tak berbobot
+     * @param start - Node awal pencarian
+     * @param end - Node tujuan pencarian
+     * @returns Jumlah hop terpendek, atau `-1` jika tidak ada jalur yang menghubungkan
+     */
     findShortestPath(graph: AdjacencyList, start: string, end: string): number {
         if (start === end) return 0
 
+        // Simpan jarak masing-masing node dari sisi depan (`start`) dan sisi belakang (`end`)
         const frontVisited = new Map<string, number>([[start, 0]])
         const backVisited = new Map<string, number>([[end, 0]])
         let frontFrontier: string[] = [start]
         let backFrontier: string[] = [end]
 
         while (frontFrontier.length > 0 || backFrontier.length > 0) {
+            // Cek pertemuan dari frontier depan lalu perluas satu level ke depan
             const intersection = this.expandFrontier(
                 graph,
                 frontFrontier,
@@ -41,6 +52,7 @@ export class BidirectionalBFS implements IBidirectionalBFS {
 
             frontFrontier = this.getNextFrontier(graph, frontFrontier, frontVisited)
 
+            // Cek pertemuan dari frontier belakang lalu perluas satu level ke belakang
             const intersection2 = this.expandFrontier(
                 graph,
                 backFrontier,
@@ -55,6 +67,16 @@ export class BidirectionalBFS implements IBidirectionalBFS {
         return -1 // tidak ada jalur
     }
 
+    /**
+     * Memeriksa apakah ada node pada `frontier` saat ini yang sudah dikunjungi
+     * oleh pencarian dari arah berlawanan.
+     *
+     * @param graph - Adjacency list graf tak berbobot
+     * @param frontier - Daftar node pada level frontier aktif
+     * @param ownVisited - Peta jarak node yang dikunjungi dari arah saat ini
+     * @param otherVisited - Peta jarak node yang dikunjungi dari arah berlawanan
+     * @returns Total jarak terpendek jika bertemu, atau `-1` jika belum beririsan
+     */
     private expandFrontier(
         graph: AdjacencyList,
         frontier: string[],
@@ -69,6 +91,15 @@ export class BidirectionalBFS implements IBidirectionalBFS {
         return -1
     }
 
+    /**
+     * Menghasilkan frontier level berikutnya dengan mengunjungi seluruh tetangga
+     * yang belum pernah dicatat pada `visited`.
+     *
+     * @param graph - Adjacency list graf tak berbobot
+     * @param frontier - Daftar node pada level saat ini
+     * @param visited - Peta jarak node yang sudah dikunjungi pada arah ini
+     * @returns Daftar node baru untuk frontier level berikutnya
+     */
     private getNextFrontier(
         graph: AdjacencyList,
         frontier: string[],
@@ -79,6 +110,7 @@ export class BidirectionalBFS implements IBidirectionalBFS {
         for (const node of frontier) {
             const currentDist = visited.get(node)!
 
+            // Catat setiap tetangga baru dengan jarak bertambah 1 hop
             for (const neighbor of (graph[node] ?? []).map(String)) {
                 if (!visited.has(neighbor)) {
                     visited.set(neighbor, currentDist + 1)

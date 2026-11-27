@@ -8,6 +8,9 @@ import {
 } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma pada modul greedy.
+ */
 export function runDemo(): void {
     section("greedy — ActivitySelector")
     const activities: [number, number][] = [

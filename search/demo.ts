@@ -11,6 +11,10 @@ import { show, section } from "../demo-utils"
 
 const sorted = [1, 3, 5, 7, 9, 11, 13, 15]
 
+/**
+ * Menjalankan demo untuk seluruh algoritma pencarian di modul `search`,
+ * meliputi Linear, Binary (iteratif & rekursif), Jump, Exponential, Interpolation, dan Ternary Search.
+ */
 export function runDemo(): void {
     section("search — LinearSearch")
     show("cari 7", new LinearSearch<number>().search([3, 1, 4, 1, 5, 9, 2, 6], 6))

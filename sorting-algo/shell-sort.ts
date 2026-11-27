@@ -13,6 +13,12 @@ import { ISortAlgorithm } from "./interfaces"
  * sorter.sort([64, 25, 12, 22, 11]); // => [11, 12, 22, 25, 64]
  */
 export class ShellSort implements ISortAlgorithm {
+    /**
+     * Mengurutkan salinan array secara menaik menggunakan Shell Sort dengan urutan gap Knuth.
+     *
+     * @param array - Array bilangan yang akan diurutkan
+     * @returns Array baru yang sudah terurut secara menaik
+     */
     sort(array: number[]): number[] {
         const cloned = [...array]
         const length = cloned.length
@@ -29,6 +35,7 @@ export class ShellSort implements ISortAlgorithm {
                 const currentValue = cloned[startIndex]
                 let shiftIndex = startIndex
 
+                // Geser elemen yang lebih besar sejauh `gap` ke kanan
                 while (shiftIndex >= gap && cloned[shiftIndex - gap] > currentValue) {
                     cloned[shiftIndex] = cloned[shiftIndex - gap]
                     shiftIndex -= gap

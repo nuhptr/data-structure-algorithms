@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk modul algoritma e-commerce (Inverted Index, TF-IDF, Levenshtein,
+ * Cosine Similarity, Collaborative Filtering, Bloom Filter, dan Bin Packing).
+ */
 export * from "./interfaces"
 export * from "./inverted-index"
 export * from "./tfidf"

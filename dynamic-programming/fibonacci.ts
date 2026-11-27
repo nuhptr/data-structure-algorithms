@@ -13,9 +13,17 @@ import { IFibonacciSolver } from "./interfaces"
  * solver.solve(5);  // => [0, 1, 1, 2, 3]
  */
 export class FibonacciSolver implements IFibonacciSolver {
+    /** Cache barisan Fibonacci yang telah dihitung sebelumnya, diawali `[0, 1]`. */
     private cachedSequence: number[] = [0, 1]
 
+    /**
+     * Menghasilkan `count` elemen pertama dari barisan Fibonacci dengan memanfaatkan cache internal.
+     *
+     * @param count - Jumlah elemen Fibonacci yang ingin diambil.
+     * @returns Array barisan Fibonacci sepanjang `count`.
+     */
     solve(count: number): number[] {
+        // Hitung berapa elemen baru yang perlu ditambahkan ke cache
         const missingCount = count - (this.cachedSequence.length - 2)
 
         if (missingCount >= 1) {
@@ -26,6 +34,7 @@ export class FibonacciSolver implements IFibonacciSolver {
             }
         }
 
+        // Kembalikan salinan irisan sebanyak `count` elemen pertama
         return this.cachedSequence.slice(0, count)
     }
 }

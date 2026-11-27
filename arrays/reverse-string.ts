@@ -12,7 +12,14 @@ import { IStringReverser } from "./interfaces"
  * reverser.reverse("hello"); // => "olleh"
  */
 export class StringReverser implements IStringReverser {
+    /**
+     * Membalik urutan karakter dari string masukan.
+     *
+     * @param text - String yang ingin dibalik urutannya.
+     * @returns String baru dengan urutan karakter terbalik.
+     */
     reverse(text: string): string {
+        // Pecah menjadi array karakter, balik urutannya, lalu gabungkan kembali
         return text.split("").reverse().join("")
     }
 }

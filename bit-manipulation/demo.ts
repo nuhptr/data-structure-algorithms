@@ -1,6 +1,11 @@
 import { BitOperations, BitmaskDP, XORAlgorithms } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi `BitOperations`, `XORAlgorithms`, dan `BitmaskDP`.
+ *
+ * @returns Tidak mengembalikan nilai.
+ */
 export function runDemo(): void {
     section("bit-manipulation — BitOperations")
     const bits = new BitOperations()

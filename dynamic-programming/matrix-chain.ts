@@ -16,6 +16,13 @@ import { IMatrixChainSolver } from "./interfaces"
  * // => 4500  (urutan optimal: (A1 × A2) × A3)
  */
 export class MatrixChainSolver implements IMatrixChainSolver {
+    /**
+     * Menghitung jumlah minimum operasi perkalian skalar untuk mengalikan rantai matriks
+     * yang didefinisikan oleh array `dimensions`.
+     *
+     * @param dimensions - Array dimensi rantai matriks (`dimensions[i - 1] × dimensions[i]`).
+     * @returns Jumlah minimum operasi perkalian skalar.
+     */
     solve(dimensions: number[]): number {
         const matrixCount = dimensions.length - 1
 
@@ -35,6 +42,7 @@ export class MatrixChainSolver implements IMatrixChainSolver {
 
                 // Coba semua posisi split k antara startMatrix dan endMatrix
                 for (let splitPoint = startMatrix; splitPoint < endMatrix; splitPoint++) {
+                    // Total biaya = biaya sub-rantai kiri + sub-rantai kanan + biaya penggabungan keduanya
                     const operationCount =
                         costTable[startMatrix][splitPoint] +
                         costTable[splitPoint + 1][endMatrix] +

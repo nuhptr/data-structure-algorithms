@@ -17,6 +17,13 @@ import { ILevenshtein } from "./interfaces"
  * lev.closestMatch("septu", ["sepatu", "sendal", "kaos"]); // => "sepatu"
  */
 export class Levenshtein implements ILevenshtein {
+    /**
+     * Menghitung jarak edit Levenshtein antara dua string menggunakan Dynamic Programming.
+     *
+     * @param wordA - String sumber.
+     * @param wordB - String target.
+     * @returns Jumlah minimum operasi insert, delete, atau replace.
+     */
     distance(wordA: string, wordB: string): number {
         const lengthA = wordA.length
         const lengthB = wordB.length
@@ -35,8 +42,10 @@ export class Levenshtein implements ILevenshtein {
                 const charsMatch = wordA[row - 1] === wordB[col - 1]
 
                 if (charsMatch) {
+                    // Karakter sama: tidak butuh operasi tambahan
                     distanceTable[row][col] = distanceTable[row - 1][col - 1]
                 } else {
+                    // Pilih biaya terkecil di antara insert, delete, dan replace
                     const insertCost = distanceTable[row][col - 1]
                     const deleteCost = distanceTable[row - 1][col]
                     const replaceCost = distanceTable[row - 1][col - 1]
@@ -48,6 +57,13 @@ export class Levenshtein implements ILevenshtein {
         return distanceTable[lengthA][lengthB]
     }
 
+    /**
+     * Mencari satu kandidat kata dengan jarak edit terkecil terhadap query.
+     *
+     * @param query - Kata masukan yang mungkin mengandung typo.
+     * @param candidates - Daftar kandidat kata pembanding.
+     * @returns Kandidat terdekat, atau `null` jika `candidates` kosong.
+     */
     closestMatch(query: string, candidates: string[]): string | null {
         if (candidates.length === 0) return null
 
@@ -66,8 +82,13 @@ export class Levenshtein implements ILevenshtein {
     }
 
     /**
-     * Mengembalikan semua kandidat dengan edit distance <= maxDistance,
+     * Mengembalikan semua kandidat dengan edit distance `<= maxDistance`,
      * diurutkan dari yang paling mirip.
+     *
+     * @param query - Kata masukan yang dicari sarannya.
+     * @param candidates - Daftar kandidat kata.
+     * @param maxDistance - Batas maksimum jarak edit yang diterima (default `2`).
+     * @returns Daftar saran kata terurut berdasarkan jarak edit terkecil.
      */
     suggestions(query: string, candidates: string[], maxDistance: number = 2): string[] {
         return candidates

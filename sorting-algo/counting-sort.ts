@@ -13,9 +13,17 @@ import { ISortAlgorithm } from "./interfaces"
  * sorter.sort([-2, -5, -45]);    // => [-45, -5, -2]
  */
 export class CountingSort implements ISortAlgorithm {
+    /**
+     * Mengurutkan array bilangan bulat secara menaik menggunakan Counting Sort.
+     * Mendukung nilai negatif melalui pergeseran indeks berdasarkan `minValue`.
+     *
+     * @param array - Array bilangan bulat yang akan diurutkan
+     * @returns Array baru yang sudah terurut secara menaik dan stabil
+     */
     sort(array: number[]): number[] {
         if (array.length === 0) return []
 
+        // Tentukan rentang nilai agar tabel frekuensi juga mendukung bilangan negatif
         const minValue = Math.min(...array)
         const maxValue = Math.max(...array)
         const rangeSize = maxValue - minValue + 1
