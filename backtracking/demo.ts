@@ -8,6 +8,10 @@ import {
 } from "./index"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi interaktif untuk berbagai algoritma backtracking
+ * (kombinasi, tanda kurung, N-Queens, permutasi, subset sum, dan word search).
+ */
 export function runDemo(): void {
     section("backtracking — CombinationGenerator")
     show("C(4,2)", new CombinationGenerator().generate(4, 2))

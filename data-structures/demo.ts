@@ -9,13 +9,20 @@ import { SegmentTree } from "./segment-tree"
 import { Trie } from "./trie"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demonstrasi interaktif untuk seluruh struktur data pada direktori `data-structures/`
+ * (LRUCache, Deque, MinHeap, Trie, DisjointSet, FenwickTree, SegmentTree, AVLTree,
+ * MonotonicStack, dan MonotonicDeque) serta mencetak hasilnya ke konsol.
+ *
+ * @returns Tidak mengembalikan nilai (`void`)
+ */
 export function runDemo(): void {
     section("data-structures — LRUCache")
     const cache = new LRUCache<string, number>(2)
     cache.put("a", 1)
     cache.put("b", 2)
     show("get('a')", cache.get("a"))
-    cache.put("c", 3) // 'b' ter-evict
+    cache.put("c", 3) // 'b' ter-evict karena paling lama tidak diakses
     show("get('b') setelah evict", cache.get("b"))
     show("size()", cache.size())
 

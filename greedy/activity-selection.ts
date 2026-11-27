@@ -14,16 +14,26 @@ import { Activity, IActivitySelector } from "./interfaces"
  * // => [(1,3),(6,8)]
  */
 export class ActivitySelector implements IActivitySelector {
+    /**
+     * Memilih subset aktivitas maksimum yang tidak saling tumpang tindih dengan
+     * mengurutkan berdasarkan waktu selesai paling awal.
+     *
+     * @param activities - Daftar aktivitas berupa pasangan `[startTime, endTime]`.
+     * @returns Daftar aktivitas terpilih dalam urutan kronologis.
+     */
     select(activities: Activity[]): Activity[] {
         if (!activities || activities.length === 0) return []
 
+        // Urutkan salinan aktivitas berdasarkan waktu selesai terkecil lebih dulu
         const sortedByEndTime = [...activities].sort(([, endA], [, endB]) => endA - endB)
 
+        // Aktivitas yang selesai paling awal selalu optimal sebagai pilihan pertama
         const selectedActivities: Activity[] = [sortedByEndTime[0]]
 
         for (let index = 1; index < sortedByEndTime.length; index++) {
             const currentActivity = sortedByEndTime[index]
             const lastSelectedActivity = selectedActivities[selectedActivities.length - 1]
+            // Cek apakah aktivitas saat ini dimulai setelah atau tepat saat aktivitas terakhir selesai
             const doesNotOverlap = currentActivity[0] >= lastSelectedActivity[1]
 
             if (doesNotOverlap) {

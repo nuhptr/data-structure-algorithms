@@ -19,6 +19,12 @@ import { ISuffixArray } from "./interfaces"
  * sa.search("banana", "xyz");  // => []
  */
 export class SuffixArray implements ISuffixArray {
+    /**
+     * Membangun suffix array dari string menggunakan metode prefix doubling.
+     *
+     * @param s - String sumber.
+     * @returns Array indeks awal suffix yang terurut secara leksikografis.
+     */
     build(s: string): number[] {
         const n = s.length
         if (n === 0) return []
@@ -26,7 +32,7 @@ export class SuffixArray implements ISuffixArray {
         // Buat array suffix awal berdasarkan index
         let suffixes = Array.from({ length: n }, (_, i) => i)
 
-        // Urutkan menggunakan prefix doubling
+        // Urutkan menggunakan prefix doubling dengan rank awal berupa kode ASCII karakter
         let gap = 1
         const rank = Array.from(s, (char) => char.charCodeAt(0))
 
@@ -38,13 +44,13 @@ export class SuffixArray implements ISuffixArray {
                 if (rankSnapshot[a] !== rankSnapshot[b]) {
                     return rankSnapshot[a] - rankSnapshot[b]
                 }
-                // Jika sama, bandingkan rank pada posisi + gap
+                // Jika sama, bandingkan rank pada posisi + gap (-1 jika melewati ujung string)
                 const rankA = a + gap < n ? rankSnapshot[a + gap] : -1
                 const rankB = b + gap < n ? rankSnapshot[b + gap] : -1
                 return rankA - rankB
             })
 
-            // Hitung ulang rank berdasarkan urutan baru
+            // Hitung ulang rank terkompresi berdasarkan urutan baru
             rank[suffixes[0]] = 0
             for (let i = 1; i < n; i++) {
                 const prev = suffixes[i - 1]
@@ -64,13 +70,21 @@ export class SuffixArray implements ISuffixArray {
         return suffixes
     }
 
+    /**
+     * Mencari semua kemunculan pola di dalam string menggunakan dua kali binary search
+     * (lower bound dan upper bound) pada suffix array.
+     *
+     * @param s - String sumber.
+     * @param pattern - Pola substring yang dicari.
+     * @returns Daftar indeks awal kemunculan pola yang terurut menaik.
+     */
     search(s: string, pattern: string): number[] {
         const suffixArray = this.build(s)
         const n = s.length
         const m = pattern.length
         const results: number[] = []
 
-        // Binary search untuk batas kiri
+        // Binary search untuk batas kiri (suffix pertama >= pattern)
         let left = 0
         let right = n
 
@@ -83,7 +97,7 @@ export class SuffixArray implements ISuffixArray {
 
         const lowerBound = left
 
-        // Binary search untuk batas kanan
+        // Binary search untuk batas kanan (suffix pertama > pattern)
         right = n
         while (left < right) {
             const mid = Math.floor((left + right) / 2)
@@ -92,7 +106,7 @@ export class SuffixArray implements ISuffixArray {
             else right = mid
         }
 
-        // Kumpulkan semua kemunculan dalam range [lowerBound, left)
+        // Kumpulkan semua kemunculan dalam rentang [lowerBound, left)
         for (let i = lowerBound; i < left; i++) {
             const startIndex = suffixArray[i]
             if (s.substring(startIndex, startIndex + m) === pattern) {

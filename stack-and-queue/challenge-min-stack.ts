@@ -1,13 +1,21 @@
 import { IMinStack, IStackNode } from "./interfaces"
 
-/** Node untuk MinStack — nilai plus tautan ke node di bawahnya. */
+/**
+ * Node untuk `MinStack` — menyimpan nilai beserta tautan ke node di bawahnya.
+ *
+ * @template T Tipe nilai yang disimpan pada node.
+ */
 export class MinStackNode<T> implements IStackNode<T> {
     /** Nilai data yang disimpan di node. */
     value: T
-    /** Referensi ke node berikutnya di bawahnya dalam stack. */
+    /** Referensi ke node berikutnya di bawahnya dalam stack, atau `null` jika terbawah. */
     next: MinStackNode<T> | null
 
-    /** Buat node yang belum terhubung ke node lain. */
+    /**
+     * Membuat node baru yang belum terhubung ke node lain.
+     *
+     * @param value Nilai awal yang disimpan pada node.
+     */
     constructor(value: T) {
         this.value = value
         this.next = null
@@ -16,27 +24,36 @@ export class MinStackNode<T> implements IStackNode<T> {
 
 /**
  * MinStack — stack angka yang dapat melacak nilai minimum
- * yang sedang tersimpan. `min()` selalu O(1).
+ * yang sedang tersimpan. `min()` selalu berjalan dalam waktu O(1).
  *
  * Jika nilai minimum dikeluarkan lewat `pop()`, minimum baru
  * dicari dengan menelusuri sisa node — O(n) pada kasus terburuk.
  *
+ * Kompleksitas Waktu : O(1) untuk `push`, `top`, `min` | O(1) rata-rata, O(n) worst case untuk `pop`
+ * Kompleksitas Ruang : O(n)
+ *
+ * @template T Tipe numerik yang disimpan pada stack.
+ *
  * @example
- * const stack = new MinStack<number>();
- * stack.push(5).push(2).push(7).push(1);
- * stack.min(); // => 1
- * stack.pop();
- * stack.min(); // => 2
+ * const stack = new MinStack<number>()
+ * stack.push(5).push(2).push(7).push(1)
+ * stack.min() // => 1
+ * stack.pop()
+ * stack.min() // => 2
  */
 export class MinStack<T extends number> implements IMinStack<T> {
-    /** Node paling atas stack, atau null jika stack kosong. */
+    /** Node paling atas stack, atau `null` jika stack kosong. */
     first: MinStackNode<T> | null
     /** Jumlah elemen yang tersimpan di stack. */
     length: number
-    /** Nilai terkecil saat ini, atau undefined jika stack kosong. */
+    /** Nilai terkecil saat ini, atau `undefined` jika stack kosong. */
     private minValue: T | undefined
 
-    /** Buat stack kosong, atau masukkan nilai awal jika diberikan. */
+    /**
+     * Membuat `MinStack` kosong, atau memasukkan nilai awal jika diberikan.
+     *
+     * @param value Nilai angka awal opsional untuk elemen pertama.
+     */
     constructor(value?: T) {
         this.first = null
         this.length = 0
@@ -44,13 +61,19 @@ export class MinStack<T extends number> implements IMinStack<T> {
         if (value !== undefined) this.push(value)
     }
 
-    /** Tambahkan angka ke puncak stack; O(1). */
+    /**
+     * Menambahkan angka ke puncak stack dalam waktu O(1) dan memperbarui nilai minimum bila perlu.
+     *
+     * @param value Nilai angka yang ingin dimasukkan.
+     * @returns Instans `MinStack` saat ini untuk mendukung method chaining.
+     */
     push(value: T): this {
         const newNode = new MinStackNode(value)
         newNode.next = this.first
         this.first = newNode
         this.length++
 
+        // Perbarui cache nilai minimum jika stack sebelumnya kosong atau nilai baru lebih kecil.
         if (this.minValue === undefined || value < this.minValue) {
             this.minValue = value
         }
@@ -58,7 +81,12 @@ export class MinStack<T extends number> implements IMinStack<T> {
         return this
     }
 
-    /** Hapus dan kembalikan node teratas; undefined jika stack kosong. */
+    /**
+     * Menghapus dan mengembalikan node teratas.
+     * Jika elemen yang dihapus merupakan nilai minimum saat ini, minimum baru dihitung ulang.
+     *
+     * @returns Node teratas yang dihapus, atau `undefined` jika stack kosong.
+     */
     pop(): MinStackNode<T> | undefined {
         if (!this.first) return undefined
 
@@ -67,11 +95,13 @@ export class MinStack<T extends number> implements IMinStack<T> {
         temp.next = null
         this.length--
 
+        // Jika stack menjadi kosong, reset nilai minimum menjadi `undefined`.
         if (this.length === 0) {
             this.minValue = undefined
             return temp
         }
 
+        // Hitung ulang nilai minimum hanya ketika elemen yang dikeluarkan adalah minimum saat ini.
         if (temp.value === this.minValue) {
             let current = this.first
             let newMin = current?.value
@@ -89,12 +119,20 @@ export class MinStack<T extends number> implements IMinStack<T> {
         return temp
     }
 
-    /** Baca node teratas tanpa menghapusnya; undefined jika kosong. */
+    /**
+     * Membaca node teratas tanpa menghapusnya.
+     *
+     * @returns Node paling atas pada stack, atau `undefined` jika kosong.
+     */
     top(): MinStackNode<T> | undefined {
         return this.first ?? undefined
     }
 
-    /** Kembalikan nilai terkecil saat ini, atau undefined jika kosong. */
+    /**
+     * Mengembalikan nilai terkecil saat ini dalam waktu O(1).
+     *
+     * @returns Nilai minimum yang tersimpan, atau `undefined` jika stack kosong.
+     */
     min(): T | undefined {
         return this.minValue
     }

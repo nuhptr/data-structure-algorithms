@@ -18,6 +18,13 @@ import { IRegexMatcher } from "./interfaces"
  * matcher.isMatch("mississippi", "mis*is*p*."); // => false
  */
 export class RegexMatcher implements IRegexMatcher {
+    /**
+     * Memeriksa apakah keseluruhan string `s` cocok dengan ekspresi reguler `pattern`.
+     *
+     * @param s - String input yang diuji.
+     * @param pattern - Pola regex yang mendukung wildcard `.` dan quantifier `*`.
+     * @returns `true` jika `s` cocok sepenuhnya dengan `pattern`, `false` jika tidak.
+     */
     isMatch(s: string, pattern: string): boolean {
         const sLen = s.length
         const pLen = pattern.length
@@ -50,6 +57,7 @@ export class RegexMatcher implements IRegexMatcher {
 
                     dp[sIndex][pIndex] = zeroOccurrence || oneOrMore
                 } else if (pChar === "." || pChar === sChar) {
+                    // Karakter cocok langsung atau melalui wildcard '.'
                     dp[sIndex][pIndex] = dp[sIndex - 1][pIndex - 1]
                 }
             }

@@ -23,6 +23,15 @@ import { WeightedAdjacencyList, HeuristicFn, IAStarSearch } from "./interfaces"
  * aStar.findShortestPath(graph, "A", "D", heuristic); // => 4
  */
 export class AStarSearch implements IAStarSearch {
+    /**
+     * Mencari total biaya jalur terpendek dari `start` ke `end` menggunakan algoritma A*.
+     *
+     * @param graph - Adjacency list graf berbobot non-negatif
+     * @param start - Node awal pencarian
+     * @param end - Node tujuan pencarian
+     * @param heuristic - Fungsi heuristik admissible `h(node, goal)`
+     * @returns Total biaya aktual jalur terpendek, atau `-1` jika `end` tidak dapat dijangkau
+     */
     findShortestPath(
         graph: WeightedAdjacencyList,
         start: string,
@@ -35,14 +44,18 @@ export class AStarSearch implements IAStarSearch {
         const visitedNodes = new Set<string>()
 
         while (openSet.length > 0) {
+            // Pilih kandidat dengan skor total f(n) = g(n) + h(n) terkecil
             openSet.sort((a, b) => a[0] - b[0])
             const [, currentG, currentNode] = openSet.shift()!
 
+            // Abaikan entri duplikat jika node sudah pernah difinalisasi
             if (visitedNodes.has(currentNode)) continue
             visitedNodes.add(currentNode)
 
+            // Kembalikan biaya aktual g(n) begitu tujuan tercapai
             if (currentNode === end) return currentG
 
+            // Evaluasi setiap tetangga dan perbarui skor bila ditemukan jalur yang lebih murah
             for (const [neighbor, edgeCost] of graph[currentNode] ?? []) {
                 if (visitedNodes.has(neighbor)) continue
 

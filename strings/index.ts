@@ -1,3 +1,7 @@
+/**
+ * Barrel export untuk modul algoritma string (KMP, Rabin-Karp, Boyer-Moore,
+ * Z-Algorithm, Aho-Corasick, dan Suffix Array).
+ */
 export * from "./interfaces"
 export * from "./kmp"
 export * from "./rabin-karp"

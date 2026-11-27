@@ -3,6 +3,10 @@ import { countDown, factorial } from "./recursion"
 import { BinarySearchTree } from "./tree-traversal"
 import { show, section } from "../demo-utils"
 
+/**
+ * Menjalankan demo untuk seluruh implementasi di modul `tree`,
+ * meliputi `BST`, `BinarySearchTree` (BFS & DFS traversal), serta fungsi rekursif.
+ */
 export function runDemo(): void {
     section("tree — BST")
     const bst = new BST()

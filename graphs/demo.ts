@@ -45,6 +45,12 @@ const weighted: WeightedAdjacencyList = {
     F: [],
 }
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma graf pada graf contoh tak berbobot,
+ * graf berbobot, dan DAG lalu menampilkan hasilnya ke konsol.
+ *
+ * @returns Tidak mengembalikan nilai (mencetak hasil ke konsol)
+ */
 export function runDemo(): void {
     section("graphs — BFS")
     show("traverse dari A", [...new BFS().traverse(unweighted, "A")])

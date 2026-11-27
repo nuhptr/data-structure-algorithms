@@ -25,37 +25,88 @@ export interface IDoublyLinkedNode<T> {
  * Kontrak untuk singly linked list.
  */
 export interface ISinglyLinkedList<T> {
-    /** Tambahkan node di akhir list; O(1) berkat referensi tail. */
+    /**
+     * Menambahkan node di akhir list; O(1) berkat referensi tail.
+     *
+     * @param value - Nilai yang disimpan pada node baru.
+     * @returns Instance list itu sendiri untuk method chaining.
+     */
     push(value: T): this
 
-    /** Hapus dan kembalikan node terakhir; O(n). */
+    /**
+     * Menghapus dan mengembalikan node terakhir; O(n).
+     *
+     * @returns Node terakhir yang dihapus, atau `undefined` jika list kosong.
+     */
     pop(): ILinkedNode<T> | undefined
 
-    /** Tambahkan node di awal list; O(1). */
+    /**
+     * Menambahkan node di awal list; O(1).
+     *
+     * @param value - Nilai yang disimpan pada node baru.
+     * @returns Instance list itu sendiri untuk method chaining.
+     */
     unshift(value: T): this
 
-    /** Hapus dan kembalikan node pertama; O(1). */
+    /**
+     * Menghapus dan mengembalikan node pertama; O(1).
+     *
+     * @returns Node pertama yang dihapus, atau `undefined` jika list kosong.
+     */
     shift(): ILinkedNode<T> | undefined
 
-    /** Kembalikan node pertama, atau null jika list kosong. */
+    /**
+     * Mengembalikan node pertama, atau `null` jika list kosong.
+     *
+     * @returns Node `head` atau `null`.
+     */
     getFirst(): ILinkedNode<T> | null
 
-    /** Kembalikan node terakhir; O(1) berkat referensi tail. */
+    /**
+     * Mengembalikan node terakhir; O(1) berkat referensi tail.
+     *
+     * @returns Node `tail` atau `null` jika list kosong.
+     */
     getLast(): ILinkedNode<T> | null
 
-    /** Kembalikan node pada indeks berbasis nol; O(indeks). */
+    /**
+     * Mengembalikan node pada indeks berbasis nol; O(indeks).
+     *
+     * @param index - Indeks node yang ingin diambil.
+     * @returns Node pada posisi `index`, atau `null` jika indeks tidak valid.
+     */
     get(index: number): ILinkedNode<T> | null
 
-    /** Ganti nilai node pada indeks; false jika indeks tidak valid. */
+    /**
+     * Mengganti nilai node pada indeks tertentu.
+     *
+     * @param index - Indeks node yang akan diperbarui.
+     * @param value - Nilai baru untuk node tersebut.
+     * @returns `true` jika berhasil diperbarui, `false` jika indeks tidak valid.
+     */
     set(index: number, value: T): boolean
 
-    /** Sisipkan nilai pada indeks 0 sampai length; false jika tidak valid. */
+    /**
+     * Menyisipkan nilai pada indeks `0` sampai `length`.
+     *
+     * @param index - Posisi penyisipan node baru.
+     * @param value - Nilai yang akan disisipkan.
+     * @returns `true` jika berhasil disisipkan, `false` jika indeks tidak valid.
+     */
     insert(index: number, value: T): boolean
 
-    /** Kembalikan jumlah node; O(1). */
+    /**
+     * Mengembalikan jumlah node dalam list; O(1).
+     *
+     * @returns Total node yang tersimpan.
+     */
     size(): number
 
-    /** Kosongkan seluruh list. */
+    /**
+     * Mengosongkan seluruh list.
+     *
+     * @returns Tidak mengembalikan nilai.
+     */
     clear(): void
 }
 
@@ -63,16 +114,34 @@ export interface ISinglyLinkedList<T> {
  * Kontrak untuk doubly linked list.
  */
 export interface IDoublyLinkedList<T> {
-    /** Tambahkan node di akhir list; O(1). */
+    /**
+     * Menambahkan node di akhir list; O(1).
+     *
+     * @param value - Nilai yang disimpan pada node baru.
+     * @returns Instance list itu sendiri untuk method chaining.
+     */
     push(value: T): this
 
-    /** Hapus dan kembalikan node terakhir; O(1). */
+    /**
+     * Menghapus dan mengembalikan node terakhir; O(1).
+     *
+     * @returns Node terakhir yang dihapus, atau `undefined` jika list kosong.
+     */
     pop(): IDoublyLinkedNode<T> | undefined
 
-    /** Tambahkan node di awal list; O(1). */
+    /**
+     * Menambahkan node di awal list; O(1).
+     *
+     * @param value - Nilai yang disimpan pada node baru.
+     * @returns Instance list itu sendiri untuk method chaining.
+     */
     unshift(value: T): this
 
-    /** Hapus dan kembalikan node pertama; O(1). */
+    /**
+     * Menghapus dan mengembalikan node pertama; O(1).
+     *
+     * @returns Node pertama yang dihapus, atau `undefined` jika list kosong.
+     */
     shift(): IDoublyLinkedNode<T> | undefined
 }
 
@@ -80,9 +149,18 @@ export interface IDoublyLinkedList<T> {
  * Kontrak untuk list yang dapat membalik urutan node-nya.
  */
 export interface IReversibleLinkedList<T> {
-    /** Tambahkan node di akhir list. */
+    /**
+     * Menambahkan node di akhir list.
+     *
+     * @param value - Nilai yang disimpan pada node baru.
+     * @returns Instance list itu sendiri untuk method chaining.
+     */
     push(value: T): this
 
-    /** Balik arah semua tautan next; O(n) waktu, O(1) ruang. */
+    /**
+     * Membalik arah semua tautan `next`; O(n) waktu, O(1) ruang.
+     *
+     * @returns Instance list itu sendiri setelah urutan node dibalik.
+     */
     reverse(): this
 }

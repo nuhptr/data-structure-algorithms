@@ -1,3 +1,14 @@
+/**
+ * Contoh-contoh dasar inisialisasi array dengan berbagai tipe elemen di TypeScript.
+ *
+ * Kompleksitas Waktu : O(1) untuk akses elemen berdasarkan indeks
+ * Kompleksitas Ruang : O(n) sesuai jumlah elemen yang disimpan
+ *
+ * @example
+ * stringArr[0] // => "a"
+ * numArr.length // => 5
+ */
+
 /** Daftar teks yang berguna untuk menyimpan data berbentuk string. */
 export const stringArr: string[] = ["a", "b", "c", "d"]
 

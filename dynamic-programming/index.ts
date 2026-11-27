@@ -1,3 +1,6 @@
+/**
+ * Barrel export untuk seluruh kontrak dan implementasi algoritma Dynamic Programming.
+ */
 export * from "./interfaces"
 export * from "./coin-change"
 export * from "./lcs"

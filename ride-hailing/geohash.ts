@@ -20,9 +20,10 @@ import { GeoCoordinate, GeohashBounds, IGeohash } from "./interfaces"
  * geo.decode("qqgud0"); // => { latitude: -6.2109, longitude: 106.8457 }
  */
 export class Geohash implements IGeohash {
+    /** Alfabet Base32 khusus Geohash (tanpa huruf `a`, `i`, `l`, `o` untuk menghindari ambiguitas). */
     private readonly BASE32_CHARS = "0123456789bcdefghjkmnpqrstuvwxyz"
 
-    // Delapan arah tetangga (N, NE, E, SE, S, SW, W, NW)
+    /** Tabel pemetaan karakter tetangga per arah dan paritas panjang hash. */
     private readonly NEIGHBOR_TABLE: Record<string, Record<string, string>> = {
         right: {
             even: "bc01fg45telehelejk67lm89lmnopqrst",
@@ -39,6 +40,7 @@ export class Geohash implements IGeohash {
         },
     }
 
+    /** Tabel karakter batas tepi sel yang menandakan perpindahan tetangga melewati sel induk. */
     private readonly BORDER_TABLE: Record<string, Record<string, string>> = {
         right: { even: "bcfguvyz", odd: "prxz" },
         left: { even: "0145hjnp", odd: "028b" },
@@ -46,6 +48,14 @@ export class Geohash implements IGeohash {
         bottom: { even: "028b", odd: "0145hjnp" },
     }
 
+    /**
+     * Mengodekan koordinat GPS menjadi string Geohash dengan membagi rentang bujur dan
+     * lintang secara bergantian (bit genap untuk longitude, bit ganjil untuk latitude).
+     *
+     * @param coordinate - Koordinat GPS masukan.
+     * @param precision - Jumlah karakter Geohash yang dihasilkan (default `9`).
+     * @returns String Geohash base32 sepanjang `precision`.
+     */
     encode(coordinate: GeoCoordinate, precision: number = 9): string {
         let { latitude, longitude } = coordinate
         let minLat = -90,
@@ -59,6 +69,7 @@ export class Geohash implements IGeohash {
         let isEvenBit = true
 
         while (hash.length < precision) {
+            // Bagi rentang longitude pada bit genap, dan latitude pada bit ganjil
             if (isEvenBit) {
                 const midLon = (minLon + maxLon) / 2
                 if (longitude >= midLon) {
@@ -82,6 +93,7 @@ export class Geohash implements IGeohash {
             isEvenBit = !isEvenBit
             bitCount++
 
+            // Setiap 5 bit dikonversi menjadi 1 karakter Base32
             if (bitCount === 5) {
                 hash += this.BASE32_CHARS[bits]
                 bits = 0
@@ -92,6 +104,12 @@ export class Geohash implements IGeohash {
         return hash
     }
 
+    /**
+     * Mendekode string Geohash menjadi koordinat titik tengah dari bounding box selnya.
+     *
+     * @param hash - String Geohash.
+     * @returns Koordinat GPS pusat sel.
+     */
     decode(hash: string): GeoCoordinate {
         const bounds = this.getBounds(hash)
         return {
@@ -100,6 +118,13 @@ export class Geohash implements IGeohash {
         }
     }
 
+    /**
+     * Menghitung batas bounding box (min/max latitude & longitude) dari string Geohash
+     * dengan menyempitkan rentang sesuai urutan bit setiap karakter Base32.
+     *
+     * @param hash - String Geohash.
+     * @returns Objek `GeohashBounds` dari sel tersebut.
+     */
     getBounds(hash: string): GeohashBounds {
         let minLat = -90,
             maxLat = 90
@@ -110,6 +135,7 @@ export class Geohash implements IGeohash {
         for (const char of hash) {
             const charIndex = this.BASE32_CHARS.indexOf(char)
 
+            // Ekstrak 5 bit dari MSB ke LSB untuk mempersempit interval lon/lat
             for (let bitPos = 4; bitPos >= 0; bitPos--) {
                 const bitValue = (charIndex >> bitPos) & 1
 
@@ -131,7 +157,10 @@ export class Geohash implements IGeohash {
     }
 
     /**
-     * Mendapatkan 8 geohash tetangga (N, NE, E, SE, S, SW, W, NW).
+     * Mendapatkan 8 geohash tetangga di sekeliling sel pusat (N, NE, E, SE, S, SW, W, NW).
+     *
+     * @param hash - String Geohash pusat.
+     * @returns Peta arah mata angin ke string Geohash tetangganya.
      */
     getNeighbors(hash: string): Record<string, string> {
         return {
@@ -146,12 +175,21 @@ export class Geohash implements IGeohash {
         }
     }
 
+    /**
+     * Menentukan satu sel Geohash tetangga pada arah kardinal (`top`, `bottom`, `left`, `right`).
+     * Jika karakter terakhir berada di tepi sel induk, prefix induk digeser secara rekursif.
+     *
+     * @param hash - String Geohash acuan.
+     * @param direction - Arah perpindahan (`"top"`, `"bottom"`, `"left"`, atau `"right"`).
+     * @returns String Geohash tetangga pada arah yang diminta.
+     */
     private getNeighbor(hash: string, direction: string): string {
         const lastChar = hash[hash.length - 1]
         const parentHash = hash.slice(0, -1)
         const isEven = hash.length % 2 === 0
         const parity = isEven ? "even" : "odd"
 
+        // Jika karakter terakhir menyentuh batas border, rekursi ke prefix induk
         const isBorder = this.BORDER_TABLE[direction][parity].includes(lastChar)
         const parentNeighbor =
             isBorder && parentHash.length > 0 ? this.getNeighbor(parentHash, direction) : parentHash

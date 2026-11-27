@@ -5,7 +5,9 @@ export interface IStudentSearcher {
     /**
      * Mencari nama atau nama parsial dalam daftar siswa.
      * Perbandingan tidak membedakan huruf besar/kecil.
-     * Mengembalikan pesan hasil beserta indeks jika ditemukan.
+     *
+     * @param studentName - Nama lengkap atau sebagian nama siswa yang dicari.
+     * @returns Pesan hasil pencarian beserta indeks jika ditemukan, atau pesan tidak ditemukan.
      */
     search(studentName: string): string
 }

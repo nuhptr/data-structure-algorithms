@@ -24,6 +24,12 @@ const SORTERS: Array<[string, ISortAlgorithm]> = [
     ["TimSort", new TimSort()],
 ]
 
+/**
+ * Menjalankan demonstrasi seluruh algoritma pengurutan pada array contoh yang sama
+ * untuk membandingkan hasilnya.
+ *
+ * @returns Tidak mengembalikan nilai (mencetak hasil ke konsol)
+ */
 export function runDemo(): void {
     const input = [38, 27, 43, 3, 9, 82, 10]
 

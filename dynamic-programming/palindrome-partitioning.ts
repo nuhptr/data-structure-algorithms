@@ -17,6 +17,12 @@ import { IPalindromePartitioningSolver } from "./interfaces"
  * solver.minCuts("ababbbabbababa"); // => 3
  */
 export class PalindromePartitioningSolver implements IPalindromePartitioningSolver {
+    /**
+     * Menghasilkan semua kemungkinan partisi string `s` sehingga setiap substring merupakan palindrom.
+     *
+     * @param s - String input yang akan dipartisi.
+     * @returns Daftar semua partisi palindrom yang valid.
+     */
     partition(s: string): string[][] {
         const length = s.length
         const isPalin = this.buildPalindromTable(s)
@@ -24,11 +30,13 @@ export class PalindromePartitioningSolver implements IPalindromePartitioningSolv
         const currentPartition: string[] = []
 
         const backtrack = (startIndex: number): void => {
+            // Basis rekursi: seluruh karakter string telah terpartisi
             if (startIndex === length) {
                 results.push([...currentPartition])
                 return
             }
 
+            // Coba semua potongan substring yang valid sebagai palindrom mulai dari `startIndex`
             for (let endIndex = startIndex; endIndex < length; endIndex++) {
                 if (isPalin[startIndex][endIndex]) {
                     currentPartition.push(s.slice(startIndex, endIndex + 1))
@@ -42,6 +50,12 @@ export class PalindromePartitioningSolver implements IPalindromePartitioningSolv
         return results
     }
 
+    /**
+     * Menghitung jumlah potongan minimum agar seluruh bagian string `s` merupakan palindrom.
+     *
+     * @param s - String input yang akan dipotong.
+     * @returns Jumlah potongan minimum yang diperlukan.
+     */
     minCuts(s: string): number {
         const length = s.length
         const isPalin = this.buildPalindromTable(s)
@@ -55,6 +69,7 @@ export class PalindromePartitioningSolver implements IPalindromePartitioningSolv
                 continue
             }
 
+            // Coba setiap titik potong yang menghasilkan akhiran palindrom s[splitIndex..endIndex]
             for (let splitIndex = 1; splitIndex <= endIndex; splitIndex++) {
                 if (isPalin[splitIndex][endIndex]) {
                     dp[endIndex] = Math.min(dp[endIndex], dp[splitIndex - 1] + 1)
@@ -65,6 +80,12 @@ export class PalindromePartitioningSolver implements IPalindromePartitioningSolv
         return dp[length - 1]
     }
 
+    /**
+     * Membangun tabel DP 2D yang menandakan apakah substring `s[i..j]` adalah palindrom dalam O(1) lookup.
+     *
+     * @param s - String input sumber.
+     * @returns Matriks boolean `table` dengan `table[i][j] === true` jika `s[i..j]` palindrom.
+     */
     private buildPalindromTable(s: string): boolean[][] {
         const n = s.length
         const table = Array.from({ length: n }, () => Array(n).fill(false))
